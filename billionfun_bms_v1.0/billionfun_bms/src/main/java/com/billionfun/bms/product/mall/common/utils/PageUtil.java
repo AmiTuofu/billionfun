@@ -5,7 +5,15 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.displaytag.properties.SortOrderEnum;
-
+/**
+ * 
+ * @ClassName: PageUtil 
+ * @Description: TODO
+ * @author  AmiTuofu
+ * @date  2015年12月20日 下午3:14:29 
+ *
+ * @param <T>
+ */
 public class PageUtil<T> {
 	private List<T> list;
 	private int pageNumber = 1;
