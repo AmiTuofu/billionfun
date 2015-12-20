@@ -64,10 +64,18 @@
 		<servlet-name>rest</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>rest</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
 
 	<filter-mapping>
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
 	</filter-mapping>
 
 	<!-- 配置session超时时间，单位分钟 -->
