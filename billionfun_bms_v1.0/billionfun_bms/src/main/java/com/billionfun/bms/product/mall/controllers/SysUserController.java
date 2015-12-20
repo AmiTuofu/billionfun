@@ -1,6 +1,6 @@
 package com.billionfun.bms.product.mall.controllers;
 
 
-public class SysUserController {
+public class SysUserController extends BaseController{
 
 }
