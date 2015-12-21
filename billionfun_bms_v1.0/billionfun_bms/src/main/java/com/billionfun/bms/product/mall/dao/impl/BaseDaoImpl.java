@@ -1,49 +1,94 @@
 package com.billionfun.bms.product.mall.dao.impl;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.hibernate.FlushMode;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.billionfun.bms.product.mall.dao.*;
-import com.billionfun.bms.product.mall.common.utils.*;
-
+@SuppressWarnings({"unchecked","rawtypes"})
 @Repository
 public  class BaseDaoImpl<T ,P extends Serializable>   {
 	
 	@Autowired
 	protected SessionFactory sessionFactory;
 	
-	public void create (T t){
+	private Session getCurrentSession(){
+		return sessionFactory.getCurrentSession();
+	}
+	
+	public void save (T t){
+		getCurrentSession().save(t);
+	}
+	
+	public void saveOrUpdate(T t){
+		getCurrentSession().saveOrUpdate(t);
+	}
+	
+	public void update(T t) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(t);
+		
+		session.update(t);
+	}
+	
+	public void delete(T t) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.delete(t);
+	}
+	
+	public T findById(Class<T> className, P id) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		T t = (T)session.get(className, id);
+		
+		return t;
+	}
+	
+	public T find(String hql){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		return (T) query.uniqueResult();
+	}
+	
+	public T find(String hql,Map proMap){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setProperties(proMap);
+		return (T) query.uniqueResult();
+	}
+	
+	public List<T> findAll(String hql){
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createSQLQuery(hql);
+		return (List<T>) query.list();
+	}
+	
+	public List<T> findAll(String hql,Map proMap){
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createSQLQuery(hql);
+		query.setProperties(proMap);
+		return (List<T>) query.list();
+	}
+	
+	
+	public T findBySql(String sql) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createSQLQuery(sql);
+		return (T) query.uniqueResult();
+	}
+	
+	public List<T> findAllBySql(String sql) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createSQLQuery(sql);
+		return (List<T>) query.list();
 	}
 }

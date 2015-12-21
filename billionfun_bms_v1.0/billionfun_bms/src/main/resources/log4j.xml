@@ -42,6 +42,7 @@
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}]>> %-5m %n" />
 		</layout>
+		
 		<!--限制输出级别 -->
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMax" value="error" />
@@ -144,7 +145,7 @@
 		<param name="Encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				value="INSERT INTO sys_log4j(LOG_NAME,
+				value="INSERT INTO sys_log(LOG_NAME,
                              LOG_IP,
                              LOG_DATE,
                              LOG_LEVEL,
@@ -177,7 +178,7 @@
 		<appender-ref ref="FileDaily" />
 		<!-- <appender-ref ref="EmailLog" /> -->
 		<appender-ref ref="ErrorFile" />
-		<appender-ref ref="Mail" />
+	<!-- 	<appender-ref ref="Mail" /> -->
 		<!---数据库记录方式 可选项-->
 		<appender-ref ref="Database" />
 

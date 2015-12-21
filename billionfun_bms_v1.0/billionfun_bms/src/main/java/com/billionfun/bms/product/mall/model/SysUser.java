@@ -1,181 +1,109 @@
 package com.billionfun.bms.product.mall.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+/**
+ * The persistent class for the sys_user database table.
+ * 
+ */
 @Entity
-@Table(name="sys_user",catalog="billionfun")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class SysUser implements java.io.Serializable {
-
-	/**
-	 * 
-	 */
+@Table(name="sys_user")
+@NamedQuery(name="SysUser.findAll", query="SELECT s FROM SysUser s")
+public class SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
-	// Fields
 
-	private Long id;
-	private String username;
-	private String password;
-	private String fullName;
-	private Integer userType;
-	private Integer provCode;
-	private Integer cityCode;
-	private Integer distCode;
-	private Date effectStartDate;
-	private Date effectEndDate;
-	private String telephone;
-	private String mobile;
-	private String email;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String id;
+
 	private String address;
-	private Date createDate;
-	private String createOptr;
-	private String modifyOptr;
-	private String remark;
-	private Integer status;
-	private String roleIds;
-	// Constructors
 
-	/** default constructor */
+	@Column(name="city_code")
+	private Integer cityCode;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="create_date")
+	private Date createDate;
+
+	@Column(name="create_optr")
+	private String createOptr;
+
+	@Column(name="dist_code")
+	private Integer distCode;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="effect_end_date")
+	private Date effectEndDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="effect_start_date")
+	private Date effectStartDate;
+
+	private String email;
+
+	@Column(name="full_name")
+	private String fullName;
+
+	private String mobile;
+
+	@Column(name="modify_optr")
+	private String modifyOptr;
+
+	private String password;
+
+	@Column(name="prov_code")
+	private Integer provCode;
+
+	private String remark;
+
+	private Integer status;
+
+	private String telephone;
+
+	@Column(name="user_type")
+	private Integer userType;
+
+	private String username;
+	
+	@JsonIgnoreProperties
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "sys_user_role",
+	joinColumns = @JoinColumn(name = "user_id"),
+	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<SysRole> listRoles;
+
 	public SysUser() {
 	}
 
-	/** full constructor */
-	public SysUser(String username, String password, String fullName,
-			Integer userType, Integer provCode, Integer cityCode,
-			Date effectStartDate, Date effectEndDate, String telephone,
-			String mobile, String email, String address, Date createDate,
-			String createOptr, String modifyOptr, String remark, Integer status) {
-		this.username = username;
-		this.password = password;
-		this.fullName = fullName;
-		this.userType = userType;
-		this.provCode = provCode;
-		this.cityCode = cityCode;
-		this.effectStartDate = effectStartDate;
-		this.effectEndDate = effectEndDate;
-		this.telephone = telephone;
-		this.mobile = mobile;
-		this.email = email;
-		this.address = address;
-		this.createDate = createDate;
-		this.createOptr = createOptr;
-		this.modifyOptr = modifyOptr;
-		this.remark = remark;
-		this.status = status;
-	}
-
-	// Property accessors
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false, length = 36)
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	@Column(name = "username", nullable = false,length=52)
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	@Column(name = "password", nullable = false,length=52)
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	@Column(name = "full_name", nullable = false,length=52)
-	public String getFullName() {
-		return this.fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public Integer getUserType() {
-		return this.userType;
-	}
-
-	public void setUserType(Integer userType) {
-		this.userType = userType;
-	}
-
-	public Integer getProvCode() {
-		return this.provCode;
-	}
-
-	public void setProvCode(Integer provCode) {
-		this.provCode = provCode;
-	}
-
-	public Integer getCityCode() {
-		return this.cityCode;
-	}
-
-	public void setCityCode(Integer cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public Date getEffectStartDate() {
-		return this.effectStartDate;
-	}
-
-	public void setEffectStartDate(Date effectStartDate) {
-		this.effectStartDate = effectStartDate;
-	}
-
-	public Date getEffectEndDate() {
-		return this.effectEndDate;
-	}
-
-	public void setEffectEndDate(Date effectEndDate) {
-		this.effectEndDate = effectEndDate;
-	}
-
-	public String getTelephone() {
-		return this.telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getMobile() {
-		return this.mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getAddress() {
@@ -184,6 +112,14 @@ public class SysUser implements java.io.Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getCityCode() {
+		return this.cityCode;
+	}
+
+	public void setCityCode(Integer cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public Date getCreateDate() {
@@ -202,12 +138,76 @@ public class SysUser implements java.io.Serializable {
 		this.createOptr = createOptr;
 	}
 
+	public Integer getDistCode() {
+		return this.distCode;
+	}
+
+	public void setDistCode(Integer distCode) {
+		this.distCode = distCode;
+	}
+
+	public Date getEffectEndDate() {
+		return this.effectEndDate;
+	}
+
+	public void setEffectEndDate(Date effectEndDate) {
+		this.effectEndDate = effectEndDate;
+	}
+
+	public Date getEffectStartDate() {
+		return this.effectStartDate;
+	}
+
+	public void setEffectStartDate(Date effectStartDate) {
+		this.effectStartDate = effectStartDate;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFullName() {
+		return this.fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getMobile() {
+		return this.mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public String getModifyOptr() {
 		return this.modifyOptr;
 	}
 
 	public void setModifyOptr(String modifyOptr) {
 		this.modifyOptr = modifyOptr;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Integer getProvCode() {
+		return this.provCode;
+	}
+
+	public void setProvCode(Integer provCode) {
+		this.provCode = provCode;
 	}
 
 	public String getRemark() {
@@ -226,11 +226,37 @@ public class SysUser implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Integer getDistCode() {
-		return distCode;
+	public String getTelephone() {
+		return this.telephone;
 	}
 
-	public void setDistCode(Integer distCode) {
-		this.distCode = distCode;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
+
+	public Integer getUserType() {
+		return this.userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
+	}
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	
+	public List<SysRole> getListRoles() {
+		return listRoles;
+	}
+
+	public void setListRoles(List<SysRole> listRoles) {
+		this.listRoles = listRoles;
+	}
+	
 }

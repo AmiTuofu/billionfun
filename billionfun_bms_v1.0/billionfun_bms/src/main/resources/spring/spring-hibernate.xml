@@ -90,6 +90,8 @@
 		<!-- 指定在txAdvice切入点应用txAdvice事务增强处理 -->
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
+		
+		
 	</aop:config>
 
 </beans>
