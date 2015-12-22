@@ -6,7 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,21 +44,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 		//		SysUserDao sysUserDao = (SysUserDao)SpringBeanFactory.getSpringBean("sysUserDao");
 		SysUser user = userDao.loadUserByUsername(username);
 		
-//		List<SysUser> users = getHibernateTemplate().find("from SysUser u where u.username = '"+username+"' and u.status = 1");  
-//		if(users.isEmpty()) {  
-//			throw   new  UsernameNotFoundException(username  +   "  ������ " );
-//		} 
-		List < GrantedAuthority >  authsList  =   new  ArrayList < GrantedAuthority > ();
-//		SysUser user = (SysUser)users.get(0);
+		if(user==null){
+			throw new UsernameNotFoundException("username not found");
+		} 
+//		List < GrantedAuthority >  authsList  =   AuthorityUtils.createAuthorityList("ROLE_ADMIN","ROLE_USER");
+		List < GrantedAuthority >  authsList  =   new ArrayList<GrantedAuthority>();
 		for (SysRole role : user.getListRoles()) {
-			authsList.add(new GrantedAuthorityImpl(role.getCode()));
+			authsList.add(new SimpleGrantedAuthority(role.getCode()));
 		}
+		UserDetails userDetails = new User(user.getUsername(), user.getPassword(), true, true, true, true, authsList);
 		
-		
-		org.springframework.security.core.userdetails.User userDetails  =   new  org.springframework.security.core.userdetails.User(
-		        user.getUsername(), user.getPassword(),  true ,  true ,  true ,  true , authsList
-		                .toArray( new  GrantedAuthority[authsList.size()]));
+//		org.springframework.security.core.userdetails.User userDetails  =   new  org.springframework.security.core.userdetails.(
+//		        user.getUsername(), user.getPassword(),  true ,  true ,  true ,  true , authsList
+//		                .toArray( new  GrantedAuthority[authsList.size()]));
 		//System.out.println(userDetails);
 		return userDetails;
 	}
+	
 }

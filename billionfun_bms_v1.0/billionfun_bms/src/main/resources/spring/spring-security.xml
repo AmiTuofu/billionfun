@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
-
-	<!-- auto-config = true 则使用from-login. 如果不使用该属性 则默认为http-basic(没有session). 
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
+ 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+ 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+ 	
+    <!-- auto-config = true 则使用from-login. 如果不使用该属性 则默认为http-basic(没有session). 
 		access-denied-page:出错后跳转到的错误页面;
 	-->
-	<http auto-config="true" access-denied-page="/common/403.jsp">
+	
+	<http auto-config="true" use-expressions="true" >
 		<!-- intercept-url:拦截器,可以设定哪些路径需要哪些权限来访问. filters=none 不使用过滤,也可以理解为忽略 -->
 		
-		<intercept-url pattern="/login.html" filters="none" />
-		<intercept-url pattern="/*login.jsp*" filters="none" />
-		<intercept-url pattern="/common/**" filters="none" />
-		<intercept-url pattern="/js/**" filters="none" />
-		<intercept-url pattern="/*/*preview*" filters="none" />
-		<intercept-url pattern="/*/*Api.html*" filters="none" />
-		<intercept-url pattern="/*.action*" access="ROLE_USER,ROLE_ADMIN,ROLE_SA" />
-		<intercept-url pattern="/*.html*" access="ROLE_USER,ROLE_ADMIN,ROLE_SA" />
-		<intercept-url pattern="/*/*.html*" access="ROLE_USER,ROLE_ADMIN,ROLE_SA" />
-		<intercept-url pattern="/*.jsp*" access="ROLE_ADMIN,ROLE_SA" />
+		<intercept-url pattern="/login.html" access="permitAll" />
+		<intercept-url pattern="/*.html*" access="hasRole('ROLE_SA')" />
+		<intercept-url pattern="/*/*.html*" access="hasRole('ROLE_SA')" />
 		
 		<!-- session-management是针对session的管理. 这里可以不配置. 如有需求可以配置. -->
 		<!-- id登陆唯一. 后登陆的账号会挤掉第一次登陆的账号  error-if-maximum-exceeded="true" 禁止2次登陆;
@@ -34,23 +25,44 @@
 		</session-management>
 		
 		--><!-- login-page:默认指定的登录页面. authentication-failure-url:出错后跳转页面. default-target-url:成功登陆后跳转页面 -->
-		<form-login login-page="/login.html"
-			authentication-failure-url="/common/403.jsp"
+		<form-login
+			
 			default-target-url="/index.html" always-use-default-target="true"/>
 		<!-- logout-success-url:成功注销后跳转到的页面; -->
 		<logout logout-success-url="/login.html"/>
 		<http-basic />
-		<remember-me key="HedahaiSetThisKey" />
+		<!-- <remember-me key="HedahaiSetThisKey" /> -->
+		<csrf disabled="true" />
 	</http>
+<!--  	<authentication-manager>
+	    <authentication-provider user-service-ref="">
+	        <password-encoder ref="">
+	            
+	            <salt-source/>
+	        </password-encoder>
+	        
+	    </authentication-provider>
+	    
+	</authentication-manager> --> 
 	<authentication-manager>
-		<authentication-provider user-service-ref="userService">  
-	    	<!--<password-encoder hash="md5"/>-->
-	    	<password-encoder ref="md5PasswordEncoder">
+		<authentication-provider user-service-ref="securityService">  
+		    <!-- r user-service-ref="securityService" -->
+		    <!-- <user-service>
+		        <user name="zhuyi1" password="111111" authorities="ROLE_ADMIN"/>
+		        
+		    </user-service> -->
+	    	<!-- <password-encoder hash="bcrypt"/> -->
+	    	 <password-encoder ref="md5PasswordEncoder">
             	<salt-source user-property="username"/>
-            </password-encoder>
+            </password-encoder> 
 		</authentication-provider>
 	</authentication-manager>
-	<beans:bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" > 
-    	<beans:property value="false" name="encodeHashAsBase64"/>
-	</beans:bean>	
-</beans:beans>
+	<b:bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+	    <b:property name="encodeHashAsBase64" value="false"></b:property>
+	</b:bean>
+<!--     <http auto-config="true"  >
+		<csrf disabled="true" />
+	</http>
+
+ 	<global-method-security pre-post-annotations="enabled" /> -->
+</b:beans>
