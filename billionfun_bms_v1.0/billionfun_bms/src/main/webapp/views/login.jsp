@@ -7,9 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form th:action="@{/login}" method="post" name="loginForm">
-	username:<input type="text" name="username"/>
-	password:<input type="password" name="password"/>
+
+<form action="j_spring_security_check" method="post" name="loginForm">
+	username:<input type="text" name="j_username"/>
+	password:<input type="password" name="j_password"/>
 	<input type="submit" value="登陆"/>
 </form>
 </body>

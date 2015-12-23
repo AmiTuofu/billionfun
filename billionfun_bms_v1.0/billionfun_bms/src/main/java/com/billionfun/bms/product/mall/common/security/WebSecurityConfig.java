@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import com.billionfun.bms.product.mall.service.impl.SysUserServiceImpl;
 
-
+/*@EnableWebSecurity*/
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private SysUserServiceImpl userService;
@@ -16,8 +16,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/","/login.html").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin().loginPage("/login.html")
-		.permitAll()
+		.antMatchers("/*.html").hasRole("USER")
+		.and().formLogin()
+		.loginPage("/login.html").permitAll()
 		.defaultSuccessUrl("/index.html")
 		.and()
 		.logout()
@@ -29,6 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		auth.userDetailsService(userService);
+//		auth
+//        .inMemoryAuthentication()
+//            .withUser("user").password("password").roles("USER");
+//		auth.userDetailsService(userService);
 	}
 }
