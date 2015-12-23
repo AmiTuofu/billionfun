@@ -27,41 +27,41 @@
 			login-page="/login.html"
 		    login-processing-url="/j_spring_security_check"
 		     />
-		<!-- session-management是针对session的管理. 这里可以不配置. 如有需求可以配置. -->
-		<!-- id登陆唯一. 后登陆的账号会挤掉第一次登陆的账号  error-if-maximum-exceeded="true" 禁止2次登陆;
+		<!-- logout-url：指定了用于响应退出系统请求的URL。其默认值为：/j_spring_security_logout。-->  
+        <!-- logout-success-url：退出系统后转向的URL。-->  
+        <!-- invalidate-session：指定在退出系统时是否要销毁Session。-->  
+		<logout invalidate-session="true" logout-success-url="/login.html?logout=true"  
+            logout-url="/j_spring_security_logout" />
+		
+		<!-- max-sessions:允许用户帐号登录的次数。范例限制用户只能登录一次。-->  
+		<!-- session-fixation-protection:此值表示：用户第二次登录时，前一次的登录信息都被清空。-->  
+ 		<!-- errorn-if-maximum-exceeded:默认为false，-->  
+		<!-- 当error-if-maximum-exceeded="true"时系统会拒绝第二次登录。-->  
+  		<!-- invalid-session-url检测失效的sessionId,session超时时，定位到另外一个URL -->
+  		<!-- id登陆唯一. 后登陆的账号会挤掉第一次登陆的账号  error-if-maximum-exceeded="true" 禁止2次登陆;
 			session-fixation-protection="none" 防止伪造sessionid攻击. 用户登录成功后会销毁用户当前的session.
 			创建新的session,并把用户信息复制到新session中.
 		 -->
-		<!--<session-management session-fixation-protection="none">
-			<concurrency-control/>
-		</session-management>
-		
-		--><!-- login-page:默认指定的登录页面. authentication-failure-url:出错后跳转页面. default-target-url:成功登陆后跳转页面 -->
-		
-		<!-- logout-success-url:成功注销后跳转到的页面; -->
-		<logout logout-success-url="/login.html"/>
-		<http-basic />
+        <session-management invalid-session-url="/login.html?error=timeout" session-fixation-protection="none" >  
+            <concurrency-control max-sessions="1"  
+                error-if-maximum-exceeded="false" />  
+        </session-management>  
 		<!-- <remember-me key="HedahaiSetThisKey" /> -->
+		<!-- CSRF保护功能禁用 -->
 		<csrf disabled="true" />
 	</http>
-<!--  	<authentication-manager>
-	    <authentication-provider user-service-ref="">
-	        <password-encoder ref="">
-	            
-	            <salt-source/>
-	        </password-encoder>
-	        
-	    </authentication-provider>
-	    
-	</authentication-manager> --> 
+	
+<!-- 	<authentication-manager> 
+	    <authentication-provider> 
+	        <user-service> 
+			    <user name="superadmin" password="123qwe!@#QWE" authorities="ROLE_SA" /> 
+			    <user name="admin" password="123qwe" authorities="ROLE_ADMIN" /> 
+			    <user name="guest" password="111111" authorities="ROLE_USER" />
+	    	</user-service> 
+	    </authentication-provider> 
+	</authentication-manager> -->
 	<authentication-manager>
 		<authentication-provider user-service-ref="securityService">  
-		    <!-- r user-service-ref="securityService" -->
-		    <!-- <user-service>
-		        <user name="zhuyi1" password="111111" authorities="ROLE_ADMIN"/>
-		        
-		    </user-service> -->
-	    	<!-- <password-encoder hash="bcrypt"/> -->
 	    	 <password-encoder ref="md5PasswordEncoder">
             	<salt-source user-property="username"/>
             </password-encoder> 
