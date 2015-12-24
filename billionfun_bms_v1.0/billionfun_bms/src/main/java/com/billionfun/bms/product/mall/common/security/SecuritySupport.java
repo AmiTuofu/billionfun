@@ -19,7 +19,6 @@ import com.billionfun.bms.product.mall.model.SysUser;
 @Transactional
 @Service("securityService")
 public class SecuritySupport implements UserDetailsService {
-	
 	@Autowired
 	private SysUserDao userDao;
 

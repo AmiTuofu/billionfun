@@ -52,6 +52,8 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping("/index")
 	public String index(ModelMap modelMap){
+		userService.findAll();
+		modelMap.addAttribute("name", "ftl");
 		return "index";
 	}
 	

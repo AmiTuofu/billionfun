@@ -60,5 +60,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 		//System.out.println(userDetails);
 		return userDetails;
 	}
+
+	public List findAll() {
+		return userDao.findAll("from SysUser");
+		
+	}
 	
 }

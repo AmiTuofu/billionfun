@@ -65,7 +65,7 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 	public List<T> findAll(String hql){
 		Session session = sessionFactory.getCurrentSession();
 		
-		Query query = session.createSQLQuery(hql);
+		Query query = session.createQuery(hql);
 		return (List<T>) query.list();
 	}
 	
