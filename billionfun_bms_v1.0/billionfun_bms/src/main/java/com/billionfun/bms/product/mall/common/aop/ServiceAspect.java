@@ -37,16 +37,18 @@ public class ServiceAspect {
 	//配置环绕通知,使用在方法aspect()上注册的切入点
 	//2
 	@Around("aspect()")
-	public void around(JoinPoint joinPoint){
+	public Object around(JoinPoint joinPoint){
 		long start = System.currentTimeMillis();
 		try {
-			((ProceedingJoinPoint) joinPoint).proceed();
+			Object obj = ((ProceedingJoinPoint) joinPoint).proceed();
 			long end = System.currentTimeMillis();
 			logger.info("around " + joinPoint + "\tUse time : " + (end - start) + " ms!");
+			return obj;
 		} catch (Throwable e) {
 			long end = System.currentTimeMillis();
 			logger.info("around " + joinPoint + "\tUse time : " + (end - start) + " ms with exception : " + e.getMessage());
 		}
+		return null;
 	}
 	
 	//配置后置通知,使用在方法aspect()上注册的切入点

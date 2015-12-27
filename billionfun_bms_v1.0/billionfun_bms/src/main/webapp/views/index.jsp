@@ -16,15 +16,23 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<style>
+.top{
+	height: 70px;
+}
+</style>
 </head>
 <body>
-	<div id="LG" class="container-fluid" >
-		<div class="row-fluid" style="height:70px">
+	<div id="top" class="container-fluid" >
+		<div class="row-fluid">
 			<div class="col-md-3">
 				<h1>Base Frame</h1>
 			</div>
-			<div class="col-md-3 col-md-offset-6">
-				<h4>hello,Admin</h4>
+			<div class="col-md-2 col-md-offset-6 ">
+				<h4 class="text-center top">hello,Admin</h4>
+			</div>
+			<div class="col-md-1">
+				<h4 class="text-center top" ><a href="j_spring_security_logout">logout</a></h4>
 			</div>
 		</div>
 		<div class="row-fluid">

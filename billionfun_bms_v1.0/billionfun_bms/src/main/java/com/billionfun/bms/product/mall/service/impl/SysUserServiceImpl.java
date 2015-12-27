@@ -66,4 +66,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 		
 	}
 	
+	
+	public boolean isExsit(String username,String email,String mobile) {
+		boolean sign = false;
+		SysUser user = userDao.loadUser(username, email, mobile);
+		if(user!=null){
+			sign = true;
+		}
+		return sign;
+	}
+	
 }
