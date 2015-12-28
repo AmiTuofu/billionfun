@@ -279,7 +279,7 @@
 								<img class="nav-user-photo" src="${ctx}/views/default/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									Jason
+									${SESSION_USER.username }
 								</span>
 
 								<i class="icon-caret-down"></i>

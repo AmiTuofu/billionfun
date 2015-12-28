@@ -46,11 +46,11 @@
             <concurrency-control max-sessions="1"  
                 error-if-maximum-exceeded="false" />  
         </session-management>  
+        <remember-me data-source-ref="dataSource" token-validity-seconds="1209600" remember-me-parameter="_spring_security_remember_me" />
 		<!-- <remember-me key="HedahaiSetThisKey" /> -->
 		<!-- CSRF保护功能禁用 -->
 		<csrf disabled="true" />
 	</http>
-	
 <!-- 	<authentication-manager> 
 	    <authentication-provider> 
 	        <user-service> 
@@ -60,7 +60,7 @@
 	    	</user-service> 
 	    </authentication-provider> 
 	</authentication-manager> -->
-	<authentication-manager>
+	<authentication-manager erase-credentials="false">
 		<authentication-provider user-service-ref="securityService">  
 	    	 <password-encoder ref="md5PasswordEncoder">
             	<salt-source user-property="username"/>

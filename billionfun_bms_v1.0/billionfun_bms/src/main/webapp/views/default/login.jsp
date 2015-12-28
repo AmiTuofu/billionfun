@@ -55,7 +55,7 @@
 									<span class="red">BaseFrame</span>
 									<span class="white">App</span>
 								</h1>
-								<h4 class="blue">&copy; Company Name</h4>
+								<h4 class="blue">&copy; 北京小焙科技有限公司</h4>
 							</div>
 
 							<div class="space-6"></div>
@@ -71,7 +71,7 @@
 
 											<div class="space-6"></div>
 
-											<form id="login-form" action="" method="post">
+											<form id="login-form" action="j_spring_security_check" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -91,8 +91,8 @@
 
 													<div class="clearfix">
 														<label class="inline">
-															<input type="checkbox" class="ace" />
-															<span class="lbl"> 记住我</span>
+															<input type="checkbox" class="ace" name="_spring_security_remember_me" />
+															<span class="lbl"> 记住我(两周内不用登陆)</span>
 														</label>
 
 														<button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="login-button">
@@ -226,7 +226,7 @@
 													</label>
 
 													<label class="block">
-														<input type="checkbox" class="ace" />
+														<input type="checkbox" class="ace" name="agree" />
 														<span class="lbl">
 															我接受
 															<a href="#">用户条款</a>

@@ -8,10 +8,16 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.billionfun.bms.product.mall.common.Contants;
+import com.billionfun.bms.product.mall.common.utils.StringUtil;
+import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.service.SysUserService;
 
 /**
  * 
@@ -28,6 +34,8 @@ public class BaseController {
 	protected HttpServletResponse response;
 	protected HttpSession session;
 	protected RedirectAttributes rAttr;
+	@Autowired
+	protected SysUserService userService;
 	
 	/**
 	 * 
@@ -46,10 +54,20 @@ public class BaseController {
 		this.response = response;
 		this.session = request.getSession();
 		this.rAttr = rAttr;
-				
-				
-		String remoteIp = getIpAddr(request);
-		MDC.put("remoteIp", remoteIp);
+		
+		if(StringUtil.empty(MDC.get("SysUser"))){
+			String remoteIp = getIpAddr(request);
+			MDC.put("remoteIp", remoteIp);
+		}
+
+		if(getCurrentUser()==null){
+			UserDetails userDetails = (UserDetails) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();
+			if(userDetails!=null){
+				SysUser user = userService.loadUser(userDetails.getUsername());
+				session.setAttribute(Contants.SESSION_USER, user);
+			}
+		}
 	}
 	
 	/**
@@ -99,5 +117,9 @@ public class BaseController {
 			ip = request.getRemoteAddr();
 		}
 		return ip;
+	}
+	
+	public SysUser getCurrentUser(){
+		return (SysUser)session.getAttribute(Contants.SESSION_USER);
 	}
 }

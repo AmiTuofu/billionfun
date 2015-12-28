@@ -9,6 +9,8 @@ public interface SysUserService {
 	
 	public void save(SysUser user);
 	
+	public SysUser loadUser(String username);
+	
 	public boolean isExsit(String username,String email,String mobile);
 	
 	public List findAll();
