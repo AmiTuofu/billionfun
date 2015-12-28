@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-skins.min.css" />
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/jquery-ui-1.10.3.full.min.css" />
 <script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="${ctx}/views/default/assets/js/ace-extra.min.js"></script>
 <script src="${ctx}/views/default/assets/js/jquery-ui-1.10.3.full.min.js"></script>
 <script src="${ctx}/views/default/assets/js/jquery.ui.touch-punch.min.js"></script>

@@ -11,6 +11,17 @@ public class MD5Util {
         return md5.encodePassword(rawPass, salt);
     } 
 	
+	/**
+	 * 
+	 * @Title: valid 
+	 * @Description: TODO
+	 * @param @param encPass
+	 * @param @param rawPass
+	 * @param @param salt
+	 * @param @return 
+	 * @return boolean
+	 * @throws
+	 */
 	public final static boolean valid(String encPass, String rawPass, String salt) {   
 		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 		md5.setEncodeHashAsBase64(false);

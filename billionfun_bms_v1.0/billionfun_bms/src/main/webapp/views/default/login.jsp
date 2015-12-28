@@ -8,8 +8,39 @@
 		<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
 		<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<%@include file="/views/default/import.jsp"%>
-		<script src="${ctx}/views/default/js/login.js"></script>
+		
+		<!-- basic styles -->
+
+		<link href="${ctx}/views/default/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${ctx}/views/default/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="${ctx}/views/default/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="${ctx}/views/default/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-rtl.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="${ctx}/views/default/assets/js/html5shiv.js"></script>
+		<script src="${ctx}/views/default/assets/js/respond.min.js"></script>
+		<![endif]-->
 	</head>
 
 	<body class="login-layout">
@@ -40,18 +71,18 @@
 
 											<div class="space-6"></div>
 
-											<form id="login-form" action="j_spring_security_check" method="post">
+											<form id="login-form" action="" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Username" name="j_username"/>
+															<input type="text" class="form-control" placeholder="Username" name="j_username" id="j_username"/>
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Password" name="j_password" />
+															<input type="password" class="form-control" placeholder="Password" name="j_password" id="j_password" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
@@ -233,7 +264,75 @@
 				</div><!-- /.row -->
 			</div>
 		</div><!-- /.main-container -->
-		<div id="dialog-msg" class="hide">
+		<div class="modal fade" id="dialog_msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   			<div class="modal-dialog">
+      			<div class="modal-content">
+         			<div class="modal-header">
+            			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  			&times;
+            			</button>
+            			<h4 class="modal-title" id="modal-title">
+               				模态框（Modal）标题
+            			</h4>
+         			</div>
+         			<div class="modal-body" id="modal-body">
+            			在这里添加一些文本
+         			</div>
+         			<div class="modal-footer">
+            			<button type="button" class="btn btn-default" data-dismiss="modal" id="close-button">关闭
+            			</button>
+            			<button type="button" class="btn btn-primary" id="submit-button">
+               				提交更改
+            			</button>
+         			</div>
+      			</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
 		</div>
+		
+		
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<![endif]-->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='${ctx}/views/default/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='${ctx}/views/default/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="${ctx}/views/default/assets/js/bootstrap.min.js"></script>
+		
+		<!-- inline scripts related to this page -->
+		
+		<script src="${ctx}/views/default/assets/js/bootbox.min.js"></script>
+		<script src="${ctx}/views/default/assets/js/jquery.validate.min.js"></script>
+		<script src="${ctx}/views/default/js/login.js"></script>
+		<script src="${ctx}/views/default/js/common.js"></script>
+		<script type="text/javascript">
+			var ctx = "${ctx}";
+			function show_box(id) {
+				 jQuery('.widget-box.visible').removeClass('visible');
+				 jQuery('#'+id).addClass('visible');
+				}
+		</script>
 </body>
 </html>
