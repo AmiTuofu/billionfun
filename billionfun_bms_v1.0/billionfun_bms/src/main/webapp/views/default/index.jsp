@@ -367,7 +367,22 @@
 								<span class="menu-text"> 控制台 </span>
 							</a>
 						</li>
-
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-cog"></i>
+								<span class="menu-text"> 测试1 </span>
+								<b class="arrow icon-angle-down"></b>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="elements.html">
+										<i class="icon-double-angle-right"></i>
+										组件
+									</a>
+								</li>
+							</ul>
+						</li>
+						
 						<li>
 							<a href="typography.html">
 								<i class="icon-text-width"></i>
