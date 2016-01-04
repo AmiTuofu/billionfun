@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -43,6 +45,14 @@ public class SysRole implements Serializable {
 	@ManyToMany(mappedBy = "listRoles",cascade=CascadeType.ALL)
 	private List<SysUser> listUsers;
 
+	@JsonIgnoreProperties
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "sys_role_func",
+	joinColumns = @JoinColumn(name = "role_id"),
+	inverseJoinColumns = @JoinColumn(name = "func_id"))
+	private List<SysFunc> listFuncs;
+	
 	public SysRole() {
 	}
 
@@ -85,7 +95,13 @@ public class SysRole implements Serializable {
 	public void setListUsers(List<SysUser> listUsers) {
 		this.listUsers = listUsers;
 	}
-	
-	
 
+	public List<SysFunc> getListFuncs() {
+		return listFuncs;
+	}
+
+	public void setListFuncs(List<SysFunc> listFuncs) {
+		this.listFuncs = listFuncs;
+	}
+	
 }

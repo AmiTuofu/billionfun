@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,11 +62,14 @@ public class BaseController {
 		}
 
 		if(getCurrentUser()==null){
-			UserDetails userDetails = (UserDetails) SecurityContextHolder
-					.getContext().getAuthentication().getPrincipal();
-			if(userDetails!=null){
-				SysUser user = userService.loadUser(userDetails.getUsername());
-				session.setAttribute(Contants.SESSION_USER, user);
+			if(SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal() instanceof User){
+				UserDetails userDetails = (UserDetails) SecurityContextHolder
+						.getContext().getAuthentication().getPrincipal();
+				if(userDetails!=null){
+					SysUser user = userService.loadUser(userDetails.getUsername());
+					session.setAttribute(Contants.SESSION_USER, user);
+				}
 			}
 		}
 	}

@@ -1,14 +1,23 @@
 package com.billionfun.bms.product.mall.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 /**
@@ -28,19 +37,27 @@ public class SysFunc implements Serializable {
 	@Column(name="img_url")
 	private String imgUrl;
 
-	private int level;
+	private Integer level;
 
 	private String name;
 
 	@Column(name="parent_id")
 	private String parentId;
 
-	private int status;
+	private Integer status;
 
-	private int type;
+	private Integer type;
 
 	private String url;
 
+	@JsonIgnoreProperties
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@ManyToMany(mappedBy = "listFuncs",cascade=CascadeType.ALL)
+	private List<SysRole> listRoles;
+	
+	@Transient
+	private List<SysFunc> listFuncs;
+	
 	public SysFunc() {
 	}
 
@@ -60,11 +77,11 @@ public class SysFunc implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-	public int getLevel() {
+	public Integer getLevel() {
 		return this.level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 
@@ -84,19 +101,19 @@ public class SysFunc implements Serializable {
 		this.parentId = parentId;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public int getType() {
+	public Integer getType() {
 		return this.type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
@@ -108,4 +125,19 @@ public class SysFunc implements Serializable {
 		this.url = url;
 	}
 
+	public List<SysRole> getListRoles() {
+		return listRoles;
+	}
+
+	public void setListRoles(List<SysRole> listRoles) {
+		this.listRoles = listRoles;
+	}
+
+	public List<SysFunc> getListFuncs() {
+		return listFuncs;
+	}
+
+	public void setListFuncs(List<SysFunc> listFuncs) {
+		this.listFuncs = listFuncs;
+	}
 }

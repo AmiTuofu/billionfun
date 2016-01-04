@@ -72,7 +72,7 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 	public List<T> findAll(String hql,Map proMap){
 		Session session = sessionFactory.getCurrentSession();
 		
-		Query query = session.createSQLQuery(hql);
+		Query query = session.createQuery(hql);
 		query.setProperties(proMap);
 		return (List<T>) query.list();
 	}
