@@ -359,7 +359,33 @@
 							<span class="btn btn-danger"></span>
 						</div>
 					</div><!-- #sidebar-shortcuts -->
-
+					<script type="text/javascript">
+							var str = "";
+							var count = 0;
+							function main(jsonStr){
+								var list = jsonstr.toobject();
+								if(list.length>0){
+									if(count!=0){
+										<ul class=submenu>	
+									}
+									for(var i = 0;i<list.length;i++){
+										var func = list[i];
+										<li><a>func.name</a>
+										count++;
+										var listsub = main(func.listFuncs);
+										
+										
+										<li>
+									}
+									if(count!=0){
+										</ul>
+									}
+								}
+							}
+							
+							
+						
+					</script>
 					<ul class="nav nav-list">
 						<li class="active">
 							<a href="index.html">
@@ -367,10 +393,11 @@
 								<span class="menu-text"> 控制台 </span>
 							</a>
 						</li>
+						<c:forEach var="func" items="${SESSION_USER.listFuncs }">
 						<li>
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-cog"></i>
-								<span class="menu-text"> 测试1 </span>
+								<span class="menu-text"> ${func.name} </span>
 								<b class="arrow icon-angle-down"></b>
 							</a>
 							<ul class="submenu">
@@ -382,6 +409,7 @@
 								</li>
 							</ul>
 						</li>
+						</c:forEach>
 						
 						<li>
 							<a href="typography.html">

@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -95,6 +96,9 @@ public class SysUser implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<SysRole> listRoles;
 
+	@Transient
+	private List<SysFunc> listFuncs;
+	
 	public SysUser() {
 	}
 
@@ -257,6 +261,14 @@ public class SysUser implements Serializable {
 
 	public void setListRoles(List<SysRole> listRoles) {
 		this.listRoles = listRoles;
+	}
+
+	public List<SysFunc> getListFuncs() {
+		return listFuncs;
+	}
+
+	public void setListFuncs(List<SysFunc> listFuncs) {
+		this.listFuncs = listFuncs;
 	}
 	
 }

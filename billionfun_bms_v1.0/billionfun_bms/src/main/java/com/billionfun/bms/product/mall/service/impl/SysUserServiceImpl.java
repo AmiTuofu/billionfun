@@ -57,6 +57,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 			}
 		}
 		List<SysFunc> listRef = listRef = getFuncList("0",userFuncMap);
+		user.setListFuncs(listRef);
 		return user;
 	}
 	
