@@ -49,6 +49,9 @@ public class SysFunc implements Serializable {
 	private Integer type;
 
 	private String url;
+	
+	@Column(name="style_class")
+	private String styleClass;
 
 	@JsonIgnoreProperties
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -139,5 +142,13 @@ public class SysFunc implements Serializable {
 
 	public void setListFuncs(List<SysFunc> listFuncs) {
 		this.listFuncs = listFuncs;
+	}
+
+	public String getStyleClass() {
+		return styleClass;
+	}
+
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
 	}
 }

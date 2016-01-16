@@ -56,7 +56,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 				userFuncMap.put(sysFunc.getId(), sysFunc);
 			}
 		}
-		List<SysFunc> listRef = listRef = getFuncList("0",userFuncMap);
+		List<SysFunc> listRef = new ArrayList<SysFunc>();
+		for (Map.Entry<String, SysFunc> entry : userFuncMap.entrySet()) {
+			String funcId = entry.getKey();
+			SysFunc func = entry.getValue();
+			listRef.add(func);
+			
+		}
 		user.setListFuncs(listRef);
 		return user;
 	}

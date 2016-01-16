@@ -19,6 +19,7 @@
 <style>
 .top{
 	height: 70px;
+	vertical-align: 
 }
 </style>
 </head>

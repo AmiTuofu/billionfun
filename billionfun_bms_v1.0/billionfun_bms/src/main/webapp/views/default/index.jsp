@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.billionfun.bms.product.mall.common.Contants" %>
 <%@include file="/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,7 @@
 
 		<!-- fonts -->
 
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+		<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-->
 
 		<!-- ace styles -->
 
@@ -45,6 +46,8 @@
 		<script src="${ctx}/views/default/assets/js/html5shiv.js"></script>
 		<script src="${ctx}/views/default/assets/js/respond.min.js"></script>
 		<![endif]-->
+		<%-- <script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'></script>
+		<script src="${ctx}/views/default/assets/js/json2.js"></script> --%>
 	</head>
 
 	<body>
@@ -359,34 +362,8 @@
 							<span class="btn btn-danger"></span>
 						</div>
 					</div><!-- #sidebar-shortcuts -->
-					<script type="text/javascript">
-							var str = "";
-							var count = 0;
-							function main(jsonStr){
-								var list = jsonstr.toobject();
-								if(list.length>0){
-									if(count!=0){
-										<ul class=submenu>	
-									}
-									for(var i = 0;i<list.length;i++){
-										var func = list[i];
-										<li><a>func.name</a>
-										count++;
-										var listsub = main(func.listFuncs);
-										
-										
-										<li>
-									}
-									if(count!=0){
-										</ul>
-									}
-								}
-							}
-							
-							
-						
-					</script>
-					<ul class="nav nav-list">
+					
+					<ul class="nav nav-list" id="nav-list">
 						<li class="active">
 							<a href="index.html">
 								<i class="icon-dashboard"></i>
@@ -1937,8 +1914,8 @@
 
 		<!--[if !IE]> -->
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
+		<!-- <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script> -->
+		<script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'></script>
 		<!-- <![endif]-->
 
 		<!--[if IE]>
@@ -1948,7 +1925,7 @@
 		<!--[if !IE]> -->
 
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
+			 window.jQuery || document.write("<script src='${ctx}/views/default/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>"); 
 		</script>
 
 		<!-- <![endif]-->
@@ -1986,7 +1963,7 @@
 		<script src="${ctx}/views/default/assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
-
+		<script src="${ctx}/views/default/js/index.js"></script>
 		<script type="text/javascript">
 			jQuery(function($) {
 				$('.easy-pie-chart.percentage').each(function(){
@@ -2182,7 +2159,13 @@
 			
 			})
 		</script>
-	<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+		<script type="text/javascript">
+				var funcArr =[
+				<c:forEach var="func" items="${SESSION_USER.listFuncs}">
+				{'id':'${func.id}','name':'${func.name}','parentId':'${func.parentId}','styleClass':'${func.styleClass}'},
+				</c:forEach>];
+		</script>
+	<!-- <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div> -->
 </body>
 </html>
 
