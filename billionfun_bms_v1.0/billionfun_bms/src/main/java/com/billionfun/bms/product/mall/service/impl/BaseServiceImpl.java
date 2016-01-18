@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.billionfun.bms.product.mall.dao.BaseDao;
 import com.billionfun.bms.product.mall.service.BaseService;
 
-@Service
+@Service("baseService")
 public abstract class BaseServiceImpl<T,P extends Serializable> implements BaseService<T,P> {
 
 	@Autowired

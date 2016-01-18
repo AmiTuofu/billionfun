@@ -6,7 +6,7 @@ $().ready(function () {
 	var count = 0;
 	var navHtml ="";
 	loadFuncData('0',funcArr);
-	$("#nav-list").prepend(navHtml);
+	$("#nav-list").append(navHtml);
 	var aaa = "";
 	function loadFuncData(parentId,jsonStr){
 		var list = loadFuncByParentId(parentId,jsonStr);
@@ -28,8 +28,15 @@ $().ready(function () {
 					}
 					
 				}else{
-					navHtml = navHtml+"<li id=nav-li"+count+"><a  href=#><i class="+func.styleClass+" style='margin-right:5px'></i>"+func.name;
-					navHtml = navHtml+"</a>";
+					
+					if(func.id == "97" || func.name =="控制台"){
+						navHtml = navHtml+"<li id=nav-li"+count+" class=active><a  href="+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i><span class=menu-text>"+func.name;
+						navHtml = navHtml+"</span></a>";
+					}else{
+						navHtml = navHtml+"<li id=nav-li"+count+"><a  href="+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i>"+func.name;
+						navHtml = navHtml+"</a>";
+					}
+					
 				}
 				
 				count++;

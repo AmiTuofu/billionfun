@@ -31,7 +31,6 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 	
 	public void update(T t) {
 		Session session = sessionFactory.getCurrentSession();
-		
 		session.update(t);
 	}
 	

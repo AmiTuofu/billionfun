@@ -38,7 +38,7 @@ public class SysUserDaoImpl extends BaseDaoImpl<SysUser,Long> implements SysUser
 		hql.append(" where u.username in('").append(username).append("','").append(email).append("','").append(mobile).append("')");
 		hql.append(" or u.email in('").append(username).append("','").append(email).append("','").append(mobile).append("')");
 		hql.append(" or u.mobile in('").append(username).append("','").append(email).append("','").append(mobile).append("')");
-		
+
 		SysUser u = super.find(hql.toString());
 		return u;
 	}

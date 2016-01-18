@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.billionfun.bms.product.mall.common.Contants;
 import com.billionfun.bms.product.mall.common.exception.ErrorCode;
 import com.billionfun.bms.product.mall.common.utils.MD5Util;
 import com.billionfun.bms.product.mall.model.SysUser;
@@ -67,6 +68,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping("/logout")
 	public String logout(ModelMap modelMap){
+		session.removeAttribute(Contants.SESSION_USER);
 		return "index";
 	}
 	
