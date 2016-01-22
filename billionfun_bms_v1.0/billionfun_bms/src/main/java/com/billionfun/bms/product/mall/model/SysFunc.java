@@ -58,6 +58,7 @@ public class SysFunc implements Serializable {
 	@ManyToMany(mappedBy = "listFuncs",cascade=CascadeType.ALL)
 	private List<SysRole> listRoles;
 	
+	@JsonIgnoreProperties
 	@Transient
 	private List<SysFunc> listFuncs;
 	

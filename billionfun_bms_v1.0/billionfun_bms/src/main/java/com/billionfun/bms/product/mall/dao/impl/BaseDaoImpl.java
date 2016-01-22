@@ -10,6 +10,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.billionfun.bms.product.mall.common.utils.PageUtil;
+import com.billionfun.bms.product.mall.common.utils.StringUtil;
+
 @SuppressWarnings({"unchecked","rawtypes"})
 @Repository
 public  class BaseDaoImpl<T ,P extends Serializable>   {
@@ -54,7 +57,7 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		return (T) query.uniqueResult();
 	}
 	
-	public T find(String hql,Map proMap){
+	public T find(String hql,Map<String,String> proMap){
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
 		query.setProperties(proMap);
@@ -68,7 +71,7 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		return (List<T>) query.list();
 	}
 	
-	public List<T> findAll(String hql,Map proMap){
+	public List<T> findAll(String hql,Map<String,String> proMap){
 		Session session = sessionFactory.getCurrentSession();
 		
 		Query query = session.createQuery(hql);
@@ -90,4 +93,86 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		Query query = session.createSQLQuery(sql);
 		return (List<T>) query.list();
 	}
+	
+	public List<T> getList(final String hql,final List<String> paramList){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		if(paramList!=null&&paramList.size()>0){
+			for(int i=0;i<paramList.size();i++){
+				query.setParameter(i, paramList.get(i));
+			}
+		}
+		List list = query.list();
+		return (List<T>)list;
+	}
+	
+	public List<T> getListByPage(final int begin, final int pageSize, final String hql){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setFirstResult(begin);
+		query.setMaxResults(pageSize);
+		List list = query.list();
+		return (List<T>)list;
+	}
+	
+	public List<T> getListByPage(final int begin, final int pageSize, final String hql,List<String> paramList){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		if(paramList!=null&&paramList.size()>0){
+			for(int i=0;i<paramList.size();i++){
+				query.setParameter(i, paramList.get(i));
+			}
+		}
+		query.setFirstResult(begin);
+		query.setMaxResults(pageSize);
+		List list = query.list();
+		return (List<T>)list;
+	}
+	
+	
+	
+	public List<T> getList(final String hql){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		List list = query.list();
+		return (List<T>)list;
+	}
+	
+	public List getListByPage(PageUtil<T> pl,String hql , List<String> params){
+		if(pl == null){
+			pl = new PageUtil();
+		}
+		pl.setRecords(getTotalCount(hql, params));
+		return getListByPage((pl.getPage()-1)*pl.getRows(), pl.getRows(), hql, params);
+	}
+	
+	public int getTotalCount(String hql, List<String> params) {
+		String countStr = getCountHql(hql);
+		List list = getList(countStr);
+		if(StringUtil.empty(list)){
+			return 0;
+		}else{
+			return ((Long) list.get(0)).intValue();
+		}
+	}
+	
+	private String getCountHql(String hql) {
+		int sql_from = hql.indexOf(" from");
+		int sql_orderby = hql.indexOf("order by");
+		int sql_distinct=hql.indexOf("distinct");
+		int sql_groupby=hql.indexOf("group by");
+		String countStr = "";
+		if (sql_orderby > 0) {
+			countStr = "select count(*) "
+					+ hql.substring(sql_from, sql_orderby);
+		}else {
+			countStr = "select count(*) " + hql.substring(sql_from);
+		}
+		if(sql_distinct>0||sql_groupby>0){
+			countStr = "select count(*) from ( " + hql+")";
+		}
+		return countStr;
+	}
+	
+	
 }

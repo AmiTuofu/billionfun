@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.billionfun.bms.product.mall.common.Contants;
+import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.model.SysUser;
 import com.billionfun.bms.product.mall.service.SysUserService;
@@ -37,7 +38,6 @@ public class BaseController {
 	protected RedirectAttributes rAttr;
 	@Autowired
 	protected SysUserService userService;
-	
 	/**
 	 * 
 	 * @Title: setReqAndRes 

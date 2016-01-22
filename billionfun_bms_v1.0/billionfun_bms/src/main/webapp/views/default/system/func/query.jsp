@@ -560,12 +560,34 @@
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+				    jsonReader:{
+				         root:"list",
+				         page: "page",
+				         total: "total",
+				         records: "records",
+					     order: "order",
+					     sort: "sort",
+					     search: "search",
+					     repeatitems: false
+				    },
+				    mtype:"POST",
+					url: "http://localhost:8080/billionfun_bms/system/func/query.json",
+					datatype: "json",
+ 					prmNames:{
+						page:"page",
+						rows:"rows",
+						total: "total",
+				        records: "records",
+				        order: "order",
+				        sort: "sort",
+				        search: "search"
+					},
+					postData:{"name":"1212312"},
 					height: 250,
 					colNames:[' ', 'id','name','parentId', 'styleClass', 'url','url'],
 					colModel:[
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
+						//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
@@ -582,18 +604,18 @@
 						{name:'url',index:'url', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 					], 
 			
-					viewrecords : true,
-					rowNum:10,
-					rowList:[10,20,30],
-					pager : pager_selector,
-					altRows: true,
+					viewrecords : true,//定义是否要显示总记录数
+					rowNum:10,//在grid上显示记录条数，这个参数是要被传递到后台
+					rowList:[10,20,30],//一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
+					pager : pager_selector,//定义翻页用的导航栏，必须是有效的html元素。翻页工具栏可以放置在html页面任意位置
+					altRows: true,//设置表格 zebra-striped 值
 					//toppager: true,
 					
-					multiselect: true,
+					multiselect: true,//定义是否可以多选
 					//multikey: "ctrlKey",
-			        multiboxonly: true,
+			        multiboxonly: true,//只有当multiselect = true.起作用，当multiboxonly 为ture时只有选择checkbox才会起作用
 			
-					loadComplete : function() {
+					loadComplete : function() {//当从服务器返回响应时执行，xhr：XMLHttpRequest 对象
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
@@ -604,11 +626,11 @@
 						}, 0);
 					},
 			
-					editurl: $path_base+"/dummy.html",//nothing is saved
-					caption: "jqGrid with inline editing",
+					editurl: $path_base+"/dummy.html",//nothing is saved定义对form编辑时的url
+					caption: "jqGrid with inline editing",//表格名称
 			
 			
-					autowidth: true
+					autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
 			
 				});
 			

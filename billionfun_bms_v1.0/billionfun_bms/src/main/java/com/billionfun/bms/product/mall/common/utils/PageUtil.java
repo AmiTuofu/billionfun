@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.displaytag.properties.SortOrderEnum;
+import org.springframework.stereotype.Component;
 /**
  * 
  * @ClassName: PageUtil 
@@ -14,16 +15,16 @@ import org.displaytag.properties.SortOrderEnum;
  *
  * @param <T>
  */
+@Component
 public class PageUtil<T> {
+	private int rows = 10;			//每页数据
+	private int page = 1;			//当前页面
+	private int total = 0;			//总页数
+	private int records = 0;		//总条数
+	private String sort;			//排序字段
+	private String order;			//排序
+	private String search;			//搜索
 	private List<T> list;
-	private int pageNumber = 1;
-	private int objectsPerPage = 15;
-	private int fullListSize = 0;
-	private String sortCriterion;
-	private SortOrderEnum sortDirection = SortOrderEnum.ASCENDING;
-	private String searchId;
-	@SuppressWarnings("unused")
-	private int totalPage = 0;
 
 	public List<T> getList() {
 		return list;
@@ -33,69 +34,64 @@ public class PageUtil<T> {
 		this.list = list;
 	}
 
-	public int getPageNumber() {
-		return pageNumber;
+	public int getPage() {
+		return page;
 	}
 
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
+	public void setPage(int page) {
+		this.page = page;
 	}
 
-	public int getObjectsPerPage() {
-		return objectsPerPage;
-	}
-
-	public void setObjectsPerPage(int objectsPerPage) {
-		this.objectsPerPage = objectsPerPage;
-	}
-
-	public int getFullListSize() {
-		return fullListSize;
-	}
-
-	public void setFullListSize(int fullListSize) {
-		this.fullListSize = fullListSize;
-	}
-
-	public String getSortCriterion() {
-		return sortCriterion;
-	}
-
-	public void setSortCriterion(String sortCriterion) {
-		this.sortCriterion = sortCriterion;
-	}
-
-	public SortOrderEnum getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(SortOrderEnum sortDirection) {
-		this.sortDirection = sortDirection;
-	}
-
-	public String getSearchId() {
-		return searchId;
-	}
-
-	public void setSearchId(String searchId) {
-		this.searchId = searchId;
-	}
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("pageNumber", pageNumber).append("objectsPerPage", objectsPerPage).append("fullListSize",
-				fullListSize).append("sortCriterion", sortCriterion).append("sortDirection", sortDirection).append("searchId", searchId).toString();
-	}
-
-	public int getTotalPage() {
-		if( this.fullListSize % this.objectsPerPage == 0){
-			return this.fullListSize / this.objectsPerPage;
+	public int getTotal() {
+		if( this.records % this.rows == 0){
+			return this.records / this.rows;
 		}else{
-			return this.fullListSize / this.objectsPerPage + 1;
+			return this.records / this.rows + 1;
 		}
 	}
 
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
+	public void setTotal(int total) {
+		this.total = total;
 	}
+
+	public int getRecords() {
+		return records;
+	}
+
+	public void setRecords(int records) {
+		this.records = records;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+	
 }

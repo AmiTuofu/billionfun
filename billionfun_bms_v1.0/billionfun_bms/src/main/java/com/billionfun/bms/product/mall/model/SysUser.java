@@ -96,6 +96,7 @@ public class SysUser implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<SysRole> listRoles;
 
+	@JsonIgnoreProperties
 	@Transient
 	private List<SysFunc> listFuncs;
 	
