@@ -19,6 +19,8 @@ public class JSONUtil {
         return jsonText;
     }  
 	public static void main(String[] args) {
-
+		String jsonStr = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"name\",\"op\":\"eq\",\"data\":\"1231123122\"}]}";
+		SearchFilter searchFilter= JSON.parseObject(jsonStr, SearchFilter.class);
+		System.out.println();
 	}
 }

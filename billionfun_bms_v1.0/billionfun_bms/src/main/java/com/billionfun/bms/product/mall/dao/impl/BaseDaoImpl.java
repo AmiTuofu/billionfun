@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.billionfun.bms.product.mall.common.Criterion;
+import com.billionfun.bms.product.mall.common.Criterion.EqualCriterion;
+import com.billionfun.bms.product.mall.common.Criterion.LikeCriterion;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 
@@ -131,6 +136,7 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 	
 	
 	
+	
 	public List<T> getList(final String hql){
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
@@ -146,9 +152,26 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		return getListByPage((pl.getPage()-1)*pl.getRows(), pl.getRows(), hql, params);
 	}
 	
+	public List<T> getListByPage2(PageUtil<T> pl,String hql , List<Criterion> criterionList,T t){
+		Session session = sessionFactory.getCurrentSession();
+		Criteria crit = session.createCriteria(t.getClass());
+		for (Criterion criterion : criterionList) {
+			if(criterion instanceof EqualCriterion){
+				crit.add(Restrictions.eq(criterion.getField(), criterion.getValue()));
+			}
+			if(criterion instanceof LikeCriterion){
+				crit.add(Restrictions.like(criterion.getField(), criterion.getValue()));
+			}
+		}
+		
+		return null;
+		
+	}
+
+	
 	public int getTotalCount(String hql, List<String> params) {
 		String countStr = getCountHql(hql);
-		List list = getList(countStr);
+		List list = getList(countStr,params);
 		if(StringUtil.empty(list)){
 			return 0;
 		}else{

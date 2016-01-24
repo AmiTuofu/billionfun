@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.model.SysFunc;
@@ -20,11 +19,8 @@ public class SysFuncServiceImpl extends BaseServiceImpl<SysFunc, Long> implement
 	private SysFuncDao funcDao;
 	
 	
-	public List<SysFuncVO> query(SysFuncVO funcVo,PageUtil pl){
-		SysFunc func = new SysFunc();
-		BeanUtils.copyProperties(funcVo, func);
-		
-		List<SysFunc> listFunc = funcDao.getListByPage(func,pl);
+	public List<SysFuncVO> query(SysFuncVO funcVo){
+		List<SysFunc> listFunc = funcDao.getListByPage(funcVo);
 		List<SysFuncVO> listFuncVo = new ArrayList<SysFuncVO>();
 		if(!StringUtil.empty(listFunc)){
 			for (SysFunc funcRef : listFunc) {

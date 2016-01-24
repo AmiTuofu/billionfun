@@ -1,11 +1,15 @@
 package com.billionfun.bms.product.mall.common.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-import org.displaytag.properties.SortOrderEnum;
 import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.billionfun.bms.product.mall.common.Criterion;
+import com.billionfun.bms.product.mall.common.Criterion.CompareType;
 /**
  * 
  * @ClassName: PageUtil 
@@ -23,9 +27,84 @@ public class PageUtil<T> {
 	private int records = 0;		//总条数
 	private String sort;			//排序字段
 	private String order;			//排序
-	private String search;			//搜索
+	private boolean search;			//搜索
+	private String oper;			//操作
 	private List<T> list;
-
+	private String filters;			//搜索参数
+	private SearchFilter searchFilter;
+    public List<Criterion> generateSearchCriteriaFromFilters(String filters) {  
+        List<Criterion> criteria = new ArrayList<Criterion>();  
+          
+        JSONObject jsonObject = JSON.parseObject(filters);
+          
+        JSONArray rules = jsonObject.getJSONArray("rules");  
+          
+        for(Object obj : rules) {  
+            JSONObject rule = (JSONObject) obj;  
+              
+            String field = rule.getString("field");  
+            String op = rule.getString("op");  
+            String data = rule.getString("data");  
+              
+            Criterion criterion = this.generateSearchCriterion(field, data, op);  
+              
+            if(criterion != null) {  
+                criteria.add(criterion);  
+            }  
+        }  
+          
+        return criteria;  
+    }  
+	
+	public Criterion generateSearchCriterion(String searchField,  
+            String searchString, String searchOper) {  
+        Criterion criterion = null;  
+          
+        // (7)如果searchField、searchString、searchOper均不为null，且searchString不为空字符串时，则创建Criterion  
+        if (searchField != null && searchString != null  
+                & searchString.length() > 0 && searchOper != null) {  
+            if ("eq".equals(searchOper)) {  
+                criterion = Criterion.getEqualCriterion(searchField,  
+                        searchString, null);  
+            } else if ("ne".equals(searchOper)) {  
+                criterion = Criterion.getCompareCriterion(CompareType.NE,  
+                        searchField, searchString, null);  
+            } else if ("lt".equals(searchOper)) {  
+                criterion = Criterion.getCompareCriterion(CompareType.LT,  
+                        searchField, searchString, null);  
+            } else if ("le".equals(searchOper)) {  
+                criterion = Criterion.getCompareCriterion(CompareType.LTE,  
+                        searchField, searchString, null);  
+            } else if ("gt".equals(searchOper)) {  
+                criterion = Criterion.getCompareCriterion(CompareType.GT,  
+                        searchField, searchString, null);  
+            } else if ("ge".equals(searchOper)) {  
+                criterion = Criterion.getCompareCriterion(CompareType.GTE,  
+                        searchField, searchString, null);  
+            } else if ("bw".equals(searchOper)) {  
+                criterion = Criterion.getLikeCriterion(searchField,  
+                        searchString + "%", null);  
+            } else if ("bn".equals(searchOper)) {  
+                criterion = Criterion.getNotLikeCriterion(searchField,  
+                        searchString + "%", null);  
+            } else if ("ew".equals(searchOper)) {  
+                criterion = Criterion.getLikeCriterion(searchField, "%"  
+                        + searchString, null);  
+            } else if ("en".equals(searchOper)) {  
+                criterion = Criterion.getNotLikeCriterion(searchField, "%"  
+                        + searchString, null);  
+            } else if ("cn".equals(searchOper)) {  
+                criterion = Criterion.getLikeCriterion(searchField, "%"  
+                        + searchString + "%", null);  
+            } else if ("nc".equals(searchOper)) {  
+                criterion = Criterion.getNotLikeCriterion(searchField, "%"  
+                        + searchString + "%", null);  
+            }  
+        }  
+        return criterion;  
+    }  
+	
+	
 	public List<T> getList() {
 		return list;
 	}
@@ -70,11 +149,11 @@ public class PageUtil<T> {
 		this.order = order;
 	}
 
-	public String getSearch() {
+	public boolean getSearch() {
 		return search;
 	}
 
-	public void setSearch(String search) {
+	public void setSearch(boolean search) {
 		this.search = search;
 	}
 
@@ -93,5 +172,29 @@ public class PageUtil<T> {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
+
+	public String getOper() {
+		return oper;
+	}
+
+	public void setOper(String oper) {
+		this.oper = oper;
+	}
+
+	public String getFilters() {
+		return filters;
+	}
+
+	public void setFilters(String filters) {
+		this.filters = filters;
+	}
 	
+	public SearchFilter getSearchFilter() {
+		SearchFilter searchFilter = JSON.parseObject(filters,SearchFilter.class);
+		return searchFilter;
+	}
+
+	public void setSearchFilter(SearchFilter searchFilter) {
+		this.searchFilter = searchFilter;
+	}
 }
