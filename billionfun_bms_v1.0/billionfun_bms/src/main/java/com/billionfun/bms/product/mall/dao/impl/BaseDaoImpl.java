@@ -1,6 +1,8 @@
 package com.billionfun.bms.product.mall.dao.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +22,20 @@ import com.billionfun.bms.product.mall.common.utils.StringUtil;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 @Repository
-public  class BaseDaoImpl<T ,P extends Serializable>   {
+public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 	
 	@Autowired
 	protected SessionFactory sessionFactory;
+	protected Class<T> entityClass;
+	
+	public BaseDaoImpl(){
+        Type t = getClass().getGenericSuperclass();
+        if(t instanceof ParameterizedType){
+            Type[] p = ((ParameterizedType)t).getActualTypeArguments();
+            entityClass = (Class<T>)p[0];
+        }
+     
+	}
 	
 	private Session getCurrentSession(){
 		return sessionFactory.getCurrentSession();
@@ -46,6 +58,10 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		Session session = sessionFactory.getCurrentSession();
 		
 		session.delete(t);
+	}
+	
+	public void delete(P id,Class<T> t){
+		delete(get(id,t));
 	}
 	
 	public T findById(Class<T> className, P id) {
@@ -97,6 +113,11 @@ public  class BaseDaoImpl<T ,P extends Serializable>   {
 		
 		Query query = session.createSQLQuery(sql);
 		return (List<T>) query.list();
+	}
+	
+	public T get(P id,Class<T> t){
+		Session session = getCurrentSession();
+		return (T)session.get(t, id);
 	}
 	
 	public List<T> getList(final String hql,final List<String> paramList){

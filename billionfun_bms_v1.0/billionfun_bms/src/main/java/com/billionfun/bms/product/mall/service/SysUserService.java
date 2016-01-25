@@ -3,11 +3,10 @@ package com.billionfun.bms.product.mall.service;
 import java.util.List;
 
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
-public interface SysUserService {
+public interface SysUserService extends BaseService<SysUser,Long>{
 
-	
-	public void save(SysUser user);
 	
 	public SysUser loadUser(String username);
 	

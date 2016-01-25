@@ -15,6 +15,8 @@ public interface BaseDao<T,P extends Serializable> {
 	
 	void delete(T t);
 	
+	void delete(P id,Class<T> t);
+	
 	T findById(Class<T> cls, P id);
 	
 	T find(String sql);
@@ -28,6 +30,8 @@ public interface BaseDao<T,P extends Serializable> {
 	T findBySql(String sql);
 	
 	List<T> findAllBySql(String sql);
+	
+	T get(P id,Class<T> t);
 	
 	List<T> getList(final String hql);
 	

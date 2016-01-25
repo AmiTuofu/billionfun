@@ -24,16 +24,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implement
 	@Autowired
 	private SysFuncDao funcDao;
 
-	
-	public void save(SysUser user) {
-		// TODO Auto-generated method stub
-		userDao.save(user);
-	}
-
 
 	public List findAll() {
 		return userDao.findAll("from SysUser");
-		
 	}
 	
 	

@@ -8,14 +8,13 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.billionfun.bms.product.mall.common.utils.Rule;
-import com.billionfun.bms.product.mall.common.utils.SearchFilter;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
 @Repository
-public class SysFuncDaoImpl extends BaseDaoImpl<SysFunc,Long> implements SysFuncDao{
+public class SysFuncDaoImpl extends BaseDaoImpl<SysFunc,String> implements SysFuncDao{
 
 	
 	public List<SysFunc> loadFunc(String parentId) {
@@ -34,24 +33,9 @@ public class SysFuncDaoImpl extends BaseDaoImpl<SysFunc,Long> implements SysFunc
 		List<String> paramList = new ArrayList<String>();
 		hql.append(" from SysFunc f");
 		hql.append(" where 1=1");
-		
 		if(funcVo.getSearch()){
-			SearchFilter searchFilter = funcVo.getSearchFilter();
-			if(searchFilter!=null){
-				for(Rule rule : searchFilter.getRules()){
-					if(rule.getOp().equals("eq")){
-						hql.append(" and f.").append(rule.getField()).append(" = ?");
-						paramList.add(rule.getData());
-					}
-					if(rule.getOp().equals("cn")){
-						hql.append(" and f.").append(rule.getField()).append(" like '%'||?||'%'");
-						paramList.add(rule.getData());
-					}
-				
-				}
-			}
+			funcVo.getSearchHql(hql, funcVo.getFilters(), paramList);
 		}
-		
 		if(!StringUtil.empty(funcVo.getSort())&&!StringUtil.empty(funcVo.getOrder())){
 			hql.append(" order by f.").append(funcVo.getSort()).append(" ").append(funcVo.getOrder());
 		}

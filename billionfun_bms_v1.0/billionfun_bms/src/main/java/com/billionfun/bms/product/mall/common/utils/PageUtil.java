@@ -32,6 +32,27 @@ public class PageUtil<T> {
 	private List<T> list;
 	private String filters;			//搜索参数
 	private SearchFilter searchFilter;
+	
+	public StringBuilder getSearchHql(StringBuilder hql,String filters,List<String> paramList){
+		SearchFilter searchFilter = null;
+		if(!StringUtil.empty(filters)){
+			searchFilter = JSON.parseObject(filters,SearchFilter.class);
+		}
+		if(searchFilter!=null){
+			for(Rule rule : searchFilter.getRules()){
+				if(rule.getOp().equals("eq")){
+					hql.append(" and f.").append(rule.getField()).append(" = ?");
+					paramList.add(rule.getData());
+				}
+				if(rule.getOp().equals("cn")){
+					hql.append(" and f.").append(rule.getField()).append(" like '%'||?||'%'");
+					paramList.add(rule.getData());
+				}
+			}
+		}
+		return hql;
+	}
+	
     public List<Criterion> generateSearchCriteriaFromFilters(String filters) {  
         List<Criterion> criteria = new ArrayList<Criterion>();  
           
@@ -190,9 +211,14 @@ public class PageUtil<T> {
 	}
 	
 	public SearchFilter getSearchFilter() {
-		SearchFilter searchFilter = JSON.parseObject(filters,SearchFilter.class);
+		SearchFilter searchFilter = null;
+		if(!StringUtil.empty(filters)){
+			searchFilter = JSON.parseObject(filters,SearchFilter.class);
+		}
+	
 		return searchFilter;
 	}
+
 
 	public void setSearchFilter(SearchFilter searchFilter) {
 		this.searchFilter = searchFilter;

@@ -2,11 +2,13 @@ package com.billionfun.bms.product.mall.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.service.SysFuncService;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
@@ -16,6 +18,8 @@ public class SysFuncController extends BaseController {
 	
 	@Autowired
 	private SysFuncService funcService;
+	
+	
 	
 	@RequestMapping("/query")
 	public String query(ModelMap modelMap,SysFuncVO vo){
@@ -29,25 +33,23 @@ public class SysFuncController extends BaseController {
 	
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap,SysFuncVO vo){
-		
-		System.out.println(vo.getName());
-		
+		SysFunc func = new SysFunc();
+		BeanUtils.copyProperties(vo, func);
+		funcService.saveOrUpdate(func);
 		return "system/func/modify";
 	}
 	
 	@RequestMapping("/add")
 	public String add(ModelMap modelMap,SysFuncVO vo){
-		
-		System.out.println(vo.getName());
-		
+		SysFunc func = new SysFunc();
+		BeanUtils.copyProperties(vo, func);
+		funcService.saveOrUpdate(func);
 		return "system/func/add";
 	}
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,SysFuncVO vo){
-		
-		System.out.println(vo.getName());
-		
+		funcService.delete(vo.getId(),SysFunc.class);
 		return "system/func/delete";
 	}
 }

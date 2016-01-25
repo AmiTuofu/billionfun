@@ -14,7 +14,7 @@ import com.billionfun.bms.product.mall.service.SysFuncService;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
 @Service("funcService")
-public class SysFuncServiceImpl extends BaseServiceImpl<SysFunc, Long> implements SysFuncService{
+public class SysFuncServiceImpl extends BaseServiceImpl<SysFunc, String> implements SysFuncService{
 	@Autowired
 	private SysFuncDao funcDao;
 	
@@ -31,4 +31,5 @@ public class SysFuncServiceImpl extends BaseServiceImpl<SysFunc, Long> implement
 		}
 		return listFuncVo;
 	}
+
 }

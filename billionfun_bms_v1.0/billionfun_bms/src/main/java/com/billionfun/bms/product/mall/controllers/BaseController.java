@@ -1,5 +1,7 @@
 package com.billionfun.bms.product.mall.controllers;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import com.billionfun.bms.product.mall.common.Contants;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.service.BaseService;
 import com.billionfun.bms.product.mall.service.SysUserService;
 
 /**
@@ -30,12 +33,13 @@ import com.billionfun.bms.product.mall.service.SysUserService;
  *
  */
 @Controller
-public class BaseController {
+public abstract  class BaseController {
 	
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected HttpSession session;
 	protected RedirectAttributes rAttr;
+	
 	@Autowired
 	protected SysUserService userService;
 	/**
