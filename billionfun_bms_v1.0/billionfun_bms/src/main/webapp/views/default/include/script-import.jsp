@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="/views/default/include/taglib.jsp"%>
+<%@include file="/includes/taglib.jsp"%>
 <!-- basic scripts -->
 <!--[if !IE]> -->
-<script src="${ctx}/views/default/assets/js/jquery-2.0.3.min.js"></script>
+<%-- <script src="${ctx}/views/default/assets/js/jquery-2.0.3.min.js"></script> --%>
 <%-- <script src="${ctx}/views/default/assets/js/jquery-ui-1.10.3.full.min.js"></script> --%>
 <!--[if IE]-->
 <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->

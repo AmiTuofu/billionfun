@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="/views/default/include/taglib.jsp"%>
+<%@include file="/includes/taglib.jsp"%>
 <div class="navbar navbar-default" id="navbar">
 	<script type="text/javascript">
 		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
@@ -194,9 +194,3 @@
 	</div>
 	<!-- /.container -->
 </div>
-<script type="text/javascript">
-	var funcArr =[
-	<c:forEach var="func" items="${SESSION_USER.listFuncs}">
-	{'id':'${func.id}','name':'${func.name}','parentId':'${func.parentId}','styleClass':'${func.styleClass}','url':'${func.url}'},
-	</c:forEach>];
-</script>

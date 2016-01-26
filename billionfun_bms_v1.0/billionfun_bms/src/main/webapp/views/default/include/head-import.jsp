@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="/views/default/include/taglib.jsp"%>
+<%@include file="/includes/taglib.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- basic styles -->
 <link href="${ctx}/views/default/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-skins.min.css" />
 <!--[if lte IE 8]-->
 <%--<link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-ie.min.css" />--%>
+<!--[if !IE]> -->
+<script src="${ctx}/views/default/assets/js/jquery-2.0.3.min.js"></script>
 <!-- ace settings handler -->
 <script src="${ctx}/views/default/assets/js/ace-extra.min.js"></script>
 <!--[if lt IE 9]-->
