@@ -35,7 +35,7 @@ public class SysFuncController extends BaseController {
 	public String modify(ModelMap modelMap,SysFuncVO vo){
 		SysFunc func = new SysFunc();
 		BeanUtils.copyProperties(vo, func);
-		funcService.saveOrUpdate(func);
+		funcService.update(func);
 		return "system/func/modify";
 	}
 	
@@ -43,7 +43,7 @@ public class SysFuncController extends BaseController {
 	public String add(ModelMap modelMap,SysFuncVO vo){
 		SysFunc func = new SysFunc();
 		BeanUtils.copyProperties(vo, func);
-		funcService.saveOrUpdate(func);
+		funcService.save(func);
 		return "system/func/add";
 	}
 	
