@@ -36,12 +36,11 @@ $().ready(function () {
 					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 				}
 			},
-			{name:'id',index:'id', width:50,search:true, sorttype:"int", editable: false},
+			{name:'id',index:'id', width:50,search:true, sorttype:"int", editable: true},
 			{name:'name',index:'name',width:90,search:true, editable:true, sorttype:"date"},
 			{name:'parentId',index:'parentId', width:50,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'styleClass',index:'styleClass', width:70, editable: true,editoptions: {value:"Yes:No"}},
 			{name:'url',index:'url', width:150, editable: true}
-			
 		], 
 
 		viewrecords : true,//定义是否要显示总记录数
@@ -141,26 +140,7 @@ $().ready(function () {
 			}
 		}
 	);
-	
-	//
-	 $("#consoleDlg").dialog({  
-	        autoOpen: false,      
-	        modal: true,    // 设置对话框为模态（modal）对话框  
-	        resizable: true,      
-	        width: 480,  
-	        buttons: {  // 为对话框添加按钮  
-	            "取消": function() {$("#consoleDlg").dialog("close")},  
-	            "创建": function(){
-	            	
-	            },  
-	            "保存": function(){
-	            	
-	            },  
-	            "删除": function(){
-	            	
-	            }  
-	        }  
-	    });
+
 	
 //	jQuery("#grid-table").jqGrid('inlineNav', "#grid-pager");
 //	$("#grid-table").jqGrid('filterToolbar');
