@@ -21,3 +21,7 @@
 <!--[if lt IE 9]-->
 <%-- <script src="${ctx}/views/default/assets/js/html5shiv.js"></script>
 <script src="${ctx}/views/default/assets/js/respond.min.js"></script> --%>
+<script>
+	var ctx="${ctx}";
+	var rqUrl="${rqUrl}";
+</script>

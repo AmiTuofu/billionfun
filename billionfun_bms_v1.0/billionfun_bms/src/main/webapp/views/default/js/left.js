@@ -2,9 +2,11 @@ $().ready(function () {
 	var str = "";
 	var count = 0;
 	var navHtml ="";
+	var cur = 0;
 	loadFuncData('0',funcArr);
 	$("#nav-list").append(navHtml);
-	var aaa = "";
+	$("#nav-li"+cur).parent().parent('li').attr("class","open");
+	$("#nav-li"+cur).parent().attr("style","display: block;");
 	function loadFuncData(parentId,jsonStr){
 		var list = loadFuncByParentId(parentId,jsonStr);
 		if(list.length>0){
@@ -25,12 +27,13 @@ $().ready(function () {
 					}
 					
 				}else{
-					
-					if(func.id == "97" || func.name =="控制台"){
-						navHtml = navHtml+"<li id=nav-li"+count+" class=active><a  href="+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i><span class=menu-text>"+func.name;
+					if((ctx+func.url)==rqUrl){
+					//if(func.id == "97" || func.name =="控制台"){//
+						cur = count;
+						navHtml = navHtml+"<li id=nav-li"+count+" class=active><a  href="+ctx+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i><span class=menu-text>"+func.name;
 						navHtml = navHtml+"</span></a>";
 					}else{
-						navHtml = navHtml+"<li id=nav-li"+count+"><a  href="+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i>"+func.name;
+						navHtml = navHtml+"<li id=nav-li"+count+"><a  href="+ctx+func.url+"><i class="+func.styleClass+" style='margin-right:5px'></i>"+func.name;
 						navHtml = navHtml+"</a>";
 					}
 					
