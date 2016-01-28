@@ -15,3 +15,7 @@
 <!-- ace scripts -->
 <script src="${ctx}/views/default/assets/js/ace-elements.min.js"></script>
 <script src="${ctx}/views/default/assets/js/ace.min.js"></script>
+<!-- page specific plugin scripts -->
+<script src="${ctx}/views/default/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="${ctx}/views/default/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/views/default/assets/js/jqGrid/i18n/grid.locale-en.js"></script>

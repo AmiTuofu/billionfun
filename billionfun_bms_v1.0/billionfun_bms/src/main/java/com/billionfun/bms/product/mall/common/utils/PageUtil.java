@@ -41,11 +41,11 @@ public class PageUtil<T> {
 		if(searchFilter!=null){
 			for(Rule rule : searchFilter.getRules()){
 				if(rule.getOp().equals("eq")){
-					hql.append(" and f.").append(rule.getField()).append(" = ?");
+					hql.append(" and ").append(rule.getField()).append(" = ?");
 					paramList.add(rule.getData());
 				}
 				if(rule.getOp().equals("cn")){
-					hql.append(" and f.").append(rule.getField()).append(" like '%'||?||'%'");
+					hql.append(" and ").append(rule.getField()).append(" like '%'||?||'%'");
 					paramList.add(rule.getData());
 				}
 			}

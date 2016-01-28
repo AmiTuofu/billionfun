@@ -3,6 +3,7 @@ package com.billionfun.bms.product.mall.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,14 +61,14 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		session.delete(t);
 	}
 	
-	public void delete(P id,Class<T> t){
-		delete(get(id,t));
+	public void delete(P id){
+		delete(get(id));
 	}
 	
-	public T findById(Class<T> className, P id) {
+	public T findById(P id) {
 		Session session = sessionFactory.getCurrentSession();
 		
-		T t = (T)session.get(className, id);
+		T t = (T)session.get(entityClass, id);
 		
 		return t;
 	}
@@ -115,9 +116,9 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		return (List<T>) query.list();
 	}
 	
-	public T get(P id,Class<T> t){
+	public T get(P id){
 		Session session = getCurrentSession();
-		return (T)session.get(t, id);
+		return (T)session.get(entityClass, id);
 	}
 	
 	public List<T> getList(final String hql,final List<String> paramList){
@@ -163,6 +164,22 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		Query query = session.createQuery(hql);
 		List list = query.list();
 		return (List<T>)list;
+	}
+	
+	public List<T> getListByPage(PageUtil<T> pl){
+		StringBuilder hql = new StringBuilder();
+		List<String> paramList = new ArrayList<String>();
+		hql.append(" from ").append(entityClass.getName());
+		hql.append(" where 1=1 ");
+		if(pl.getSearch()){
+			pl.getSearchHql(hql, pl.getFilters(), paramList);
+		}
+		if(!StringUtil.empty(pl.getSort())&&!StringUtil.empty(pl.getOrder())){
+			hql.append(" order by ").append(pl.getSort()).append(" ").append(pl.getOrder());
+		}
+
+		List<T> list = getListByPage(pl, hql.toString(), paramList);
+		return list;
 	}
 	
 	public List getListByPage(PageUtil<T> pl,String hql , List<String> params){

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,12 +43,12 @@ public class SysRole implements Serializable {
 	
 	@JsonIgnoreProperties
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ManyToMany(mappedBy = "listRoles",cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy = "listRoles",cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)
 	private List<SysUser> listUsers;
 
 	@JsonIgnoreProperties
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.REMOVE,fetch=FetchType.LAZY)
 	@JoinTable(name = "sys_role_func",
 	joinColumns = @JoinColumn(name = "role_id"),
 	inverseJoinColumns = @JoinColumn(name = "func_id"))

@@ -13,7 +13,7 @@
 						<div class="page-content">
 						<div class="page-header">
 							<h1>
-								功能菜单管理
+								角色管理
 								<small>
 									<i class="icon-double-angle-right"></i>
 									查看
@@ -40,7 +40,7 @@
 				
 		<%@include file="/views/default/include/script-import.jsp"%>
 		<!-- inline scripts related to this page -->
-		<script src="${ctx}/views/default/js/system/func/query.js"></script>
+		<script src="${ctx}/views/default/js/system/role/query.js"></script>
 	<!-- <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div> -->
 </body>
 </html>

@@ -14,9 +14,10 @@ import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.model.SysRole;
 import com.billionfun.bms.product.mall.model.SysUser;
 import com.billionfun.bms.product.mall.service.SysUserService;
+import com.billionfun.bms.product.mall.vo.SysUserVO;
 
 @Service("userService")
-public class SysUserServiceImpl extends BaseServiceImpl<SysUser, Long> implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, String> implements SysUserService {
 	
 	@Autowired
 	private SysUserDao userDao;

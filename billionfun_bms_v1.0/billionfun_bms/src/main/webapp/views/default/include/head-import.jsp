@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@include file="/includes/taglib.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="${ctx}/views/default/assets/css/jquery-ui-1.10.3.full.min.css" />
+<link rel="stylesheet" href="${ctx}/views/default/assets/css/datepicker.css" />
+<link rel="stylesheet" href="${ctx}/views/default/assets/css/ui.jqgrid.css" />
 <!-- basic styles -->
 <link href="${ctx}/views/default/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/font-awesome.min.css" />

@@ -15,9 +15,9 @@ public interface BaseDao<T,P extends Serializable> {
 	
 	void delete(T t);
 	
-	void delete(P id,Class<T> t);
+	void delete(P id);
 	
-	T findById(Class<T> cls, P id);
+	T findById(P id);
 	
 	T find(String sql);
 
@@ -31,11 +31,13 @@ public interface BaseDao<T,P extends Serializable> {
 	
 	List<T> findAllBySql(String sql);
 	
-	T get(P id,Class<T> t);
+	T get(P id);
 	
 	List<T> getList(final String hql);
 	
 	List<T> getList(final String hql,final List<String> paramList);
+	
+	List<T> getListByPage(PageUtil<T> pl);
 	
 	List<T> getListByPage(PageUtil<T> pl,String hql,List<String> params);
 	

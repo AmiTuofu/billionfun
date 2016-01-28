@@ -10,7 +10,7 @@ import com.billionfun.bms.product.mall.model.SysUser;
 
 
 @Repository
-public class SysUserDaoImpl extends BaseDaoImpl<SysUser,Long> implements SysUserDao {
+public class SysUserDaoImpl extends BaseDaoImpl<SysUser,String> implements SysUserDao {
 
 	/**
 	 * 

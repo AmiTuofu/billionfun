@@ -3,9 +3,9 @@ package com.billionfun.bms.product.mall.service;
 import java.util.List;
 
 import com.billionfun.bms.product.mall.model.SysUser;
-import com.billionfun.bms.product.mall.vo.SysFuncVO;
+import com.billionfun.bms.product.mall.vo.SysUserVO;
 
-public interface SysUserService extends BaseService<SysUser,Long>{
+public interface SysUserService extends BaseService<SysUser,SysUserVO,String>{
 
 	
 	public SysUser loadUser(String username);
