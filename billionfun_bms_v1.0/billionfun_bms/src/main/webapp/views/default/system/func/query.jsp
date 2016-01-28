@@ -26,10 +26,10 @@
 						<div class="page-content">
 						<div class="page-header">
 							<h1>
-								jqGrid
+								功能菜单管理
 								<small>
 									<i class="icon-double-angle-right"></i>
-									Dynamic tables and grids using jqGrid plugin
+									查看
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -37,15 +37,6 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-
-								<div class="alert alert-info">
-									<i class="icon-hand-right"></i>
-
-									Please note that demo server is not configured to save the changes, therefore you may get an error message.
-									<button class="close" data-dismiss="alert">
-										<i class="icon-remove"></i>
-									</button>
-								</div>
 
 								<table id="grid-table"></table>
 

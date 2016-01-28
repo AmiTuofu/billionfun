@@ -12,7 +12,7 @@ $().ready(function () {
 	    },
 	    search: true,
 	    mtype:"POST",
-		url: "http://localhost:8080/billionfun_bms/system/func/query.json",
+		url: ctx+"/system/func/query.json",
 		datatype: "json",
 		prmNames:{
 			page:"page",
@@ -57,7 +57,7 @@ $().ready(function () {
 			var table = this;
 			pagerIcons();
 		},
-		editurl: "http://localhost:8080/billionfun_bms/system/func/modify.json",//nothing is saved定义对form编辑时的url
+		editurl: ctx+"/system/func/modify.json",//nothing is saved定义对form编辑时的url
 		caption: "功能菜单查询",//表格名称
 		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
 
@@ -99,7 +99,7 @@ $().ready(function () {
 				form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 				style_edit_form(form);
 				$("#grid-table").jqGrid('setGridParam',{ 
-					editurl: "http://localhost:8080/billionfun_bms/system/func/add.json"
+					editurl: ctx+"/system/func/add.json"
 			    }); 
 			}
 		},
@@ -201,7 +201,7 @@ $().ready(function () {
 	
 	function beforeDeleteCallback(e) {
 		$("#grid-table").jqGrid('setGridParam',{ 
-			editurl: "http://localhost:8080/billionfun_bms/system/func/delete.json"
+			editurl: ctx+"/system/func/delete.json"
 	    }); 
 		var form = $(e[0]);
 		if(form.data('styled')) return false;
@@ -215,7 +215,7 @@ $().ready(function () {
 	
 	function beforeEditCallback(e) {
 		$("#grid-table").jqGrid('setGridParam',{ 
-			editurl: "http://localhost:8080/billionfun_bms/system/func/modify.json"
+			editurl: ctx+"/system/func/modify.json"
 	    }); 
 		var form = $(e[0]);
 		

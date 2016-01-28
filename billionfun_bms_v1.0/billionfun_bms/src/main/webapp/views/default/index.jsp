@@ -5,7 +5,7 @@
 					<div class="page-content">
 						<div class="page-header">
 							<h1>
-								控制台11
+								控制台
 								<small>
 									<i class="icon-double-angle-right"></i>
 									 查看

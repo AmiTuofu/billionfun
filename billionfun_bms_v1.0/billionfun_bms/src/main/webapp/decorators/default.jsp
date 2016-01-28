@@ -37,7 +37,7 @@
 								<i class="icon-home home-icon"></i>
 								<a href="#">首页</a>
 							</li>
-							<li class="active">控制台</li>
+							<li class="active" id="li_breadcrumbs">控制台</li>
 						</ul><!-- .breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
