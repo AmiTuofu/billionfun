@@ -4,23 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<title>jquery网格插件 - Bootstrap后台管理系统模版Ace下载</title>
-		<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
-		<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
+		<title>功能菜单管理</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="${ctx}/views/default/assets/css/jquery-ui-1.10.3.full.min.css" />
 		<link rel="stylesheet" href="${ctx}/views/default/assets/css/datepicker.css" />
 		<link rel="stylesheet" href="${ctx}/views/default/assets/css/ui.jqgrid.css" />
-		<style type="text/css">
-		body {
-		    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-		    font-size: 14px;
-		    line-height: 1.42857;
-		    color: #333;
-		}
-		</style>
 	</head>
 	<body>
 						<div class="page-content">

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/includes/taglib.jsp"%>
+<html>	
+	<head>
+		<title>控制台</title>
+	</head>
 	<body>
 					<div class="page-content">
 						<div class="page-header">
@@ -1357,5 +1361,5 @@
 		
 	<!-- <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div> -->
 </body>
-
+</html>
 

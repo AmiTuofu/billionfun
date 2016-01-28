@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title><sitemesh:title/>-北京小焙科技有限公司</title>
 		<sitemesh:head/>  
  <%@ include file="/views/default/include/head-import.jsp"%>
 	</head>
