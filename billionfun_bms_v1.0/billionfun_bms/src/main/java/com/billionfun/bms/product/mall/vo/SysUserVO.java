@@ -1,7 +1,15 @@
 package com.billionfun.bms.product.mall.vo;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.billionfun.bms.product.mall.common.utils.JsonDateSerializer;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class SysUserVO extends PageUtil<SysUser>{
 	private String id;
@@ -10,8 +18,10 @@ public class SysUserVO extends PageUtil<SysUser>{
 	private String email;
 	private String telephone;
 	private String mobile;
-	private String createDate;
-	private String status;
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JSONField (format="yyyy-MM-dd HH:mm:ss") 
+	private Date createDate;
+	private Integer status;
 	public String getId() {
 		return id;
 	}
@@ -48,16 +58,17 @@ public class SysUserVO extends PageUtil<SysUser>{
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public String getCreateDate() {
+	
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	

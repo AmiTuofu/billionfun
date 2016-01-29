@@ -45,7 +45,7 @@ public class SysRoleController extends BaseController{
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,SysRoleVO vo){
-		roleService.delete(vo.getId(),SysRole.class);
+		roleService.delete(vo.getId());
 		return "system/role/delete";
 	}
 }

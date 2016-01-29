@@ -1,5 +1,6 @@
 package com.billionfun.bms.product.mall.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -31,7 +32,7 @@ public class SysUserController extends BaseController{
 	
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap,SysUserVO vo){
-		SysUser user = new SysUser();
+		SysUser user = userService.get(vo.getId());
 		BeanUtils.copyProperties(vo, user);
 		userService.update(user);
 		return "system/user/modify";
@@ -41,6 +42,7 @@ public class SysUserController extends BaseController{
 	public String add(ModelMap modelMap,SysUserVO vo){
 		SysUser user = new SysUser();
 		BeanUtils.copyProperties(vo, user);
+		user.setCreateDate(new Date());
 		userService.save(user);
 		return "system/user/add";
 	}

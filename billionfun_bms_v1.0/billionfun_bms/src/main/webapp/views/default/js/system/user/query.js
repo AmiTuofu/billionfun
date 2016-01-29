@@ -25,7 +25,8 @@ $().ready(function () {
 		},
 //		postData:{"name":"1212312"},
 		height: "400",
-		colNames:['','id','username','fullName', 'email','telephone','mobile','createDate','status'],
+//		editable:true,
+		colNames:['','id','用户名','昵称', '邮箱','电话','手机','创建时间','状态'],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
@@ -33,17 +34,17 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}//是否是行编辑，还是列编辑
 				}
 			},
-			{name:'id',index:'id', width:50,search:true, editable: true},
+			{name:'id',index:'id', width:50,search:true, editable: false},
 			{name:'username',index:'username',width:50,search:true, editable:true},
 			{name:'fullName',index:'fullName', width:50,search:true,editable: true},
-			{name:'email',index:'email', width:50,search:true, editable: true},
+			{name:'email',index:'email', width:80,search:true, editable: true,editrules:{required:true,email:true}},
 			{name:'telephone',index:'telephone', width:50,search:true, editable: true},
-			{name:'mobile',index:'mobile',width:50,search:true, editable:true},
-			{name:'createDate',index:'createDate', width:50,search:true,editable: true},
-			{name:'status',index:'status', width:50,search:true, editable: true},
+			{name:'mobile',index:'mobile',width:50,search:true, editable:true,editrules:{required:true}},
+			{name:'createDate',index:'createDate', width:80,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
+			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"}},
 		], 
 
 		viewrecords : true,//定义是否要显示总记录数
@@ -168,7 +169,8 @@ $().ready(function () {
 		form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
 			.end().find('input[name=stock]')
 				  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-
+//		form.find('input[type=text]').datepicker({format:'yyyy-mm-dd' , autoclose:true});
+//		form.find('input[type=checkbox]').wrap('<label class="inline" />').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
 		//update buttons classes
 		var buttons = form.next().find('.EditButton .fm-button');
 		buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
@@ -221,10 +223,9 @@ $().ready(function () {
 			editurl: ctx+"/system/user/modify.json"
 	    }); 
 		var form = $(e[0]);
-		
 		form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 		style_edit_form(form);
-
+//		$("#createDate").datepicker({format:'yyyy-mm-dd' , autoclose:true});
 	}
 
 
@@ -272,4 +273,18 @@ $().ready(function () {
 	}
 
 	//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+	function aceSwitch( cellvalue, options, cell ) {
+//		setTimeout(function(){
+			$(cell) .find('input[type=checkbox]')
+					.wrap('<label class="inline" />')
+				.addClass('ace ace-switch ace-switch-5')
+				.after('<span class="lbl"></span>');
+//		}, 0);
+	}
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+//		setTimeout(function(){
+		$(cell).find('input[type=text]').datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+//		}, 0);
+	}
 });

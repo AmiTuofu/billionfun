@@ -46,7 +46,7 @@ public abstract  class BaseServiceImpl<T,V extends PageUtil<T>,P extends Seriali
 		sign = true;
 		return sign;
 	}
-	public boolean delete(P p,Class<T> t){
+	public boolean delete(P p){
 		boolean sign = false;
 		if(p != null){
 			String[] ids = ((String)p).split(",");
@@ -88,5 +88,33 @@ public abstract  class BaseServiceImpl<T,V extends PageUtil<T>,P extends Seriali
 			}
 		}
 		return listVo;
+	}
+	
+	public boolean update(T t,P p){
+		boolean sign = false;
+		T target = get(p);
+		BeanUtils.copyProperties(t, target);
+		update(target);
+		sign = true;
+		return sign;
+	}
+	
+	public T get(P p,Class<T> cls){
+		T t = baseDao.get(p, cls);
+		return t;
+	}
+	public  boolean delete(P p,Class<T> cls){
+		boolean sign = false;
+		baseDao.delete(p, cls);
+		sign = true;
+		return sign;
+	}
+	public boolean update(P p,Class<T> cls,T t){
+		boolean sign = false;
+		T target = get(p,cls);
+		BeanUtils.copyProperties(t, target);
+		update(target);
+		sign = true;
+		return sign;
 	}
 }

@@ -25,7 +25,7 @@ $().ready(function () {
 		},
 //		postData:{"name":"1212312"},
 		height: "400",
-		colNames:['','id','name','parentId', 'styleClass', 'url',],
+		colNames:['','id','名称','父Id', '样式', '链接',],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序

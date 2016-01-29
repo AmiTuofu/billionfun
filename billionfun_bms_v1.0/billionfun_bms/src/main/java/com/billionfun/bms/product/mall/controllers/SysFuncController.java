@@ -49,7 +49,7 @@ public class SysFuncController extends BaseController {
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,SysFuncVO vo){
-		funcService.delete(vo.getId(),SysFunc.class);
+		funcService.delete(vo.getId());
 		return "system/func/delete";
 	}
 }

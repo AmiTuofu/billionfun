@@ -65,6 +65,11 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		delete(get(id));
 	}
 	
+	public void delete(P id,Class<T> cls){
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(get(id, cls));
+	}
+	
 	public T findById(P id) {
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -119,6 +124,11 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 	public T get(P id){
 		Session session = getCurrentSession();
 		return (T)session.get(entityClass, id);
+	}
+	
+	public T get(P id,Class cls){
+		Session session = getCurrentSession();
+		return (T)session.get(cls, id);
 	}
 	
 	public List<T> getList(final String hql,final List<String> paramList){
