@@ -1,3 +1,4 @@
+//主从，3.5树表格实例，树模型添加数据
 $().ready(function () {
 	$("#grid-table").jqGrid({
 	    jsonReader:{
@@ -44,9 +45,11 @@ $().ready(function () {
 			{name:'telephone',index:'telephone', width:50,search:true, editable: true},
 			{name:'mobile',index:'mobile',width:50,search:true, editable:true,editrules:{required:true}},
 			{name:'createDate',index:'createDate', width:80,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
-			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"}},
+			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
-
+		subGrid:true, 
+		subGridUrl:ctx+"/system/role/query.json", 
+		subGridModel:[{name:[ 'id', 'name', 'code', 'status' ],width: [ 55, 200, 80, 80, ], params:[ 'invdate' ]}],
 		viewrecords : true,//定义是否要显示总记录数
 		rowNum:10,//在grid上显示记录条数，这个参数是要被传递到后台
 		rowList:[10,20,30],//一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
