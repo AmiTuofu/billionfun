@@ -27,6 +27,16 @@ public class SysRoleController extends BaseController{
 		return "system/role/query";
 	}
 	
+	@RequestMapping("/search")
+	public String search(ModelMap modelMap,SysRoleVO vo){
+		List<SysRoleVO> roleVOs = roleService.search(vo);
+		modelMap.put("list", roleVOs);
+		modelMap.put("page", vo.getPage());
+		modelMap.put("total", vo.getTotal());
+		modelMap.put("records", vo.getRecords());
+		return "system/role/query";
+	}
+	
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap,SysRoleVO vo){
 		SysRole role = new SysRole();

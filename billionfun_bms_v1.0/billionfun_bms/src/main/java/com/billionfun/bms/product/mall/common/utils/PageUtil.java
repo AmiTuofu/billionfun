@@ -29,6 +29,7 @@ public class PageUtil<T> {
 	private String order;			//排序
 	private boolean search;			//搜索
 	private String oper;			//操作
+	private String alias; //表的别名
 	private List<T> list;
 	private String filters;			//搜索参数
 	private SearchFilter searchFilter;
@@ -41,7 +42,7 @@ public class PageUtil<T> {
 		if(searchFilter!=null){
 			for(Rule rule : searchFilter.getRules()){
 				if(rule.getOp().equals("eq")){
-					hql.append(" and ").append(rule.getField()).append(" = ?");
+					hql.append(" and ").append(StringUtil.empty(alias)?"":alias+".").append(rule.getField()).append(" = ?");
 					paramList.add(rule.getData());
 				}
 				if(rule.getOp().equals("cn")){
@@ -222,5 +223,13 @@ public class PageUtil<T> {
 
 	public void setSearchFilter(SearchFilter searchFilter) {
 		this.searchFilter = searchFilter;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 }

@@ -24,7 +24,7 @@ $().ready(function () {
 	        search:"search"
 		},
 //		postData:{"name":"1212312"},
-		height: "400",
+		height: "100%",
 		colNames:['','id','名称','编码', '状态',],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,

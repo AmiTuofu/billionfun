@@ -11,6 +11,8 @@ public class SysRoleVO extends PageUtil<SysRole>{
 	private String name;
 
 	private int status;
+	
+	private String userId;
 
 	public String getId() {
 		return id;
@@ -43,5 +45,12 @@ public class SysRoleVO extends PageUtil<SysRole>{
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 }

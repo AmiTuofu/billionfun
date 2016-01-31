@@ -25,7 +25,7 @@ $().ready(function () {
 	        search:"search"
 		},
 //		postData:{"name":"1212312"},
-		height: "400",
+		height: "100%",
 //		editable:true,
 		colNames:['','id','用户名','昵称', '邮箱','电话','手机','创建时间','状态'],
 		colModel:[
@@ -47,9 +47,32 @@ $().ready(function () {
 			{name:'createDate',index:'createDate', width:80,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
 			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
-		subGrid:true, 
-		subGridUrl:ctx+"/system/role/query.json", 
-		subGridModel:[{name:[ 'id', 'name', 'code', 'status' ],width: [ 55, 200, 80, 80, ], params:[ 'invdate' ]}],
+		onSelectRow: function(ids) {
+		    if (ids == null) {
+		        ids = 0;
+		        if (jQuery("#roles-grid-table").jqGrid('getGridParam', 'records') > 0) {
+		            jQuery("#roles-grid-table").jqGrid('setGridParam', {
+		            	url: ctx+"/system/role/search.json?userId="+ids,
+		                page: 1
+		            }).trigger('reloadGrid');
+//		            jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
+		        }
+		    } else {
+		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"userId\",\"op\":\"eq\",\"data\":\"10\"}]}";
+		        jQuery("#roles-grid-table").jqGrid('setGridParam', {
+		  //      	url: ctx+"/system/role/search.json?userId="+ids,
+		        	url: ctx+"/system/role/query.json",
+		        	postData:{
+		        		filters:filters,
+		        	},
+		            page: 1
+		        }).trigger('reloadGrid');
+//		        jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
+		    }
+		},
+//		subGrid:true, 
+//		subGridUrl:ctx+"/system/role/query.json", 
+//		subGridModel:[{name:[ 'id', 'name', 'code', 'status' ],width: [ 55, 200, 80, 80, ], params:[ 'invdate' ]}],
 		viewrecords : true,//定义是否要显示总记录数
 		rowNum:10,//在grid上显示记录条数，这个参数是要被传递到后台
 		rowList:[10,20,30],//一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
@@ -65,11 +88,79 @@ $().ready(function () {
 			pagerIcons();
 		},
 		editurl: ctx+"/system/user/modify.json",//nothing is saved定义对form编辑时的url
-		caption: "功能菜单查询",//表格名称
+		caption: "用户查询",//表格名称
 		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
+		
 
 	});
+	
+	$("#roles-grid-table").jqGrid({
+	    jsonReader:{
+	         root:"list",
+	         page: "page",
+	         total: "total",
+	         records: "records",
+		     order: "order",
+		     sort: "sort",
+	//	     search:"_search",
+		     repeatitems: false
+	    },
+	    search: true,
+	    mtype:"POST",
+		url: ctx+"/system/role/query.json?userId=0",
+		datatype: "json",
+		prmNames:{
+			page:"page",
+			rows:"rows",
+			total: "total",
+	        records: "records",
+	        order: "order",
+	        sort: "sort",
+	        search:"search",
+		},
+//		postData:{"name":"1212312"},
+		height: "100%",
+		colNames:['','id','名称','编码', '状态',],
+		colModel:[
+		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
+			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
+				formatter:'actions', 
+				formatoptions:{ 
+					keys:true,
+					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+				}
+			},
+			{name:'id',index:'id', width:50,search:true, editable: true},
+			{name:'name',index:'name',width:90,search:true, editable:true},
+			{name:'code',index:'code', width:50,search:true,editable: true},
+			{name:'status',index:'status', width:70,search:true, editable: true},
+		], 
 
+		viewrecords : true,//定义是否要显示总记录数
+		rowNum:10,//在grid上显示记录条数，这个参数是要被传递到后台
+		rowList:[10,20,30],//一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
+		pager : "#roles-grid-pager",//定义翻页用的导航栏，必须是有效的html元素。翻页工具栏可以放置在html页面任意位置
+		altRows: true,//设置表格 zebra-striped 值
+		//toppager: true,
+		
+		multiselect: true,//定义是否可以多选
+		//multikey: "ctrlKey",
+       multiboxonly: true,//只有当multiselect = true.起作用，当multiboxonly 为ture时只有选择checkbox才会起作用
+		loadComplete : function() {//当从服务器返回响应时执行，xhr：XMLHttpRequest 对象
+			var table = this;
+			pagerIcons();
+		},
+		editurl: ctx+"/system/role/modify.json",//nothing is saved定义对form编辑时的url
+		caption: "角色查询",//表格名称
+		width:"80%",
+		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
+
+	}).navGrid('#roles-grid-pager', {
+	    add: false,
+	    edit: false,
+	    del: false
+	});
 
 	//navButtons
 	$("#grid-table").jqGrid('navGrid',"#grid-pager",
