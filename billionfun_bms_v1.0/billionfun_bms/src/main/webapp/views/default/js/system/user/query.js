@@ -58,13 +58,13 @@ $().ready(function () {
 //		            jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
 		        }
 		    } else {
-		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"userId\",\"op\":\"eq\",\"data\":\"10\"}]}";
+//		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"id.userId\",\"op\":\"eq\",\"data\":\""+ids+"\"}]}";
 		        jQuery("#roles-grid-table").jqGrid('setGridParam', {
 		  //      	url: ctx+"/system/role/search.json?userId="+ids,
-		        	url: ctx+"/system/role/query.json",
-		        	postData:{
-		        		filters:filters,
-		        	},
+		        	url: ctx+"/system/role/search.json?userId="+ids,
+//		        	postData:{
+//		        		filters:filters,
+//		        	},
 		            page: 1
 		        }).trigger('reloadGrid');
 //		        jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
@@ -107,7 +107,7 @@ $().ready(function () {
 	    },
 	    search: true,
 	    mtype:"POST",
-		url: ctx+"/system/role/query.json?userId=0",
+		url: ctx+"/system/role/search.json?userId=0",
 		datatype: "json",
 		prmNames:{
 			page:"page",
