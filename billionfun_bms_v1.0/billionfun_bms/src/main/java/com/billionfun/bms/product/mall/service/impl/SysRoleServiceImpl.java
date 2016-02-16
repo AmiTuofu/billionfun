@@ -32,4 +32,17 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole,SysRoleVO, Strin
 		return listVo;
 	}
 
+	public List<SysRoleVO> getAll(){
+		List<SysRole> list = roleDao.findAll("from SysRole");
+		List<SysRoleVO> listVo = new ArrayList<SysRoleVO>();
+		if(!StringUtil.empty(list)){
+			for (SysRole ref : list) {
+				SysRoleVO voRef = new SysRoleVO();
+				BeanUtils.copyProperties(ref, voRef);
+				listVo.add(voRef);
+				
+			}
+		}
+		return listVo;
+	}
 }

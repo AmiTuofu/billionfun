@@ -5,7 +5,7 @@ import com.billionfun.bms.product.mall.model.SysFunc;
 
 public class SysFuncVO extends PageUtil<SysFunc>{
 	private String id;
-	private String level;
+	private Integer level;
 	private String name;
 	private String imgUrl;
 	private String parentId;
@@ -13,16 +13,18 @@ public class SysFuncVO extends PageUtil<SysFunc>{
 	private String type;
 	private String url;
 	private String styleClass;
+	private boolean isLeaf;
+	private boolean expanded;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
-	public void setLevel(String level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 	public String getName() {
@@ -67,5 +69,16 @@ public class SysFuncVO extends PageUtil<SysFunc>{
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-	
+	public boolean getIsLeaf() {
+		return isLeaf;
+	}
+	public void setIsLeaf(boolean isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+	public boolean getExpanded() {
+		return expanded;
+	}
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
+	}
 }

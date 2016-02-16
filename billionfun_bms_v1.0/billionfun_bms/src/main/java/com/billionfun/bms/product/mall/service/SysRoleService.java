@@ -7,4 +7,6 @@ import com.billionfun.bms.product.mall.vo.SysRoleVO;
 
 public interface SysRoleService extends BaseService<SysRole,SysRoleVO,String>{
 	List<SysRoleVO> search(SysRoleVO vo);
+	
+	List<SysRoleVO> getAll();
 }

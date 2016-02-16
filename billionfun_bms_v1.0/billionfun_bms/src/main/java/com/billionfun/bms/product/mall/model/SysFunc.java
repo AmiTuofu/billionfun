@@ -51,6 +51,11 @@ public class SysFunc implements Serializable {
 	
 	@Column(name="style_class")
 	private String styleClass;
+	
+	@Column(name="is_leaf")
+	private boolean isLeaf;
+	
+	private boolean expanded;
 
 	@JsonIgnoreProperties
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -151,4 +156,21 @@ public class SysFunc implements Serializable {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
+
+	public boolean getIsLeaf() {
+		return isLeaf;
+	}
+
+	public void setIsLeaf(boolean isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+
+	public boolean getExpanded() {
+		return expanded;
+	}
+
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
+	}
+	
 }

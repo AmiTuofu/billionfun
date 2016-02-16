@@ -57,7 +57,7 @@ $().ready(function () {
 			pagerIcons();
 		},
 		editurl: ctx+"/system/role/modify.json",//nothing is saved定义对form编辑时的url
-		caption: "功能菜单查询",//表格名称
+		caption: "角色查询",//表格名称
 		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
 
 	});
@@ -268,4 +268,69 @@ $().ready(function () {
 	}
 
 	//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+	
+	$("#jsonmap").jqGrid({   
+	    treeGrid: true,  
+	    treeGridModel: 'adjacency', //treeGrid模式，跟json元数据有关  
+	    ExpandColumn : 'name',       
+	    scroll: "true",  
+	    url: ctx+"/system/func/query.json",  
+	    datatype: 'json',      
+	    loadComplete:function(){
+	    	var params = "97";
+	    	$("#funcIds"+params).attr("checked","checked");
+	    },
+	    colNames:["<input type=checkbox name=funcIds id='funcIds_all'/>",'id','名称', '样式', '链接'],      
+	    colModel:[      
+	        {name:'',index:'',search:false, sortable:false,width:30,formatter:function(cellvalue, options, row){
+	        	return "<input type=checkbox name=funcIds id=funcIds"+row.id+" />";
+	        }},
+	        {name:'id',index:'id', width:90,sorttype:"int"},      
+	        {name:'name',index:'name', width:210,sorttype:"int"},      
+	        {name:'styleClass',index:'styleClass', width:300},        
+	        {name:'url',index:'url', width:280},       
+	     ],  
+	    multiselect: true,
+	    treeIcons:{
+	    	plus:'icon-plus',
+	    	minus:'icon-minus',
+	    	leaf:'icon-leaf'
+	    },
+	    pager: "false",    
+	    sortname: 'id',      
+	    sortorder: "desc",   
+	        
+	    jsonReader: {      
+	      root: "list",    
+	      repeatitems : false      
+	    },      
+	    treeReader : {  
+	      level_field: "level",  
+	      parent_id_field: "parentId",   
+	      leaf_field: "isLeaf",  
+	      expanded_field: "expanded"  
+	    },  
+	    caption: "功能菜单查询",     
+	    mtype: "POST",  
+	    height: "auto",    // 设为具体数值则会根据实际记录数出现垂直滚动条  
+	    rowNum : "-1",     // 显示全部记录  
+	    shrinkToFit:false,  // 控制水平滚动条  
+	    autowidth: true
+	 }); 
+	
+	$("#funcIds_all").click(function(){
+		$("#funcIds_all").attr("checked","checked");
+		selectAll("funcIds");
+	});
+	function selectAll(name){
+		var sign = false;
+		$("input[name='"+name+"']").each(function(){
+			if($(this).attr("checked")){
+					
+			}else{
+				sign = true;
+			}
+		});
+		$("input[name='"+name+"']").attr("checked",sign);
+	}
 });

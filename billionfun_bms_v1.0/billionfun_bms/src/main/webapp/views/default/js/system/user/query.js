@@ -8,6 +8,7 @@ $().ready(function () {
 	         records: "records",
 		     order: "order",
 		     sort: "sort",
+		     userdata:"userdata",
 	//	     search:"_search",
 		     repeatitems: false
 	    },
@@ -27,25 +28,56 @@ $().ready(function () {
 //		postData:{"name":"1212312"},
 		height: "100%",
 //		editable:true,
-		colNames:['','id','用户名','昵称', '邮箱','电话','手机','创建时间','状态'],
+		colNames:['','id','用户名','昵称', '邮箱','电话','手机',"所属角色",'创建时间','状态'],
 		colModel:[
-		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
+		    {name:'myac',index:'', width:70, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
 				formatter:'actions', 
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}//是否是行编辑，还是列编辑
+					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback,beforeSubmit:function(postData, formid){
+						var roles_check = $("input:checkbox[name='roleIds']:checked").map(function(index,elem) {
+							return $(elem).val();
+						}).get().join(',');
+						var editData = {  
+			                    "roleIds":roles_check
+			            };  
+			            postData = $.extend(postData, editData); 
+						return[true,"success"];
+					}}//是否是行编辑，还是列编辑
 				}
 			},
-			{name:'id',index:'id', width:50,search:true, editable: false},
+			{name:'id',index:'id', width:20,search:true, editable: false},
 			{name:'username',index:'username',width:50,search:true, editable:true},
 			{name:'fullName',index:'fullName', width:50,search:true,editable: true},
 			{name:'email',index:'email', width:80,search:true, editable: true,editrules:{required:true,email:true}},
 			{name:'telephone',index:'telephone', width:50,search:true, editable: true},
 			{name:'mobile',index:'mobile',width:50,search:true, editable:true,editrules:{required:true}},
-			{name:'createDate',index:'createDate', width:80,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
+			{name:'roleIds',index:'roleIds', width:40, editable: true,
+				formatter:
+				function(cellvalue, options, row){
+					if(cellvalue==""){
+						return "";
+					}
+					var all_roles=$("#grid-table").jqGrid('getGridParam', 'userData');
+					var have_role = cellvalue.split(",");
+					var return_value = "";
+					for(var i = 0;i<all_roles.length;i++){
+						var role = all_roles[i];
+						for(var j = 0;j<have_role.length;j++){
+							if(have_role[j] == role.id){
+								return_value = return_value+role.name+"\n"+"";
+							}
+						}
+						
+					}
+					return return_value;
+				}
+			},
+			{name:'createDate',index:'createDate', width:70,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
 			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
+			
 		], 
 		onSelectRow: function(ids) {
 		    if (ids == null) {
@@ -184,16 +216,38 @@ $().ready(function () {
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				beforeEditCallback(e);
-				
-			}
+			},
+			beforeSubmit:function(postData, formid){
+				var roles_check = $("input:checkbox[name='roleIds']:checked").map(function(index,elem) {
+					return $(elem).val();
+				}).get().join(',');
+				var editData = {  
+	                    "roleIds":roles_check
+	            };  
+	            postData = $.extend(postData, editData); 
+				return[true,"success"];
+			},
 		},
 		{
 			//new record form
 			closeAfterAdd: true,
 			recreateForm: true,
 			viewPagerButtons: false,
+			beforeSubmit:function(postData, formid){
+				var roles_check = $("input:checkbox[name='roleIds']:checked").map(function(index,elem) {
+					return $(elem).val();
+				}).get().join(',');
+				var editData = {  
+	                    "roleIds":roles_check
+	            };  
+	            postData = $.extend(postData, editData); 
+				return[true,"success"];
+			},
 			beforeShowForm : function(e) {
 				var form = $(e[0]);
+				var roleIds_td = $("#tr_roleIds").find(".DataTD");
+				//提交表单，必须加上class='FormElement'
+				roleIds_td.html(initAllRole());
 				form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 				style_edit_form(form);
 				$("#grid-table").jqGrid('setGridParam',{ 
@@ -317,6 +371,31 @@ $().ready(function () {
 			editurl: ctx+"/system/user/modify.json"
 	    }); 
 		var form = $(e[0]);
+		var roleIds = $("#roleIds").val();
+		var gr = jQuery("#grid-table").jqGrid('getGridParam', 'selrow');
+		var dr= jQuery("#grid-table").jqGrid('getRowData',gr);
+		var role_arr = dr.roleIds.split("\n");
+		var roleIds_td = $("#tr_roleIds").find(".DataTD");
+		var all_roles=$("#grid-table").jqGrid('getGridParam', 'userData');
+		var return_value = "";
+		for(var i = 0;i<all_roles.length;i++){
+			var role = all_roles[i];
+			var sign = false;
+			for(j=0;j<role_arr.length;j++){
+				if(role_arr[j]==role.name){
+					sign = true;
+					break;
+				}
+			}
+			if(sign){
+				return_value = return_value+"<input type='checkbox' name='roleIds' class='FormElement' checked value='"+role.id+"'/>"+role.name+"";
+			}else{
+				return_value = return_value+"<input type='checkbox' name='roleIds' class='FormElement'  value='"+role.id+"'/>"+role.name+"";
+			}
+			
+		}
+		roleIds_td.html(return_value);
+		
 		form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 		style_edit_form(form);
 //		$("#createDate").datepicker({format:'yyyy-mm-dd' , autoclose:true});
@@ -380,5 +459,15 @@ $().ready(function () {
 //		setTimeout(function(){
 		$(cell).find('input[type=text]').datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 //		}, 0);
+	}
+	
+	function initAllRole(){
+		var all_roles=$("#grid-table").jqGrid('getGridParam', 'userData');
+		var return_value = "";
+		for(var i = 0;i<all_roles.length;i++){
+			var role = all_roles[i];
+			return_value = return_value+"<input type='checkbox' class='FormElement' name='roleIds' value='"+role.id+"'/>"+role.name+"";
+		}
+		return return_value;
 	}
 });

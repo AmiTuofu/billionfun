@@ -1,18 +1,24 @@
 package com.billionfun.bms.product.mall.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.dao.SysUserDao;
 import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.model.SysRole;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.model.SysUserRole;
+import com.billionfun.bms.product.mall.model.SysUserRolePK;
 import com.billionfun.bms.product.mall.service.SysUserService;
 import com.billionfun.bms.product.mall.vo.SysUserVO;
 
@@ -25,7 +31,33 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 	@Autowired
 	private SysFuncDao funcDao;
 
-
+	public List<SysUserVO> query(SysUserVO vo){
+		List<SysUser> list = baseDao.getListByPage(vo);
+		List<SysUserVO> listVo = new ArrayList<SysUserVO>();
+		if(!StringUtil.empty(list)){
+			for (SysUser ref : list) {
+				try {
+					List<SysRole> roles = ref.getListRoles();
+					String roleIds = "";
+					String[] temp = new String[]{};
+					for (int i = 0; i < roles.size(); i++) {
+						SysRole role = roles.get(i);
+						roleIds = roleIds + role.getId() +",";
+					}
+					
+					SysUserVO voRef =new SysUserVO();
+					BeanUtils.copyProperties(ref, voRef);
+					voRef.setRoleIds(roleIds);
+					listVo.add(voRef);
+				} catch (BeansException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return listVo;
+	}
+	
 	public List findAll() {
 		return userDao.findAll("from SysUser");
 	}
@@ -95,5 +127,51 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 			}
 		}
 		return list;
+	}
+	
+	public boolean save(SysUserVO vo){
+		boolean sign = false;
+		SysUser user = new SysUser();
+		BeanUtils.copyProperties(vo, user);
+		user.setCreateDate(new Date());
+		userDao.save(user);
+		if(!StringUtil.empty(vo.getRoleIds())){
+			String[] roleId_arr = vo.getRoleIds().split(",");
+			userDao.deleteByHql("delete from SysUserRole where id.userId ="+user.getId());
+			for (int i = 0; i < roleId_arr.length; i++) {
+				String roleId = roleId_arr[i];
+				SysUserRole userRole = new SysUserRole();
+				SysUserRolePK pk = new SysUserRolePK();
+				pk.setRoleId(roleId);
+				pk.setUserId(user.getId());
+				userRole.setId(pk);
+				userDao.saveObject(userRole);
+			}
+		}
+		sign = true;
+		return sign;
+	}
+	
+	public boolean update(SysUserVO vo){
+		boolean sign = false;
+		SysUser user = new SysUser();
+		BeanUtils.copyProperties(vo, user);
+		BeanUtils.copyProperties(user,userDao.get(vo.getId()));
+		userDao.merge(user);
+		if(!StringUtil.empty(vo.getRoleIds())){
+			String[] roleId_arr = vo.getRoleIds().split(",");
+			userDao.deleteByHql("delete from SysUserRole where id.userId="+user.getId());
+			for (int i = 0; i < roleId_arr.length; i++) {
+				String roleId = roleId_arr[i];
+				SysUserRole userRole = new SysUserRole();
+				SysUserRolePK pk = new SysUserRolePK();
+				pk.setRoleId(roleId);
+				pk.setUserId(user.getId());
+				userRole.setId(pk);
+				userDao.saveObject(userRole);
+			}
+		}
+		sign = true;
+		return sign;
 	}
 }

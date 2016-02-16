@@ -13,4 +13,10 @@ public interface SysUserService extends BaseService<SysUser,SysUserVO,String>{
 	public boolean isExsit(String username,String email,String mobile);
 	
 	public List findAll();
+	
+	public boolean save(SysUserVO user);
+	
+	public boolean update(SysUserVO user);
+	
+	public List<SysUserVO> query(SysUserVO vo);
 }

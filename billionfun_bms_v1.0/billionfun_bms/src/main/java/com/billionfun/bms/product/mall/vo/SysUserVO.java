@@ -22,6 +22,7 @@ public class SysUserVO extends PageUtil<SysUser>{
 	@JSONField (format="yyyy-MM-dd HH:mm:ss") 
 	private Date createDate;
 	private Integer status;
+	private String roleIds;
 	public String getId() {
 		return id;
 	}
@@ -70,6 +71,12 @@ public class SysUserVO extends PageUtil<SysUser>{
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public String getRoleIds() {
+		return roleIds;
+	}
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
 	}
 	
 }

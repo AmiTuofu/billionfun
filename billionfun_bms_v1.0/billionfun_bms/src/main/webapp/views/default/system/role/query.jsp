@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>功能菜单管理</title>
+		<title>角色管理</title>
 		<meta name="keywords" content="" />
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +28,7 @@
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
-
+								<table id="jsonmap"></table>
 								<script type="text/javascript">
 									var $path_base = "/";//this will be used in gritter alerts containing images
 								</script>

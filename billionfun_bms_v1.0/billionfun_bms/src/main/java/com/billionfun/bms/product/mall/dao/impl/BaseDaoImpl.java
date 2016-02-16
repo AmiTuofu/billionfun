@@ -35,7 +35,6 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
             Type[] p = ((ParameterizedType)t).getActualTypeArguments();
             entityClass = (Class<T>)p[0];
         }
-     
 	}
 	
 	private Session getCurrentSession(){
@@ -46,6 +45,10 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		getCurrentSession().save(t);
 	}
 	
+	public void saveObject (Object o){
+		getCurrentSession().save(o);
+	}
+	
 	public void saveOrUpdate(T t){
 		getCurrentSession().saveOrUpdate(t);
 	}
@@ -53,6 +56,11 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 	public void update(T t) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(t);
+	}
+	
+	public void merge(T t){
+		Session session = sessionFactory.getCurrentSession();
+		session.merge(t);
 	}
 	
 	public void delete(T t) {
@@ -68,6 +76,11 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 	public void delete(P id,Class<T> cls){
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(get(id, cls));
+	}
+	
+	public void deleteByHql(String hql){
+		Session session = getCurrentSession();
+		session.createQuery(hql).executeUpdate();
 	}
 	
 	public T findById(P id) {
