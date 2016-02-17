@@ -11,6 +11,7 @@ import com.billionfun.bms.product.mall.common.utils.Rule;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.model.SysFunc;
+import com.billionfun.bms.product.mall.model.SysRole;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
 @Repository
@@ -45,4 +46,13 @@ public class SysFuncDaoImpl extends BaseDaoImpl<SysFunc,String> implements SysFu
 		return list;
 	}
 
+	public List<SysFunc> getListByRoleId(String roleId){
+		StringBuilder hql = new StringBuilder();
+		List<String> paramList = new ArrayList<String>();
+		hql.append("select f from SysFunc f,SysRoleFunc rf");
+		hql.append(" where f.id = rf.id.funcId and rf.id.roleId = ?");
+		paramList.add(roleId);
+		List<SysFunc> list = super.getList(hql.toString(),paramList);
+		return list;
+	}
 }

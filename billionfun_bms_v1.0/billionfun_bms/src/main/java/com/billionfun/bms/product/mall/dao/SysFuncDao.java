@@ -10,4 +10,6 @@ public interface SysFuncDao extends BaseDao<SysFunc,String> {
 	
 	public List<SysFunc> getListByPage(SysFuncVO funcVo);
 	
+	public List<SysFunc> getListByRoleId(String roleId);
+	
 }

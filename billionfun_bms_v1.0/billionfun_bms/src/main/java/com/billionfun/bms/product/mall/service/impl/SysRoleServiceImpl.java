@@ -10,7 +10,13 @@ import org.springframework.stereotype.Service;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysRoleDao;
 import com.billionfun.bms.product.mall.model.SysRole;
+import com.billionfun.bms.product.mall.model.SysRoleFunc;
+import com.billionfun.bms.product.mall.model.SysRoleFuncPK;
+import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.model.SysUserRole;
+import com.billionfun.bms.product.mall.model.SysUserRolePK;
 import com.billionfun.bms.product.mall.service.SysRoleService;
+import com.billionfun.bms.product.mall.vo.SysFuncVO;
 import com.billionfun.bms.product.mall.vo.SysRoleVO;
 
 @Service("roleService")
@@ -44,5 +50,24 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole,SysRoleVO, Strin
 			}
 		}
 		return listVo;
+	}
+	
+	public boolean update(SysRoleVO vo){
+		boolean sign = false;
+		if(!StringUtil.empty(vo.getFuncIds())){
+			String[] funcId_arr = vo.getFuncIds().split(",");
+			roleDao.deleteByHql("delete from SysRoleFunc where id.roleId="+vo.getId());
+			for (int i = 0; i < funcId_arr.length; i++) {
+				String funcId = funcId_arr[i];
+				SysRoleFunc roleFunc = new SysRoleFunc();
+				SysRoleFuncPK pk = new SysRoleFuncPK();
+				pk.setFuncId(funcId);
+				pk.setRoleId(vo.getId());
+				roleFunc.setId(pk);
+				roleDao.saveObject(roleFunc);
+			}
+		}
+		sign = true;
+		return sign;
 	}
 }

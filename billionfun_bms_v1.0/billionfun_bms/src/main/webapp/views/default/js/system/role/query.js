@@ -58,8 +58,31 @@ $().ready(function () {
 		},
 		editurl: ctx+"/system/role/modify.json",//nothing is saved定义对form编辑时的url
 		caption: "角色查询",//表格名称
-		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
-
+		autowidth: true,//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
+		onSelectRow: function(ids) {
+			
+		    if (ids == null) {
+		        ids = 0;
+		        if (jQuery("#func-grid-table").jqGrid('getGridParam', 'records') > 0) {
+		            jQuery("#func-grid-table").jqGrid('setGridParam', {
+		            	url: ctx+"/system/func/search.json?roleId="+ids,
+//		                page: 1
+		            }).trigger('reloadGrid');
+//		            jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
+		        }
+		    } else {
+//		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"id.userId\",\"op\":\"eq\",\"data\":\""+ids+"\"}]}";
+		        jQuery("#func-grid-table").jqGrid('setGridParam', {
+		  //      	url: ctx+"/system/role/search.json?userId="+ids,
+		        	url: ctx+"/system/func/search.json?roleId="+ids,
+//		        	postData:{
+//		        		filters:filters,
+//		        	},
+//		            page: 1
+		        }).trigger('reloadGrid');
+//		        jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
+		    }
+		},
 	});
 
 
@@ -269,7 +292,7 @@ $().ready(function () {
 
 	//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
 	
-	$("#jsonmap").jqGrid({   
+	$("#func-grid-table").jqGrid({   
 	    treeGrid: true,  
 	    treeGridModel: 'adjacency', //treeGrid模式，跟json元数据有关  
 	    ExpandColumn : 'name',       
@@ -280,10 +303,10 @@ $().ready(function () {
 	    	var params = "97";
 	    	$("#funcIds"+params).attr("checked","checked");
 	    },
-	    colNames:["<input type=checkbox name=funcIds id='funcIds_all'/>",'id','名称', '样式', '链接'],      
+	    colNames:[" ",'id','名称', '样式', '链接'],      
 	    colModel:[      
 	        {name:'',index:'',search:false, sortable:false,width:30,formatter:function(cellvalue, options, row){
-	        	return "<input type=checkbox name=funcIds id=funcIds"+row.id+" />";
+	        	return "<input type=checkbox name=funcIds id=funcIds"+row.id+" value="+row.id+"/>";
 	        }},
 	        {name:'id',index:'id', width:90,sorttype:"int"},      
 	        {name:'name',index:'name', width:210,sorttype:"int"},      
@@ -296,7 +319,7 @@ $().ready(function () {
 	    	minus:'icon-minus',
 	    	leaf:'icon-leaf'
 	    },
-	    pager: "false",    
+	    pager: "#func-grid-pager",    
 	    sortname: 'id',      
 	    sortorder: "desc",   
 	        
@@ -317,11 +340,31 @@ $().ready(function () {
 	    shrinkToFit:false,  // 控制水平滚动条  
 	    autowidth: true
 	 }); 
+	$("#func-grid-table").jqGrid("navGrid","#func-grid-pager",{edit:false,add:false,del:false,search:false}).navButtonAdd('#func-grid-pager',{  
+		   caption:"",   
+		   buttonicon:"icon-save",   
+		   onClickButton: function(){   
+			   var funcId_check = $("input:checkbox[name='funcIds']:checked").map(function(index,elem) {
+					return $(elem).val();
+				}).get().join(',');
+			   var gr = jQuery("#grid-table").jqGrid('getGridParam', 'selrow');
+				var dr= jQuery("#grid-table").jqGrid('getRowData',gr);
+				var id = dr.id.split("\n");
+				if(id==""){
+					return ;
+				}
+			   $.post(ctx+"/system/role/modify/funcbyroleid.json",{
+				   funcIds:funcId_check,
+				   id:id[0]
+			   },function(returnvalue){
+				   alert("保存成功");
+				   $("#func-grid-table").jqGrid().trigger('reloadGrid');
+				   
+			   })
+		   },   
+		   position:"first"  
+		});
 	
-	$("#funcIds_all").click(function(){
-		$("#funcIds_all").attr("checked","checked");
-		selectAll("funcIds");
-	});
 	function selectAll(name){
 		var sign = false;
 		$("input[name='"+name+"']").each(function(){

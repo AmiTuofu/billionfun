@@ -6,6 +6,7 @@ import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
 
 public interface SysFuncService extends BaseService<SysFunc,SysFuncVO,String>{
-	public List<SysFuncVO> query(SysFuncVO funcVo);
+	List<SysFuncVO> search(SysFuncVO vo);
+	
 	
 }

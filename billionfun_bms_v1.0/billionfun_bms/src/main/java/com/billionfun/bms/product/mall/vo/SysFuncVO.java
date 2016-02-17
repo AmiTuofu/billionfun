@@ -15,6 +15,7 @@ public class SysFuncVO extends PageUtil<SysFunc>{
 	private String styleClass;
 	private boolean isLeaf;
 	private boolean expanded;
+	private String roleId;
 	public String getId() {
 		return id;
 	}
@@ -80,5 +81,14 @@ public class SysFuncVO extends PageUtil<SysFunc>{
 	}
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
+	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+	public void setLeaf(boolean isLeaf) {
+		this.isLeaf = isLeaf;
 	}
 }

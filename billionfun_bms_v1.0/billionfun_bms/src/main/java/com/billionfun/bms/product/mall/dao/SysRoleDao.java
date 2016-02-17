@@ -7,4 +7,5 @@ import com.billionfun.bms.product.mall.vo.SysRoleVO;
 
 public interface SysRoleDao extends BaseDao<SysRole,String> {
 	List<SysRole> getListByPage(SysRoleVO vo);
+	
 }

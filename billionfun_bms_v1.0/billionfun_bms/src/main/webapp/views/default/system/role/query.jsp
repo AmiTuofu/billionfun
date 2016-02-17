@@ -28,7 +28,8 @@
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
-								<table id="jsonmap"></table>
+								<table id="func-grid-table"></table>
+								<div id="func-grid-pager"></div>
 								<script type="text/javascript">
 									var $path_base = "/";//this will be used in gritter alerts containing images
 								</script>

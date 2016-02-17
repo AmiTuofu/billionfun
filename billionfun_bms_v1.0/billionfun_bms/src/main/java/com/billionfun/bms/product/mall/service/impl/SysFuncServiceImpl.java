@@ -10,26 +10,27 @@ import org.springframework.stereotype.Service;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.model.SysFunc;
+import com.billionfun.bms.product.mall.model.SysRole;
 import com.billionfun.bms.product.mall.service.SysFuncService;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
+import com.billionfun.bms.product.mall.vo.SysRoleVO;
 
 @Service("funcService")
 public class SysFuncServiceImpl extends BaseServiceImpl<SysFunc,SysFuncVO, String> implements SysFuncService{
 	@Autowired
 	private SysFuncDao funcDao;
 	
-	
-	public List<SysFuncVO> query(SysFuncVO funcVo){
-		List<SysFunc> listFunc = funcDao.getListByPage(funcVo);
-		List<SysFuncVO> listFuncVo = new ArrayList<SysFuncVO>();
-		if(!StringUtil.empty(listFunc)){
-			for (SysFunc funcRef : listFunc) {
-				SysFuncVO funcVoRef = new SysFuncVO();
-				BeanUtils.copyProperties(funcRef, funcVoRef);
-				listFuncVo.add(funcVoRef);
+	public List<SysFuncVO> search(SysFuncVO vo){
+		List<SysFunc> list = funcDao.getListByRoleId(vo.getRoleId());
+		List<SysFuncVO> listVo = new ArrayList<SysFuncVO>();
+		if(!StringUtil.empty(list)){
+			for (SysFunc ref : list) {
+				SysFuncVO voRef = new SysFuncVO();
+				BeanUtils.copyProperties(ref, voRef);
+				listVo.add(voRef);
 			}
 		}
-		return listFuncVo;
+		return listVo;
 	}
-
+	
 }

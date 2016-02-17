@@ -45,6 +45,12 @@ public class SysRoleController extends BaseController{
 		return "system/role/modify";
 	}
 	
+	@RequestMapping("/modify/funcbyroleid")
+	public String modifyFuncByRoleId(ModelMap modelMap,SysRoleVO vo){
+		roleService.update(vo);
+		return "system/role/modify/funcbyroleid";
+	}
+	
 	@RequestMapping("/add")
 	public String add(ModelMap modelMap,SysRoleVO vo){
 		SysRole role = new SysRole();
