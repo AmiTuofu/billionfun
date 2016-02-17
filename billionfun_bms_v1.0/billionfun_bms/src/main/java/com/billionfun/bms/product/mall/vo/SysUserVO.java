@@ -5,15 +5,13 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.billionfun.bms.product.mall.common.utils.JsonDateSerializer;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.model.SysUser;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class SysUserVO extends PageUtil<SysUser>{
 	private String id;
 	private String username;
+	private String password;
 	private String fullName;
 	private String email;
 	private String telephone;
@@ -77,6 +75,12 @@ public class SysUserVO extends PageUtil<SysUser>{
 	}
 	public void setRoleIds(String roleIds) {
 		this.roleIds = roleIds;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }

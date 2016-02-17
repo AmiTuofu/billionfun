@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.billionfun.bms.product.mall.model.SysFunc;
 import com.billionfun.bms.product.mall.service.SysFuncService;
 import com.billionfun.bms.product.mall.vo.SysFuncVO;
-import com.billionfun.bms.product.mall.vo.SysRoleVO;
 
 @RequestMapping("/system/func")
 @Controller
@@ -35,7 +34,8 @@ public class SysFuncController extends BaseController {
 	@RequestMapping("/search")
 	public String search(ModelMap modelMap,SysFuncVO vo){
 		List<SysFuncVO> funcVOs = funcService.search(vo);
-		modelMap.put("list", funcVOs);
+		modelMap.put("userdata", funcVOs);
+		modelMap.put("list", funcService.getAll());
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());

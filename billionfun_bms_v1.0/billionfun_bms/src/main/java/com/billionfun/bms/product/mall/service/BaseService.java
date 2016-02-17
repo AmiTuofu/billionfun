@@ -8,6 +8,7 @@ import com.billionfun.bms.product.mall.common.utils.PageUtil;
 public interface BaseService<T,V extends PageUtil<T>,P extends Serializable> {
 	boolean save(T t);
 	boolean update(T t);
+	boolean merge(T t);
 	boolean update(T t,P p);
 	boolean saveOrUpdate(T t);
 	boolean delete(T t);

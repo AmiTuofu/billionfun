@@ -34,6 +34,13 @@ public abstract  class BaseServiceImpl<T,V extends PageUtil<T>,P extends Seriali
 		return sign;
 	}
 	
+	public boolean merge(T t){
+		boolean sign = false;
+		baseDao.merge(t);
+		sign = true;
+		return sign;
+	}
+	
 	public boolean saveOrUpdate(T t){
 		boolean sign = false;
 		baseDao.saveOrUpdate(t);

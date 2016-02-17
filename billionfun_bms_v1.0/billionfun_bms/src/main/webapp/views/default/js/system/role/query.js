@@ -300,13 +300,24 @@ $().ready(function () {
 	    url: ctx+"/system/func/query.json",  
 	    datatype: 'json',      
 	    loadComplete:function(){
-	    	var params = "97";
-	    	$("#funcIds"+params).attr("checked","checked");
+	    	
 	    },
 	    colNames:[" ",'id','名称', '样式', '链接'],      
 	    colModel:[      
 	        {name:'',index:'',search:false, sortable:false,width:30,formatter:function(cellvalue, options, row){
-	        	return "<input type=checkbox name=funcIds id=funcIds"+row.id+" value="+row.id+"/>";
+	        	var all_funcs=$("#func-grid-table").jqGrid('getGridParam', 'userData');
+	        	var sign = false;
+	        	for(var i =0;i<all_funcs.length;i++){
+	        		if(row.id==all_funcs[i].id){
+	        			sign = true;
+	        		}
+	        	}
+	        	if(!sign){
+	        		return "<input type=checkbox name=funcIds id=funcIds"+row.id+" value="+row.id+" />";
+	        	}else{
+	        		return "<input type=checkbox name=funcIds id=funcIds"+row.id+" value="+row.id+" checked />";
+	        	}
+	        	
 	        }},
 	        {name:'id',index:'id', width:90,sorttype:"int"},      
 	        {name:'name',index:'name', width:210,sorttype:"int"},      
@@ -348,6 +359,10 @@ $().ready(function () {
 					return $(elem).val();
 				}).get().join(',');
 			   var gr = jQuery("#grid-table").jqGrid('getGridParam', 'selrow');
+			   if(gr==null){
+				   alert("请选择一行记录");
+				   return;
+			   }
 				var dr= jQuery("#grid-table").jqGrid('getRowData',gr);
 				var id = dr.id.split("\n");
 				if(id==""){

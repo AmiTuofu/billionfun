@@ -156,8 +156,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 		boolean sign = false;
 		SysUser user = new SysUser();
 		BeanUtils.copyProperties(vo, user);
-		BeanUtils.copyProperties(user,userDao.get(vo.getId()));
-		userDao.merge(user);
+//		BeanUtils.copyProperties(userDao.get(vo.getId()),user);
+		userDao.update(user);
 		if(!StringUtil.empty(vo.getRoleIds())){
 			String[] roleId_arr = vo.getRoleIds().split(",");
 			userDao.deleteByHql("delete from SysUserRole where id.userId="+user.getId());

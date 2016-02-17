@@ -17,9 +17,11 @@ public class SysRoleController extends BaseController{
 	@Autowired
 	private SysRoleService roleService;
 	
+	
 	@RequestMapping("/query")
 	public String query(ModelMap modelMap,SysRoleVO vo){
 		List<SysRoleVO> roleVOs = roleService.query(vo);
+		
 		modelMap.put("list", roleVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
@@ -41,7 +43,8 @@ public class SysRoleController extends BaseController{
 	public String modify(ModelMap modelMap,SysRoleVO vo){
 		SysRole role = new SysRole();
 		BeanUtils.copyProperties(vo, role);
-		roleService.update(role);
+		role.setListFuncs(roleService.get(role.getId()).getListFuncs());
+		roleService.update(role,role.getId());
 		return "system/role/modify";
 	}
 	
