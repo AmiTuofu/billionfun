@@ -28,7 +28,7 @@ $().ready(function () {
 //		postData:{"name":"1212312"},
 		height: "100%",
 //		editable:true,
-		colNames:['','id','用户名','昵称', '邮箱','电话','手机',"所属角色",'创建时间','状态'],
+		colNames:['','id','用户名','密码','昵称', '邮箱','电话','手机',"所属角色",'创建时间','状态'],
 		colModel:[
 		    {name:'myac',index:'', width:70, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
@@ -50,6 +50,7 @@ $().ready(function () {
 			},
 			{name:'id',index:'id', width:20,search:true, editable: false},
 			{name:'username',index:'username',width:50,search:true, editable:true},
+			{name:'password',index:'password',edittype:"password",width:50, editable:true},
 			{name:'fullName',index:'fullName', width:50,search:true,editable: true},
 			{name:'email',index:'email', width:80,search:true, editable: true,editrules:{required:true,email:true}},
 			{name:'telephone',index:'telephone', width:50,search:true, editable: true},
