@@ -36,7 +36,7 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback,beforeSubmit:function(postData, formid){
+					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback,closeAfterEdit:true,beforeSubmit:function(postData, formid){
 						var roles_check = $("input:checkbox[name='roleIds']:checked").map(function(index,elem) {
 							return $(elem).val();
 						}).get().join(',');
@@ -50,12 +50,12 @@ $().ready(function () {
 			},
 			{name:'id',index:'id', width:20,search:true, editable: false},
 			{name:'username',index:'username',width:50,search:true, editable:true},
-			{name:'password',index:'password',edittype:"password",width:50, editable:true},
+			{name:'password',index:'password',edittype:"password",width:50, editable:true,hidden:true, editrules: {edithidden: true }},
 			{name:'fullName',index:'fullName', width:50,search:true,editable: true},
 			{name:'email',index:'email', width:80,search:true, editable: true,editrules:{required:true,email:true}},
 			{name:'telephone',index:'telephone', width:50,search:true, editable: true},
 			{name:'mobile',index:'mobile',width:50,search:true, editable:true,editrules:{required:true}},
-			{name:'roleIds',index:'roleIds', width:40, editable: true,
+			{name:'roleIds',index:'roleIds', width:40, editable: true,edittype:"textarea",
 				formatter:
 				function(cellvalue, options, row){
 					if(cellvalue==""){
@@ -81,27 +81,10 @@ $().ready(function () {
 			
 		], 
 		onSelectRow: function(ids) {
-		    if (ids == null) {
-		        ids = 0;
-		        if (jQuery("#roles-grid-table").jqGrid('getGridParam', 'records') > 0) {
-		            jQuery("#roles-grid-table").jqGrid('setGridParam', {
-		            	url: ctx+"/system/role/search.json?userId="+ids,
-		                page: 1
-		            }).trigger('reloadGrid');
-//		            jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
-		        }
-		    } else {
-//		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"id.userId\",\"op\":\"eq\",\"data\":\""+ids+"\"}]}";
-		        jQuery("#roles-grid-table").jqGrid('setGridParam', {
-		  //      	url: ctx+"/system/role/search.json?userId="+ids,
-		        	url: ctx+"/system/role/search.json?userId="+ids,
-//		        	postData:{
-//		        		filters:filters,
-//		        	},
-		            page: 1
-		        }).trigger('reloadGrid');
-//		        jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
-		    }
+	            $("#roles-grid-table").jqGrid('setGridParam', {
+	            	url: ctx+"/system/role/search.json?userId="+ids,
+	                page: 1
+	            }).trigger('reloadGrid');
 		},
 //		subGrid:true, 
 //		subGridUrl:ctx+"/system/role/query.json", 
@@ -140,7 +123,7 @@ $().ready(function () {
 	    },
 	    search: true,
 	    mtype:"POST",
-		url: ctx+"/system/role/search.json?userId=0",
+		url: '',
 		datatype: "json",
 		prmNames:{
 			page:"page",
@@ -153,21 +136,21 @@ $().ready(function () {
 		},
 //		postData:{"name":"1212312"},
 		height: "100%",
-		colNames:['','id','名称','编码', '状态',],
+		colNames:['id','名称','编码', '状态',],
 		colModel:[
-		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
-			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
-				formatter:'actions', 
-				formatoptions:{ 
-					keys:true,
-					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-				}
-			},
-			{name:'id',index:'id', width:50,search:true, editable: true},
+//		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
+//			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
+//				formatter:'actions', 
+//				formatoptions:{ 
+//					keys:true,
+//					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+//					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback,closeAfterEdit:true}
+//				}
+//			},
+			{name:'id',index:'id', width:30,search:true, editable: true},
 			{name:'name',index:'name',width:90,search:true, editable:true},
 			{name:'code',index:'code', width:50,search:true,editable: true},
-			{name:'status',index:'status', width:70,search:true, editable: true},
+			{name:'status',index:'status', width:70,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
 
 		viewrecords : true,//定义是否要显示总记录数
@@ -177,15 +160,15 @@ $().ready(function () {
 		altRows: true,//设置表格 zebra-striped 值
 		//toppager: true,
 		
-		multiselect: true,//定义是否可以多选
+//		multiselect: true,//定义是否可以多选
 		//multikey: "ctrlKey",
-       multiboxonly: true,//只有当multiselect = true.起作用，当multiboxonly 为ture时只有选择checkbox才会起作用
+ //      multiboxonly: true,//只有当multiselect = true.起作用，当multiboxonly 为ture时只有选择checkbox才会起作用
 		loadComplete : function() {//当从服务器返回响应时执行，xhr：XMLHttpRequest 对象
 			var table = this;
 			pagerIcons();
 		},
 		editurl: ctx+"/system/role/modify.json",//nothing is saved定义对form编辑时的url
-		caption: "角色查询",//表格名称
+		caption: "用户所属角色",//表格名称
 		width:"80%",
 		autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
 
@@ -214,6 +197,7 @@ $().ready(function () {
 		{
 			//edit record form
 			//closeAfterEdit: true,
+			closeAfterEdit:true,
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				beforeEditCallback(e);
@@ -372,10 +356,21 @@ $().ready(function () {
 			editurl: ctx+"/system/user/modify.json"
 	    }); 
 		var form = $(e[0]);
+		
 		var roleIds = $("#roleIds").val();
 		var gr = jQuery("#grid-table").jqGrid('getGridParam', 'selrow');
 		var dr= jQuery("#grid-table").jqGrid('getRowData',gr);
-		var role_arr = dr.roleIds.split("\n");
+		var role_arr ;
+		if(gr==null){
+			role_arr = roleIds.split("\n");
+		}else{
+			role_arr = dr.roleIds.split("\n");
+		}
+//		var role_arr = dr.roleIds.split("\n");
+//		var role_arr ="";
+//		if(roleIds!=null){
+//			role_arr = roleIds.split("\n");
+//		}
 		var roleIds_td = $("#tr_roleIds").find(".DataTD");
 		var all_roles=$("#grid-table").jqGrid('getGridParam', 'userData');
 		var return_value = "";
@@ -396,7 +391,7 @@ $().ready(function () {
 			
 		}
 		roleIds_td.html(return_value);
-		
+		$("#password").val("");
 		form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 		style_edit_form(form);
 //		$("#createDate").datepicker({format:'yyyy-mm-dd' , autoclose:true});

@@ -12,4 +12,6 @@ public interface SysRoleService extends BaseService<SysRole,SysRoleVO,String>{
 	List<SysRoleVO> getAll();
 	
 	boolean update(SysRoleVO vo);
+	
+	public boolean delete(String ids);
 }

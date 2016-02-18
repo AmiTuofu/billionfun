@@ -25,7 +25,7 @@ $().ready(function () {
 		},
 //		postData:{"name":"1212312"},
 		height: "100%",
-		colNames:['','id','名称','父Id', '样式', '链接',],
+		colNames:['','id','名称','父Id','层级','是否为末节点','是否展开','样式', '链接',],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
@@ -33,12 +33,15 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+					editformbutton:true, editOptions:{recreateForm: true,closeAfterEdit:true, beforeShowForm:beforeEditCallback}
 				}
 			},
 			{name:'id',index:'id', width:50,search:true, sorttype:"int", editable: true},
-			{name:'name',index:'name',width:90,search:true, editable:true, sorttype:"date"},
+			{name:'name',index:'name',width:90,search:true, editable:true},
 			{name:'parentId',index:'parentId', width:50,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'level',index:'level',width:20,search:true, editable:true},
+			{name:'isLeaf',index:'isLeaf',width:20,search:true, editable:true,edittype:"checkbox",editoptions:{value:"true:false"}},
+			{name:'expanded',index:'expanded',width:20,search:true, editable:true,edittype:"checkbox",editoptions:{value:"true:false"}},
 			{name:'styleClass',index:'styleClass', width:70, editable: true,editoptions: {value:"Yes:No"}},
 			{name:'url',index:'url', width:150, editable: true}
 		], 
@@ -82,7 +85,7 @@ $().ready(function () {
 		},
 		{
 			//edit record form
-			//closeAfterEdit: true,
+			closeAfterEdit: true,
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				beforeEditCallback(e);

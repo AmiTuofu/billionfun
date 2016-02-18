@@ -111,6 +111,7 @@ public abstract  class BaseServiceImpl<T,V extends PageUtil<T>,P extends Seriali
 		return t;
 	}
 	public  boolean delete(P p,Class<T> cls){
+		
 		boolean sign = false;
 		baseDao.delete(p, cls);
 		sign = true;

@@ -183,7 +183,7 @@
 
 						<li class="divider"></li>
 
-						<li><a href="j_spring_security_logout"> <i
+						<li><a href="${ctx }/j_spring_security_logout"> <i
 								class="icon-off"></i> 退出
 						</a></li>
 					</ul></li>

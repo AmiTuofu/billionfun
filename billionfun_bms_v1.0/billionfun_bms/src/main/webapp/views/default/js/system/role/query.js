@@ -33,13 +33,13 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+					editformbutton:true, editOptions:{recreateForm: true,closeAfterEdit:true, beforeShowForm:beforeEditCallback}
 				}
 			},
-			{name:'id',index:'id', width:50,search:true, editable: true},
+			{name:'id',index:'id', width:50,search:true, editable: false},
 			{name:'name',index:'name',width:90,search:true, editable:true},
 			{name:'code',index:'code', width:50,search:true,editable: true},
-			{name:'status',index:'status', width:70,search:true, editable: true},
+			{name:'status',index:'status', width:70,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
 
 		viewrecords : true,//定义是否要显示总记录数
@@ -60,28 +60,10 @@ $().ready(function () {
 		caption: "角色查询",//表格名称
 		autowidth: true,//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
 		onSelectRow: function(ids) {
-			
-		    if (ids == null) {
-		        ids = 0;
-		        if (jQuery("#func-grid-table").jqGrid('getGridParam', 'records') > 0) {
-		            jQuery("#func-grid-table").jqGrid('setGridParam', {
-		            	url: ctx+"/system/func/search.json?roleId="+ids,
-//		                page: 1
-		            }).trigger('reloadGrid');
-//		            jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
-		        }
-		    } else {
-//		    	var filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"id.userId\",\"op\":\"eq\",\"data\":\""+ids+"\"}]}";
-		        jQuery("#func-grid-table").jqGrid('setGridParam', {
-		  //      	url: ctx+"/system/role/search.json?userId="+ids,
-		        	url: ctx+"/system/func/search.json?roleId="+ids,
-//		        	postData:{
-//		        		filters:filters,
-//		        	},
-//		            page: 1
-		        }).trigger('reloadGrid');
-//		        jQuery("#roles-grid-table").jqGrid('setCaption', "Invoice Detail: " + ids).trigger('reloadGrid');
-		    }
+			$("#func-grid-table").jqGrid('setGridParam', {
+            	url: ctx+"/system/func/search.json?roleId="+ids,
+//              page: 1
+            }).trigger('reloadGrid');
 		},
 	});
 
@@ -104,7 +86,7 @@ $().ready(function () {
 		},
 		{
 			//edit record form
-			//closeAfterEdit: true,
+			closeAfterEdit: true,
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				beforeEditCallback(e);
@@ -296,9 +278,12 @@ $().ready(function () {
 	    treeGrid: true,  
 	    treeGridModel: 'adjacency', //treeGrid模式，跟json元数据有关  
 	    ExpandColumn : 'name',       
-	    scroll: "true",  
-	    url: ctx+"/system/func/query.json",  
-	    datatype: 'json',      
+//	    scroll: "true",  //自动滚到顶端
+	    altRows: true,
+	    url: "",  
+	    datatype: 'json',
+//	    url: ctx+"/system/func/query.json",  
+//	    datatype: 'json',      
 	    loadComplete:function(){
 	    	
 	    },
@@ -344,7 +329,7 @@ $().ready(function () {
 	      leaf_field: "isLeaf",  
 	      expanded_field: "expanded"  
 	    },  
-	    caption: "功能菜单查询",     
+	    caption: "角色拥有的菜单权限",     
 	    mtype: "POST",  
 	    height: "auto",    // 设为具体数值则会根据实际记录数出现垂直滚动条  
 	    rowNum : "-1",     // 显示全部记录  

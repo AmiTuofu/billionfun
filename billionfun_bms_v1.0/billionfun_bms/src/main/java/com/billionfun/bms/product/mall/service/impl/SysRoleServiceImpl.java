@@ -70,4 +70,17 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole,SysRoleVO, Strin
 		sign = true;
 		return sign;
 	}
+	
+	public boolean delete(String ids){
+		boolean sign = false;
+		if(!StringUtil.empty(ids)){
+			String[] id_arr = ids.split(",");
+			for(int i =0;i<id_arr.length;i++){
+				String id = id_arr[i];
+				roleDao.deleteByHql("delete from SysRole where id = "+id);
+			}
+		}
+		sign = true;
+		return sign;
+	}
 }

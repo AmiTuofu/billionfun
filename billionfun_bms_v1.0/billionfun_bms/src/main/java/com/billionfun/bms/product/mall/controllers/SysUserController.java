@@ -58,7 +58,7 @@ public class SysUserController extends BaseController{
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,SysUserVO vo){
-		userService.delete(vo.getId(),SysUser.class);
+		userService.delete(vo.getId());
 		return "system/user/delete";
 	}
 }

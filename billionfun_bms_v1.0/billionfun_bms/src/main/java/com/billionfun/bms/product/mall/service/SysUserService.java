@@ -19,4 +19,6 @@ public interface SysUserService extends BaseService<SysUser,SysUserVO,String>{
 	public boolean update(SysUserVO user);
 	
 	public List<SysUserVO> query(SysUserVO vo);
+	
+	public boolean delete(String ids);
 }

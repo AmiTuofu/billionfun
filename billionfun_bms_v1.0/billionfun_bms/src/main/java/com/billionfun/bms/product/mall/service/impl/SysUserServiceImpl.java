@@ -11,6 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.billionfun.bms.product.mall.common.utils.MD5Util;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
 import com.billionfun.bms.product.mall.dao.SysUserDao;
@@ -155,6 +156,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 	public boolean update(SysUserVO vo){
 		boolean sign = false;
 		SysUser user = new SysUser();
+		if(!StringUtil.empty(vo.getPassword())){
+			vo.setPassword(MD5Util.encode(vo.getPassword(), vo.getUsername()));
+		}
 		BeanUtils.copyProperties(vo, user);
 //		BeanUtils.copyProperties(userDao.get(vo.getId()),user);
 		userDao.update(user);
@@ -169,6 +173,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 				pk.setUserId(user.getId());
 				userRole.setId(pk);
 				userDao.saveObject(userRole);
+			}
+		}
+		sign = true;
+		return sign;
+	}
+	
+	public boolean delete(String ids){
+		boolean sign = false;
+		if(!StringUtil.empty(ids)){
+			String[] id_arr = ids.split(",");
+			for(int i =0;i<id_arr.length;i++){
+				String id = id_arr[i];
+				userDao.deleteByHql("delete from SysUser where id = "+id);
 			}
 		}
 		sign = true;
