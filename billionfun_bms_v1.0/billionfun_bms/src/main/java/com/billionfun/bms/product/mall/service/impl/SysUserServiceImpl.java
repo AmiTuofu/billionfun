@@ -11,6 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.billionfun.bms.product.mall.common.utils.EmailUtil;
 import com.billionfun.bms.product.mall.common.utils.MD5Util;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysFuncDao;
@@ -189,6 +190,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 			}
 		}
 		sign = true;
+		return sign;
+	}
+	
+	public boolean resetPWD(SysUserVO vo){
+		SysUser user = userDao.loadUser(vo.getUsername(), vo.getEmail(), vo.getMobile());
+		String newPWD = (int)(Math.random()*1000000)+"";
+		vo.setPassword(MD5Util.encode(newPWD, user.getUsername()));
+		boolean sign = userDao.updatePWD(vo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email", vo.getEmail());
+		map.put("password", newPWD);
+		EmailUtil.sendEmail(map, "重置密码", "resetPWD.vm", new String[]{vo.getEmail()}, new String[]{});
 		return sign;
 	}
 }

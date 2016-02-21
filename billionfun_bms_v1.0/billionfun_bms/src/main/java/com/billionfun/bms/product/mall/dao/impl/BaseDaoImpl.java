@@ -45,6 +45,31 @@ public abstract  class BaseDaoImpl<T ,P extends Serializable>   {
 		getCurrentSession().save(t);
 	}
 	
+	public void exec(String hql){
+		Session session = getCurrentSession();
+		Query query = session.createQuery(hql);
+
+		query.executeUpdate();
+	}
+	
+	public void exec(String hql,final List<String> paramList){
+		Session session = getCurrentSession();
+		Query query = session.createQuery(hql);
+		if(paramList!=null&&paramList.size()>0){
+			for(int i=0;i<paramList.size();i++){
+				query.setParameter(i, paramList.get(i));
+			}
+		}
+		query.executeUpdate();
+	}
+	
+	public void exec(String hql,Map<String,String> proMap){
+		Session session = getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setProperties(proMap);
+		query.executeUpdate();
+	}
+	
 	public void saveObject (Object o){
 		getCurrentSession().save(o);
 	}

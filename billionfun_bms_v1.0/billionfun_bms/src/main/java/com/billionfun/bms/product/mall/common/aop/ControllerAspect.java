@@ -69,6 +69,7 @@ public class ControllerAspect {
 		//配置抛出异常后通知,使用在方法aspect()上注册的切入点
 	@AfterThrowing(pointcut="aspect()", throwing="ex")
 	public void afterThrow(JoinPoint joinPoint, Exception ex){
+		ex.printStackTrace();
 		if(logger.isInfoEnabled()){
 			logger.info("afterThrow " + joinPoint + "\t" + ex.getMessage());
 		}

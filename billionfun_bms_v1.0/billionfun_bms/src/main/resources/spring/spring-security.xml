@@ -30,7 +30,7 @@
 		<!-- logout-url：指定了用于响应退出系统请求的URL。其默认值为：/j_spring_security_logout。-->  
         <!-- logout-success-url：退出系统后转向的URL。-->  
         <!-- invalidate-session：指定在退出系统时是否要销毁Session。-->  
-		<logout invalidate-session="true" logout-success-url="/login.html?logout=true"  
+		<logout invalidate-session="true" logout-success-url="/logout.html?logout=true"  
             logout-url="/j_spring_security_logout" />
 		
 		<!-- max-sessions:允许用户帐号登录的次数。范例限制用户只能登录一次。-->  
@@ -42,8 +42,8 @@
 			session-fixation-protection="none" 防止伪造sessionid攻击. 用户登录成功后会销毁用户当前的session.
 			创建新的session,并把用户信息复制到新session中.
 		 -->
-        <session-management invalid-session-url="/login.html?error=timeout" session-fixation-protection="none" >  
-            <concurrency-control max-sessions="1"  
+        <session-management invalid-session-url="/logout.html?error=timeout" session-fixation-protection="none" >  
+            <concurrency-control max-sessions="2"  
                 error-if-maximum-exceeded="false" />  
         </session-management>  
         <remember-me data-source-ref="dataSource" token-validity-seconds="1209600" remember-me-parameter="_spring_security_remember_me" />

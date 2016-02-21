@@ -144,7 +144,7 @@
 												输入你的邮箱来重置密码
 											</p>
 
-											<form>
+											<form id="resetPwd-form">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -154,7 +154,7 @@
 													</label>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+														<button  type="button" class="width-35 pull-right btn btn-sm btn-danger" id="resetPwd-button">
 															<i class="icon-lightbulb"></i>
 															发送
 														</button>

@@ -56,4 +56,10 @@ public interface BaseDao<T,P extends Serializable> {
 	List<T> getListByPage(final int begin, final int pageSize, final String hql,List<String> paramList);
 	
 	int getTotalCount(String hql, List<String> params);
+	
+	void exec(String hql);
+	
+	void exec(String hql,Map<String,String> proMap);
+	
+	void exec(String hql,final List<String> paramList);
 }

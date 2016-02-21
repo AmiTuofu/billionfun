@@ -21,4 +21,6 @@ public interface SysUserService extends BaseService<SysUser,SysUserVO,String>{
 	public List<SysUserVO> query(SysUserVO vo);
 	
 	public boolean delete(String ids);
+	
+	public boolean resetPWD(SysUserVO vo);
 }

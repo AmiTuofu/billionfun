@@ -11,6 +11,7 @@ import com.billionfun.bms.product.mall.common.Contants;
 import com.billionfun.bms.product.mall.common.exception.ErrorCode;
 import com.billionfun.bms.product.mall.common.utils.MD5Util;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.vo.SysUserVO;
 
 /**
  * 
@@ -69,7 +70,7 @@ public class LoginController extends BaseController{
 	@RequestMapping("/logout")
 	public String logout(ModelMap modelMap){
 		session.removeAttribute(Contants.SESSION_USER);
-		return "index";
+		return "login";
 	}
 	
 	/**
@@ -112,7 +113,12 @@ public class LoginController extends BaseController{
 	 * @throws
 	 */
 	@RequestMapping("/forpwd")
-	public String forPwd(ModelMap modelMap){
-		return null;
+	public String forPwd(ModelMap modelMap,@RequestParam(value="email")String email){
+		SysUserVO vo = new SysUserVO();
+		vo.setEmail(email);
+		userService.resetPWD(vo);
+		modelMap.put("retCode", "1");
+		modelMap.put("retMsg", "重置密码成功");
+		return "";
 	}
 }

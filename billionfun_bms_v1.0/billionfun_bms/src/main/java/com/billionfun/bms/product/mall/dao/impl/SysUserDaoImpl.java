@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysUserDao;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.vo.SysUserVO;
 
 
 @Repository
@@ -43,7 +45,19 @@ public class SysUserDaoImpl extends BaseDaoImpl<SysUser,String> implements SysUs
 		return u;
 	}
 	
-	
+	public boolean updatePWD(SysUserVO vo){
+		boolean sign = false;
+		StringBuilder hql = new StringBuilder();
+		Map proMap = new HashMap();
+		if(!StringUtil.empty(vo.getEmail())){
+			hql.append("update SysUser u set u.password = :password where u.email = :email" );
+			proMap.put("password", vo.getPassword());
+			proMap.put("email", vo.getEmail());
+		}
+		super.exec(hql.toString(),proMap);
+		sign = true;
+		return sign;
+	}
 
 
 }

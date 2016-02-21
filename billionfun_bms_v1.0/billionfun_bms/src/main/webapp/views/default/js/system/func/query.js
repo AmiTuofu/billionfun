@@ -36,11 +36,11 @@ $().ready(function () {
 					editformbutton:true, editOptions:{recreateForm: true,closeAfterEdit:true, beforeShowForm:beforeEditCallback}
 				}
 			},
-			{name:'id',index:'id', width:50,search:true, sorttype:"int", editable: true},
+			{name:'id',index:'id', width:30,search:true, sorttype:"int", editable: true},
 			{name:'name',index:'name',width:90,search:true, editable:true},
 			{name:'parentId',index:'parentId', width:50,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'level',index:'level',width:20,search:true, editable:true},
-			{name:'isLeaf',index:'isLeaf',width:20,search:true, editable:true,edittype:"checkbox",editoptions:{value:"true:false"}},
+			{name:'isLeaf',index:'isLeaf',width:40,search:true, editable:true,edittype:"checkbox",editoptions:{value:"true:false"}},
 			{name:'expanded',index:'expanded',width:20,search:true, editable:true,edittype:"checkbox",editoptions:{value:"true:false"}},
 			{name:'styleClass',index:'styleClass', width:70, editable: true,editoptions: {value:"Yes:No"}},
 			{name:'url',index:'url', width:150, editable: true}

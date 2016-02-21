@@ -8,6 +8,35 @@ $().ready(function () {
         }
         $("#login-form").submit();
     });
+    $("#resetPwd-button").click(function(){
+    	if (!$('#resetPwd-form').valid()) {
+            return false;
+        }
+    	var resetPwd_data = $("#resetPwd-form").serialize();
+    	$.ajax({
+            type: "POST",
+            url: ctx + "/forpwd.json",
+            data: resetPwd_data,
+            success: function (data) {
+                    var retCode = data.retCode;
+                    var retMsg = data.retMsg;
+                    if (retCode == "1") {
+                        bootbox.alert("<br/>重置密码成功,新密码已发送到注册邮箱", function (result) {
+                            // 				$( this ).dialog( "close" ); 
+                            show_box('login-box');
+                            $("button[type=\"reset\"]").trigger("click");
+                        });
+                    } else if (retCode == "901") {
+                        bootbox.alert("<br/>重置密码失败。<p>原因:" + retMsg + "</p>", function (result) {
+                            $("button[type=\"reset\"]").trigger("click");
+                        });
+                    }
+                },
+                error: function (e) {
+                    alert("error");
+                }
+        });
+    });
     $("#register-button").click(function () {
         if (!$('#register-form').valid()) {
             return false;
@@ -75,6 +104,35 @@ $().ready(function () {
         onclick: false
     });
 
+    $('#resetPwd-form').validate({
+        rules: {
+            email: {
+                required: true
+            },
+        },
+
+        messages: {
+        	email: {
+                required: "请输入邮箱!"
+            },
+        },
+
+        showErrors: function (errorMap, errorList) {
+                var msg = "<br/><p>";
+                $.each(errorList, function (i, v) {
+                    msg += ((i + 1) + "." + v.message + "<br/>");
+                });
+                msg = msg + "</p>";
+                if (errorList.length > 0) {
+                    bootbox.alert(msg, function () {
+
+                    });
+                }
+            },
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false
+    });
 
     $('#register-form').validate({
         rules: {
