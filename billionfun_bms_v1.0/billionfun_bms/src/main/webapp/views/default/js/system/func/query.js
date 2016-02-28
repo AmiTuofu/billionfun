@@ -1,4 +1,5 @@
 $().ready(function () {
+	
 	$("#grid-table").jqGrid({
 	    jsonReader:{
 	         root:"list",
@@ -70,18 +71,7 @@ $().ready(function () {
 	//navButtons
 	$("#grid-table").jqGrid('navGrid',"#grid-pager",
 		{ 	//navbar options
-			edit: true,
-			editicon : 'icon-pencil blue',
-			add: true,
-			addicon : 'icon-plus-sign purple',
-			del: true,
-			delicon : 'icon-trash red',
-			search: true,
-			searchicon : 'icon-search orange',
-			refresh: true,
-			refreshicon : 'icon-refresh green',
-			view: true,
-			viewicon : 'icon-zoom-in grey',
+			
 		},
 		{
 			//edit record form

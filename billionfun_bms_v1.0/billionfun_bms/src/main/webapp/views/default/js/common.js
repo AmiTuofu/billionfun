@@ -1,4 +1,176 @@
-jQuery.extend(jQuery.validator.messages, {
+$.extend($.jgrid,{
+	defaults : {
+		recordtext: "View {0} - {1} of {2}",
+		emptyrecords: "No records to view",
+		loadtext: "Loading...",
+		pgtext : "Page {0} of {1}",
+	    jsonReader:{
+	        root:"list",
+	        page: "page",
+	        total: "total",
+	        records: "records",
+		     order: "order",
+		     sort: "sort",
+		     search:"search",
+		     repeatitems: false
+	   },
+	   prmNames:{
+			page:"page",
+			rows:"rows",
+			total: "total",
+	        records: "records",
+	        order: "order",
+	        sort: "sort",
+	        search:"search"
+	   },
+	   loadComplete : function() {//当从服务器返回响应时执行，xhr：XMLHttpRequest 对象
+			var table = this;
+			pagerIcons();
+	   },
+	   search: true,
+	   mtype:"POST",
+	   datatype: "json",
+	   height: "100%",
+	   viewrecords : true,//定义是否要显示总记录数
+	   rowNum:10,//在grid上显示记录条数，这个参数是要被传递到后台
+	   rowList:[10,20,30],//一个下拉选择框，用来改变显示记录数，当选择时会覆盖rowNum参数传递到后台
+	   altRows: true,//设置表格 zebra-striped 值
+		//toppager: true,
+	   multiselect: true,//定义是否可以多选
+	//   multikey: "ctrlKey",
+       multiboxonly: true,//只有当multiselect = true.起作用，当multiboxonly 为ture时只有选择checkbox才会起作用
+       autowidth: true//如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
+	},
+	nav : {
+		edittext: "",
+		edittitle: "Edit selected row",
+		addtext:"",
+		addtitle: "Add new row",
+		deltext: "",
+		deltitle: "Delete selected row",
+		searchtext: "",
+		searchtitle: "Find records",
+		refreshtext: "",
+		refreshtitle: "Reload Grid",
+		alertcap: "Warning",
+		alerttext: "Please, select row",
+		viewtext: "",
+		viewtitle: "View selected row",
+		edit: true,
+		editicon : 'icon-pencil blue',
+		add: true,
+		addicon : 'icon-plus-sign purple',
+		del: true,
+		delicon : 'icon-trash red',
+		search: true,
+		searchicon : 'icon-search orange',
+		refresh: true,
+		refreshicon : 'icon-refresh green',
+		view: true,
+		viewicon : 'icon-zoom-in grey',
+		
+		afterShowSearch: function(e){
+			alert("asdfs");
+//			var form = $(e[0]);
+//			form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+//			style_search_form(form);
+		},
+	},
+	
+});	
+function pagerIcons(){
+	var replacement = 
+	{
+		'ui-icon-seek-first' : 'icon-double-angle-left bigger-140',
+		'ui-icon-seek-prev' : 'icon-angle-left bigger-140',
+		'ui-icon-seek-next' : 'icon-angle-right bigger-140',
+		'ui-icon-seek-end' : 'icon-double-angle-right bigger-140'
+	};
+	$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+		var icon = $(this);
+		var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+		
+		if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+	})
+}
+function beforeAdd(form,grid_id,add_url){
+	$("#"+grid_id).jqGrid('setGridParam',{ 
+		editurl: add_url,
+    }); 	
+	editFormStyle(form);
+}
+
+function beforeEdit(form,grid_id,edit_url){
+	$("#"+grid_id).jqGrid('setGridParam',{ 
+		editurl: edit_url,
+    }); 
+	editFormStyle(form);
+}
+
+function beforeDel(form,grid_id,del_url){
+	$("#"+grid_id).jqGrid('setGridParam',{ 
+		editurl: del_url,
+    }); 
+	deleteFormStyle(form);
+}
+
+function beforeSearch(form,grid_id,search_url){
+	searchFormStyle(form);
+}
+
+function beforeView(form,grid_id,view_url){
+	viewFormStyle(form);
+}
+
+function editFormStyle(e) {
+	var form = $(e[0]);
+	form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+	form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+		.end().find('input[name=stock]')
+			  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+	var buttons = form.next().find('.EditButton .fm-button');
+	buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+	buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
+	buttons.eq(1).prepend('<i class="icon-remove"></i>')
+	
+	buttons = form.next().find('.navButton a');
+	buttons.find('.ui-icon').remove();
+	buttons.eq(0).append('<i class="icon-chevron-left"></i>');
+	buttons.eq(1).append('<i class="icon-chevron-right"></i>');		
+}
+function deleteFormStyle(e) {
+	var form = $(e[0]);
+	if(form.data('styled')){
+		return false;
+	}
+	form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+	var buttons = form.next().find('.EditButton .fm-button');
+	buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+	buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
+	buttons.eq(1).prepend('<i class="icon-remove"></i>');
+	form.data('styled', true);
+}
+function searchFormStyle(e) {
+	var form = $(e[0]);
+	form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
+	var dialog = form.closest('.ui-jqdialog');
+	var buttons = dialog.find('.EditTable')
+	buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
+	buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
+	buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+}
+function viewFormStyle(e) {
+	var form = $(e[0]);
+	form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
+}
+function searchFiltersStyle(e) {
+	var form = $(e[0]);
+	form.find('.delete-rule').val('X');
+	form.find('.add-rule').addClass('btn btn-xs btn-primary');
+	form.find('.add-group').addClass('btn btn-xs btn-success');
+	form.find('.delete-group').addClass('btn btn-xs btn-danger');
+}
+/*jQuery.extend(jQuery.validator.messages, {
   required: "必填字段",
   remote: "请修正该字段",
   email: "请输入正确格式的电子邮件",
@@ -16,4 +188,4 @@ jQuery.extend(jQuery.validator.messages, {
   range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
   max: jQuery.validator.format("请输入一个最大为{0} 的值"),
   min: jQuery.validator.format("请输入一个最小为{0} 的值")
-});
+});*/

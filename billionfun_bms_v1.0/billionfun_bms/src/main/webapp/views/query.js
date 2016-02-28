@@ -10,10 +10,10 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:function(e){
-						beforeDel(e,"grid-table",ctx+"/system/log/delete.json");
+						beforeDel(e,"log-grid-table",ctx+"/system/log/delete.json");
 					}},
 					editformbutton:true, editOptions:{recreateForm: true,closeAfterEdit:true, beforeShowForm:function(e){
-						beforeEdit(e,"grid-table",ctx+"/system/log/modify.json");
+						beforeEdit(e,"log-grid-table",ctx+"/system/log/modify.json");
 					}}
 				}
 			},
@@ -42,7 +42,7 @@ $().ready(function () {
 			closeAfterEdit: true,
 			recreateForm: true,
 			beforeShowForm : function(e) {
-				beforeEdit(e,"grid-table",ctx+"/system/log/modify.json");
+				beforeEdit(e,"log-grid-table",ctx+"/system/log/modify.json");
 			}
 		},
 		{
@@ -51,21 +51,21 @@ $().ready(function () {
 			recreateForm: true,
 			viewPagerButtons: false,
 			beforeShowForm : function(e) {
-				beforeAdd(e,"grid-table",ctx+"/system/log/add.json");
+				beforeAdd(e,"log-grid-table",ctx+"/system/log/add.json");
 			}
 		},
 		{
 			//delete record form
 			recreateForm: true,
 			beforeShowForm : function(e) {
-				beforeDel(e,"grid-table",ctx+"/system/log/delete.json");
+				beforeDel(e,"log-grid-table",ctx+"/system/log/delete.json");
 			},
 		},
 		{
 			//search form
 			recreateForm: true,
 			afterShowSearch: function(e){
-				beforeSearch(e,"grid-table","");
+				beforeSearch(e,"log-grid-table","");
 			},
 			afterRedraw: function(e){
 				searchFiltersStyle(e);
@@ -80,7 +80,7 @@ $().ready(function () {
 			//view record form
 			recreateForm: true,
 			beforeShowForm: function(e){
-				beforeView(e,"grid-table","");
+				beforeView(e,"log-grid-table","");
 			}
 		}
 	);
