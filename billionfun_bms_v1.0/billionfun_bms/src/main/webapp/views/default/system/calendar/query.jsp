@@ -105,6 +105,7 @@
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 		$('#external-events div.external-event').each(function() {
+	//		alert("111");
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
 			var eventObject = {
@@ -156,6 +157,7 @@
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
 				// retrieve the dropped element's stored Event Object
+				alert("999");
 				var originalEventObject = $(this).data('eventObject');
 				var $extraEventClass = $(this).attr('data-class');
 				// we need to copy it, so that multiple events don't have a reference to the same object
@@ -228,6 +230,24 @@
 				//console.log(view);
 				// change the border color just for fun
 				//$(this).css('border-color', 'red');
+			},
+			eventDragStart:function(calEvent, jsEvent, ui, view){
+				alert("aaa");
+			},
+			eventDragStop:function(calEvent, jsEvent, ui, view){
+				alert("bbb");
+			},
+			eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+				alert("ccc");
+			},
+			eventResizeStart:function(calEvent, jsEvent, ui, view){
+				alert("ddd");
+			},
+			eventResizeStop:function(calEvent, jsEvent, ui, view){
+				alert("eee");
+			},
+			eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view){
+				alert("fff");
 			}
 		});
 	});
