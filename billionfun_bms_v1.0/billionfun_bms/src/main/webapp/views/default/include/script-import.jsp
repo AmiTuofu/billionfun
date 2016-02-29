@@ -19,4 +19,6 @@
 <script src="${ctx}/views/default/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 <script src="${ctx}/views/default/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
 <script src="${ctx}/views/default/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/views/default//js/common.js"></script>
+<script src="${ctx}/views/default/js/common.js"></script>
+
+<!-- Calendar -->

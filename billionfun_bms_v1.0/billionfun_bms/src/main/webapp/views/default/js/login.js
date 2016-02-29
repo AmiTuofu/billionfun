@@ -46,6 +46,11 @@ $().ready(function () {
             type: "POST",
             url: ctx + "/register.json",
             data: register_data,
+            beforeSend:function(XMLHttpRequest){
+//            	bootbox.alert("加载中...", function (result) {
+//
+//                });
+            },
             success: function (data) {
                     var retCode = data.retCode;
                     var retMsg = data.retMsg;
