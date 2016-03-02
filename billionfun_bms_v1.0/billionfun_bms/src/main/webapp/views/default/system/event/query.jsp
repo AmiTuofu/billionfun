@@ -8,7 +8,8 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="${ctx}/views/default/assets/css/fullcalendar.css" />
+<link rel="stylesheet" href="${ctx}/views/default/assets/css/fullcalendar.min.css" />
+<%-- <link rel="stylesheet" href="${ctx}/views/default/assets/css/fullcalendar.print.css" /> --%>
 </head>
 <body>
 	<div class="page-content">

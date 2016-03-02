@@ -26,8 +26,16 @@ $().ready(function(){
 		var calendar = $('#calendar').fullCalendar({
 			 buttonText: {
 				prev: '<i class="icon-chevron-left"></i>',
-				next: '<i class="icon-chevron-right"></i>'
+				next: '<i class="icon-chevron-right"></i>',
+				today:'返回今天',
+				month:'月',
+				week:'周',
+				day:'日'
 			},
+			monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -89,7 +97,7 @@ $().ready(function(){
 			selectable: true,
 			selectHelper: true,
 			select: function(start, end, allDay) {
-				bootbox.prompt("New Event Title:", function(title) {
+				bootbox.prompt("新建事件:", function(title) {
 					
 					if (title !== null) {
 						var id = addEvent(title,start,end);
@@ -108,14 +116,14 @@ $().ready(function(){
 				calendar.fullCalendar('unselect');
 			},
 			eventClick: function(calEvent, jsEvent, view) {
-				var form = $("<form class='form-inline'><label>Change event name &nbsp;</label></form>");
+				var form = $("<form class='form-inline'><label>编辑事件名称： &nbsp;</label></form>");
 				form.append("<input class='middle' autocomplete=off type=text value='" + calEvent.title + "' /> ");
-				form.append("<button type='submit' class='btn btn-sm btn-success'><i class='icon-ok'></i> Save</button>");
+				form.append("<button type='submit' class='btn btn-sm btn-success'><i class='icon-ok'></i> 保存</button>");
 				var div = bootbox.dialog({
 					message: form,
 					buttons: {
 						"delete" : {
-							"label" : "<i class='icon-trash'></i> Delete Event",
+							"label" : "<i class='icon-trash'></i> 删除事件",
 							"className" : "btn-sm btn-danger",
 							"callback": function() {
 								delEvent(calEvent);
@@ -125,7 +133,7 @@ $().ready(function(){
 							}
 						} ,
 						"close" : {
-							"label" : "<i class='icon-remove'></i> Close",
+							"label" : "<i class='icon-remove'></i> 关闭",
 							"className" : "btn-sm"
 						} 
 					}
