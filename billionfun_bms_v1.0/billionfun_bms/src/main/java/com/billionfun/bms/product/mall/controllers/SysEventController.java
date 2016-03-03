@@ -1,5 +1,6 @@
 package com.billionfun.bms.product.mall.controllers;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -50,11 +51,15 @@ public class SysEventController extends BaseController {
 
 	@RequestMapping("/add")
 	public String add(ModelMap modelMap, SysEventVO vo) {
-		SysEvent event = new SysEvent();
-		BeanUtils.copyProperties(vo, event);
-		event.setStatus(1);
-		eventService.save(event);
-		modelMap.put("id", event.getId());
+		vo.setStatus(1);
+		vo.setUserId(getCurrentUser().getId());
+		try {
+			eventService.save(vo);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		modelMap.put("id", vo.getId());
 		return "system/event/add";
 	}
 

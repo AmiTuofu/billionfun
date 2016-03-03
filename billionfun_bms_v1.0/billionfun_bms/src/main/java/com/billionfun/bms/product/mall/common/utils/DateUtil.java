@@ -19,19 +19,19 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateUtil {
-	public final static String YEAR = " year ";
+	public final static String YEAR = "year";
 
-	public final static String MONTH = " month ";
+	public final static String MONTH = "month";
 
-	public final static String DAY = " day ";
+	public final static String DAY = "day";
 
-	public final static String WEEK = " week ";
+	public final static String WEEK = "week";
 
-	public final static String HOUR = " hour ";
+	public final static String HOUR = "hour";
 
-	public final static String MINUTE = " minute ";
+	public final static String MINUTE = "minute";
 
-	public final static String SECOND = " second ";
+	public final static String SECOND = "second";
 	public static final String YYMMDD = "yyyy-MM-dd HH:mm:ss";
 	public static final String YYMMDDhhmmss = "yyyyMMddHHmmss";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -110,6 +110,30 @@ public class DateUtil {
 		}
 		return date;
 	}
+	
+	public static Date toDate(Date date) {
+
+		DateFormat df = new SimpleDateFormat(YYYY_MM_DD);
+		try {
+			date = df.parse(df.format(date));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	public static Date toDate(Date date, String formaterString) {
+
+		DateFormat df = new SimpleDateFormat(formaterString);
+		try {
+			date = df.parse(df.format(date));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	
 
 	/**
 	 * string to Date as format
@@ -448,18 +472,99 @@ public class DateUtil {
 	 * @return List<Date>
 	 * @throws
 	 */
-	public static List<Date> getDates(Date start, Date end, String type) {
+	public static List<Date> getDates(Date start, Date end, String type,int count) {
 		Calendar c_start = date2Cal(start);
 		Calendar c_end = date2Cal(end);
 		List<Date> result = new ArrayList<Date>();
-		Calendar temp = c_start.getInstance();
-		temp.add(Calendar.DAY_OF_YEAR, 1);
-		while (temp.before(c_end)) {
+		Calendar temp = c_start;
+		while (temp.before(c_end)||temp.equals(c_end)) {
 			result.add(temp.getTime());
-			temp.add(Calendar.DAY_OF_YEAR, 1);
+			if (DateUtil.YEAR.equals(type)) {
+				temp.add(Calendar.YEAR, count);
+			} else if (DateUtil.MONTH.equals(type)) {
+				temp.add(Calendar.MONTH, count);
+			} else if (DateUtil.DAY.equals(type)) {
+				temp.add(Calendar.DAY_OF_MONTH, count);
+			} else if (DateUtil.WEEK.equals(type)) {
+				temp.add(Calendar.WEEK_OF_MONTH, count);
+			} else if (DateUtil.HOUR.equals(type)) {
+				temp.add(Calendar.HOUR, count);
+			} else if (DateUtil.MINUTE.equals(type)) {
+				temp.add(Calendar.MINUTE, count);
+			} else if (DateUtil.SECOND.equals(type)) {
+				temp.add(Calendar.SECOND, count);
+			}else{
+				return null;
+			}
 		}
 		return result;
 	}
+	
+	public static int getDateSpace(String date1, String date2)
+            throws ParseException {
+
+        int result = 0;
+
+        Calendar calst = Calendar.getInstance();;
+        Calendar caled = Calendar.getInstance();
+
+        calst.setTime(toDate(date1,"yyyy-MM-dd"));
+        caled.setTime(toDate(date2,"yyyy-MM-dd"));
+ 
+         //设置时间为0时   
+         calst.set(Calendar.HOUR_OF_DAY, 0);   
+         calst.set(Calendar.MINUTE, 0);   
+         calst.set(Calendar.SECOND, 0);   
+         caled.set(Calendar.HOUR_OF_DAY, 0);   
+         caled.set(Calendar.MINUTE, 0);   
+         caled.set(Calendar.SECOND, 0);   
+        //得到两个日期相差的天数   
+         int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;   
+         
+        return days;   
+    }
+	
+	public static int getDateSpace(Date date1, Date date2)
+            throws ParseException {
+
+        int result = 0;
+
+        Calendar calst = Calendar.getInstance();;
+        Calendar caled = Calendar.getInstance();
+
+        calst.setTime(toDate(date1,"yyyy-MM-dd"));
+        caled.setTime(toDate(date2,"yyyy-MM-dd"));
+ 
+         //设置时间为0时   
+         calst.set(Calendar.HOUR_OF_DAY, 0);   
+         calst.set(Calendar.MINUTE, 0);   
+         calst.set(Calendar.SECOND, 0);   
+         caled.set(Calendar.HOUR_OF_DAY, 0);   
+         caled.set(Calendar.MINUTE, 0);   
+         caled.set(Calendar.SECOND, 0);   
+        //得到两个日期相差的天数   
+         int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;   
+         
+        return days;   
+    }
+	
+	 public static int getMonthSpace(String date1, String date2)
+	            throws ParseException {
+
+	        int result = 0;
+
+
+	        Calendar c1 = Calendar.getInstance();
+	        Calendar c2 = Calendar.getInstance();
+
+	        c1.setTime(toDate(date1, "yyyy-MM-dd"));
+	        c2.setTime(toDate(date2, "yyyy-MM-dd"));
+
+	        result = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
+
+	        return result == 0 ? 1 : Math.abs(result);
+
+	    }
 
 	public static Calendar date2Cal(Date date) {
 		Calendar calendar = Calendar.getInstance();
@@ -468,12 +573,17 @@ public class DateUtil {
 	}
 
 	public static void main(String[] args) throws ParseException {
-		Date start = new Date(2016, 03, 02);
-		Date end = new Date(2016, 04, 02);
-		List list = getDates(start, end, "");
+		Date start = toDate("2016-03-02");
+		Date end = toDate("2016-04-02");
+		List list = getDates(start, end, "year",1);
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
 		}
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date d1 = df.parse("2004-03-26 13:31:40");
+	    Date d2 = df.parse("2004-03-28 11:30:24");
+	    Calendar start1 = date2Cal(d1);
+	    System.out.println(getDateSpace("2004-03-26 13:31:40", "2004-03-27 11:30:24"));
 		// String t = DateUtil.toString(new Date());
 		// System.out.println(t);
 		// Date date = DateUtil.toDate("2010-06-17");

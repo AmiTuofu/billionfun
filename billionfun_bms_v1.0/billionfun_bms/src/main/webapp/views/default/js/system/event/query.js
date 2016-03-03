@@ -1,6 +1,7 @@
 $().ready(function(){
 		/* initialize the external events
 		-----------------------------------------------------------------*/
+	
 		$('#external-events div.external-event').each(function() {
 	//		alert("111");
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
@@ -102,16 +103,18 @@ $().ready(function(){
 					
 					if (title !== null) {
 						var id = addEvent(title,start,end);
-						calendar.fullCalendar('renderEvent',
-							{
-								id:id,
-								title: title,
-								start: start,
-								end: end,
-								allDay: allDay
-							},
-							true // make the event "stick"
-						);
+						calendar.fullCalendar('refetchEvents');
+//						calendar.fullCalendar('renderEvent',
+//							{
+//								id:id,
+//								title: title,
+//								start: start,
+//								end: end,
+//								allDay: allDay
+//							},
+//							true // make the event "stick"
+//						);
+						
 					}
 				});
 				$(".modal-title").html("新建事件:");
@@ -121,19 +124,26 @@ $().ready(function(){
 				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 				
 				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
 				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 				
 				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
 				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 				
 				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"repeats\" placeholder=\"\" class=\"col-xs-4 col-sm-4\"><lable class=\"col-xs-2 col-sm-2\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-6 col-sm-6\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"repeats\">";
+				bootbox_form_html = bootbox_form_html + "<option value=>不重复</option><option value=day>每日重复</option><option value=week>每周重复</option>";
+				bootbox_form_html = bootbox_form_html + "<option value=month>每月重复</option><option value=year>每年重复</option>";
+				bootbox_form_html = bootbox_form_html + "</select></div>"
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><lable class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
 				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 				
 				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"remind\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"remind\">";
+				bootbox_form_html = bootbox_form_html + "<option value=>不提醒</option><option value=1>提醒一小时</option><option value=24>提前一天</option>";
+				bootbox_form_html = bootbox_form_html + "<option value=168>提前一周</option>";
+				bootbox_form_html = bootbox_form_html + "</select></div></div>";
 				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 				
 				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 地点: </label>";
@@ -143,6 +153,9 @@ $().ready(function(){
 				
 				bootbox_form_html = bootbox_form_html + "</form>";
 				$(".bootbox-body").html(bootbox_form_html);
+				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+					$(this).prev().focus();
+				});
 				calendar.fullCalendar('unselect');
 			},
 			eventClick: function(calEvent, jsEvent, view) {
@@ -204,15 +217,26 @@ $().ready(function(){
 			}
 		});
 		function addEvent(title,start,end){
+			title = $("input[name=name]").val();
+			start = $("input[name=startDate]").val();
+			end = $("input[name=endDate]").val();
+			var repeats = $("select[name=repeats]").val();
+			var repeatsEndDate = $("input[name=repeatsEndDate]").val();
+			var remind = $("select[name=remind]").val();
+			var place = $("input[name=place]").val();
 			var id = "";
 			if(end==""||end==null){
 				var date = new Date();
 				end = date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59";
 			}
 			var params = {
-					"startDate":start,
-					"endDate":end,
-					"name":title
+					"startDate":new   Date(start.replace(/-/g,   "/")),
+					"endDate":new   Date(end.replace(/-/g,   "/")),
+					"name":title,
+					"repeats":repeats,
+					"repeatsEndDate":new   Date(repeatsEndDate.replace(/-/g,   "/")),
+					"remind":remind,
+					"place":place,
 			};
 			$.ajax({
 		            type: "POST",
