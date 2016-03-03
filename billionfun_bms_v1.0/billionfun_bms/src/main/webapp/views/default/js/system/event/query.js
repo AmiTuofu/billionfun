@@ -97,6 +97,7 @@ $().ready(function(){
 			selectable: true,
 			selectHelper: true,
 			select: function(start, end, allDay) {
+				
 				bootbox.prompt("新建事件:", function(title) {
 					
 					if (title !== null) {
@@ -113,6 +114,35 @@ $().ready(function(){
 						);
 					}
 				});
+				$(".modal-title").html("新建事件:");
+				var bootbox_form_html = "<form class=\"form-horizontal\" role=\"form\">";
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 名称: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"name\" placeholder=\"\" class=\"col-xs-11 col-sm-8\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"repeats\" placeholder=\"\" class=\"col-xs-4 col-sm-4\"><lable class=\"col-xs-2 col-sm-2\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-6 col-sm-6\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"remind\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 地点: </label>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"place\" class=\"col-xs-10 col-sm-5\"></div></div>";
+				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+				
+				
+				bootbox_form_html = bootbox_form_html + "</form>";
+				$(".bootbox-body").html(bootbox_form_html);
 				calendar.fullCalendar('unselect');
 			},
 			eventClick: function(calEvent, jsEvent, view) {
@@ -120,6 +150,7 @@ $().ready(function(){
 				form.append("<input class='middle' autocomplete=off type=text value='" + calEvent.title + "' /> ");
 				form.append("<button type='submit' class='btn btn-sm btn-success'><i class='icon-ok'></i> 保存</button>");
 				var div = bootbox.dialog({
+					title:"编辑事件",
 					message: form,
 					buttons: {
 						"delete" : {

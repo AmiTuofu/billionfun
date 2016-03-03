@@ -16,6 +16,13 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JSONField(format = "yyyy/MM/dd HH:mm:ss")
 	private Date endDate;
+	@JSONField(format = "yyyy/MM/dd HH:mm:ss")
+	private Date repeatsEndDate;
+	private String repeats;
+	private String remind;
+	private String remindWay;
+	private String userId;
+	private String place;
 	private Integer status;
 
 	public String getId() {
@@ -64,5 +71,53 @@ public class SysEventVO extends PageUtil<SysEvent> {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getRemind() {
+		return remind;
+	}
+
+	public void setRemind(String remind) {
+		this.remind = remind;
+	}
+
+	public String getRemindWay() {
+		return remindWay;
+	}
+
+	public void setRemindWay(String remindWay) {
+		this.remindWay = remindWay;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public Date getRepeatsEndDate() {
+		return repeatsEndDate;
+	}
+
+	public void setRepeatsEndDate(Date repeatsEndDate) {
+		this.repeatsEndDate = repeatsEndDate;
+	}
+
+	public String getRepeats() {
+		return repeats;
+	}
+
+	public void setRepeats(String repeats) {
+		this.repeats = repeats;
 	}
 }

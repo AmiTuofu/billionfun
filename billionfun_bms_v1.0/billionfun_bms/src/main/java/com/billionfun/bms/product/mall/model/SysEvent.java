@@ -25,6 +25,15 @@ public class SysEvent {
 	// @Temporal(TemporalType.DATE)
 	@Column(name = "end_date")
 	private Date endDate;
+	private String repeats;
+	private String remind;
+	@Column(name = "remind_way")
+	private String remindWay;
+	@Column(name = "user_id")
+	private String userId;
+	private String place;
+	@Column(name = "repeats_end_date")
+	private Date repeatsEndDate;
 	private Integer status;
 
 	public String getId() {
@@ -73,5 +82,53 @@ public class SysEvent {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getRemind() {
+		return remind;
+	}
+
+	public void setRemind(String remind) {
+		this.remind = remind;
+	}
+
+	public String getRemindWay() {
+		return remindWay;
+	}
+
+	public void setRemindWay(String remindWay) {
+		this.remindWay = remindWay;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getRepeats() {
+		return repeats;
+	}
+
+	public void setRepeats(String repeats) {
+		this.repeats = repeats;
+	}
+
+	public Date getRepeatsEndDate() {
+		return repeatsEndDate;
+	}
+
+	public void setRepeatsEndDate(Date repeatsEndDate) {
+		this.repeatsEndDate = repeatsEndDate;
 	}
 }

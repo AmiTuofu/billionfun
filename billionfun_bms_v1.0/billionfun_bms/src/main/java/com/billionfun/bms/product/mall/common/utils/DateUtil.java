@@ -10,9 +10,11 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -153,7 +155,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String toString(Date date, String formaterString) {
-		
+
 		String time;
 		SimpleDateFormat formater = new SimpleDateFormat();
 		formater.applyPattern(formaterString);
@@ -342,7 +344,7 @@ public class DateUtil {
 		long dateTime = date.getTime();
 		return new Date(dateTime - timescope);
 	}
-	
+
 	public static Date minusDate(Date date, String pattern, String type,
 			int count) {
 		if (date == null || checkParam(pattern) || checkParam(type)) {
@@ -381,15 +383,13 @@ public class DateUtil {
 		return calendar.getTime();
 	}
 
-	
 	public static Date minusDate(Date date, BigInteger timescope) {
 		long dateTime = date.getTime();
-		BigInteger biFirst = new BigInteger(String.valueOf(dateTime)); 
+		BigInteger biFirst = new BigInteger(String.valueOf(dateTime));
 		BigInteger biMinus = biFirst.subtract(timescope);
 		return new Date(biMinus.longValue());
 	}
-	
-	
+
 	public static String addDate(String dateStr, String pattern, String type,
 			int count) {
 		if (checkParam(dateStr) || checkParam(pattern) || checkParam(type)) {
@@ -438,45 +438,79 @@ public class DateUtil {
 		}
 	}
 
-	public static void main(String[] args) throws ParseException {
-
-		String t = DateUtil.toString(new Date());
-		System.out.println(t);
-		Date date = DateUtil.toDate("2010-06-17");
-		System.out.println(date);
-
-		// String sToTimestamp = "2005-8-18 14:21:12.123";//
-
-		String sToTimestamp = "2005-8-18 14:21";
-		Timestamp Timestamp = string2Time(sToTimestamp);
-		System.out.println(Timestamp);
-
-		String time = DateUtil.toExternal(nowTimestamp());
-		System.out.println(time);
-
-		System.out.println("..............................");
-		Date startTime = DateUtil.toDate("20120414000000",
-				DateUtil.YYMMDDhhmmss);
-		System.out.println("startTime=" + startTime);
-		System.out.println("startTime long=" + startTime.getTime());
-		Date endTime = DateUtil.toDate("20120415000000", DateUtil.YYMMDDhhmmss);
-		System.out.println("endTime long=" + endTime.getTime());
-
-		long scope = endTime.getTime() - startTime.getTime();
-		System.out.println("scope long=" + scope);
-
-		Date minusTime = DateUtil.minusDate(endTime, 86400000);
-		System.out.println("minusTime=" + minusTime);
+	/**
+	 * 
+	 * @Title: 得到两个日期之间的所有日期
+	 * @Description: TODO
+	 * @param @param p_start
+	 * @param @param p_end
+	 * @param @return
+	 * @return List<Date>
+	 * @throws
+	 */
+	public static List<Date> getDates(Date start, Date end, String type) {
+		Calendar c_start = date2Cal(start);
+		Calendar c_end = date2Cal(end);
+		List<Date> result = new ArrayList<Date>();
+		Calendar temp = c_start.getInstance();
+		temp.add(Calendar.DAY_OF_YEAR, 1);
+		while (temp.before(c_end)) {
+			result.add(temp.getTime());
+			temp.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		return result;
 	}
-	
-	
+
+	public static Calendar date2Cal(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
+	}
+
+	public static void main(String[] args) throws ParseException {
+		Date start = new Date(2016, 03, 02);
+		Date end = new Date(2016, 04, 02);
+		List list = getDates(start, end, "");
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		// String t = DateUtil.toString(new Date());
+		// System.out.println(t);
+		// Date date = DateUtil.toDate("2010-06-17");
+		// System.out.println(date);
+		//
+		// // String sToTimestamp = "2005-8-18 14:21:12.123";//
+		//
+		// String sToTimestamp = "2005-8-18 14:21";
+		// Timestamp Timestamp = string2Time(sToTimestamp);
+		// System.out.println(Timestamp);
+		//
+		// String time = DateUtil.toExternal(nowTimestamp());
+		// System.out.println(time);
+		//
+		// System.out.println("..............................");
+		// Date startTime = DateUtil.toDate("20120414000000",
+		// DateUtil.YYMMDDhhmmss);
+		// System.out.println("startTime=" + startTime);
+		// System.out.println("startTime long=" + startTime.getTime());
+		// Date endTime = DateUtil.toDate("20120415000000",
+		// DateUtil.YYMMDDhhmmss);
+		// System.out.println("endTime long=" + endTime.getTime());
+		//
+		// long scope = endTime.getTime() - startTime.getTime();
+		// System.out.println("scope long=" + scope);
+		//
+		// Date minusTime = DateUtil.minusDate(endTime, 86400000);
+		// System.out.println("minusTime=" + minusTime);
+	}
+
 	@SuppressWarnings("static-access")
 	public static String getLastDate(Date date, String pattern) {
 		SimpleDateFormat sf = new SimpleDateFormat(pattern);
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(c.DAY_OF_MONTH, -1);
-		
+
 		return sf.format(c.getTime());
 	}
 }
