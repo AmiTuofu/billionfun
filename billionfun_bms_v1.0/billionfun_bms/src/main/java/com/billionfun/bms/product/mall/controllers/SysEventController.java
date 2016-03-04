@@ -32,9 +32,10 @@ public class SysEventController extends BaseController {
 
 	@RequestMapping("/search")
 	public String search(ModelMap modelMap, SysEventVO vo) {
+		vo.setUserId(getCurrentUser().getId());
 		List<SysEventVO> eventVOs = eventService.search(vo);
-		modelMap.put("userdata", eventVOs);
-		modelMap.put("list", eventService.search(vo));
+		// modelMap.put("userdata", eventVOs);
+		modelMap.put("list", eventVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
@@ -43,6 +44,8 @@ public class SysEventController extends BaseController {
 
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap, SysEventVO vo) {
+		vo.setStatus(1);
+		vo.setUserId(getCurrentUser().getId());
 		SysEvent event = new SysEvent();
 		BeanUtils.copyProperties(vo, event);
 		eventService.update(event);
@@ -59,7 +62,7 @@ public class SysEventController extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		modelMap.put("id", vo.getId());
+		modelMap.put("id", vo.getId());
 		return "system/event/add";
 	}
 

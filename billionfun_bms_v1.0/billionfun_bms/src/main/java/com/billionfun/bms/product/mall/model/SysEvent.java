@@ -32,6 +32,8 @@ public class SysEvent {
 	@Column(name = "user_id")
 	private String userId;
 	private String place;
+	@Column(name = "class_name")
+	private String className;
 	@Column(name = "repeats_end_date")
 	private Date repeatsEndDate;
 	private Integer status;
@@ -130,5 +132,13 @@ public class SysEvent {
 
 	public void setRepeatsEndDate(Date repeatsEndDate) {
 		this.repeatsEndDate = repeatsEndDate;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 }

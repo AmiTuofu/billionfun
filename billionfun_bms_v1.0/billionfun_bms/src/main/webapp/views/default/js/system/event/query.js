@@ -46,8 +46,8 @@ $().ready(function(){
 				var events =[];
 				$.ajax({
 		            type: "POST",
-		            url: ctx+"/system/event/query.json",
-		            data: {start: start.getTime(), end: end.getTime()},
+		            url: ctx+"/system/event/search.json",
+		            data: {startDate: start, endDate: end},
 		            beforeSend:function(XMLHttpRequest){
 //		            	bootbox.alert("加载中...", function (result) {
 		//
@@ -59,7 +59,12 @@ $().ready(function(){
 								id:$(this).attr('id'),
 		                        title:$(this).attr('name'),
 		                        start:$(this).attr('startDate'), // will be parsed
-		                        end:$(this).attr('endDate')
+		                        end:$(this).attr('endDate'),
+		                        repeats:$(this).attr('repeats'),
+		                        remind:$(this).attr('remind'),
+		                        repeatsEndDate:$(this).attr('repeatsEndDate'),
+		                        place:$(this).attr('place'),
+		                        className:$(this).attr('className'),
 		                    });
 				        });
 						callback(events);
@@ -76,96 +81,92 @@ $().ready(function(){
 				// retrieve the dropped element's stored Event Object
 				
 				var originalEventObject = $(this).data('eventObject');
-				var id = addEvent(originalEventObject.title,date,date);
 				var $extraEventClass = $(this).attr('data-class');
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = $.extend({}, originalEventObject);
 				// assign it the date that was reported
-				copiedEventObject.start = date;
+				copiedEventObject.start = date.Format("yyyy-MM-dd hh:mm:ss");
+				copiedEventObject.end = date.Format("yyyy-MM-dd hh:mm:ss");
+				copiedEventObject.repeatsEndDate = null;
+				copiedEventObject.remind = "";
+				copiedEventObject.place = "";
 				copiedEventObject.allDay = allDay;
-				copiedEventObject.id = id
-				if($extraEventClass) copiedEventObject['className'] = [$extraEventClass];
-				// render the event on the calendar
-				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-				// is the "remove after drop" checkbox checked?
-				if ($('#drop-remove').is(':checked')) {
-					// if so, remove the element from the "Draggable Events" list
-					$(this).remove();
+				copiedEventObject.className = $extraEventClass;
+				var id = addEvent(copiedEventObject);
+				
+				calendar.fullCalendar('refetchEvents');
+				copiedEventObject.id = id;
+				if($extraEventClass){
+					copiedEventObject['className'] = [$extraEventClass];
 				}
+//				// render the event on the calendar
+//				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+//				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+//				// is the "remove after drop" checkbox checked?
+//				if ($('#drop-remove').is(':checked')) {
+//					// if so, remove the element from the "Draggable Events" list
+//					$(this).remove();
+//				}
 				
 			},
 			selectable: true,
 			selectHelper: true,
 			select: function(start, end, allDay) {
-				
-				bootbox.prompt("新建事件:", function(title) {
-					
-					if (title !== null) {
-						var id = addEvent(title,start,end);
-						calendar.fullCalendar('refetchEvents');
-//						calendar.fullCalendar('renderEvent',
-//							{
-//								id:id,
-//								title: title,
-//								start: start,
-//								end: end,
-//								allDay: allDay
-//							},
-//							true // make the event "stick"
-//						);
-						
+				var form = $(getFormHtml(null));
+				var div = bootbox.dialog({
+					title:"新建事件",
+					message: form,
+					buttons: {
+						"ok" : {
+							"label" : "<i class='icon-ok'></i> 保存",
+							"className" : "btn btn-sm btn-success",
+							"callback": function() {
+								var calEvent = {};
+								calEvent.title = form.find("input[name=name]").val();
+								calEvent.start = form.find("input[name=startDate]").val();
+								calEvent.end = form.find("input[name=endDate]").val();
+								calEvent.repeats = $("select[name=repeats]").val();
+								calEvent.repeatsEndDate = $("input[name=repeatsEndDate]").val();
+								calEvent.remind = $("select[name=remind]").val();
+								calEvent.place = $("input[name=place]").val();
+								addEvent(calEvent);
+								calendar.fullCalendar('refetchEvents');
+							}
+						} ,
+						"close" : {
+							"label" : "<i class='icon-remove'></i> 关闭",
+							"className" : "btn-sm"
+						} 
 					}
 				});
-				$(".modal-title").html("新建事件:");
-				var bootbox_form_html = "<form class=\"form-horizontal\" role=\"form\">";
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 名称: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"name\" placeholder=\"\" class=\"col-xs-11 col-sm-8\"></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"repeats\">";
-				bootbox_form_html = bootbox_form_html + "<option value=>不重复</option><option value=day>每日重复</option><option value=week>每周重复</option>";
-				bootbox_form_html = bootbox_form_html + "<option value=month>每月重复</option><option value=year>每年重复</option>";
-				bootbox_form_html = bootbox_form_html + "</select></div>"
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><lable class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"remind\">";
-				bootbox_form_html = bootbox_form_html + "<option value=>不提醒</option><option value=1>提醒一小时</option><option value=24>提前一天</option>";
-				bootbox_form_html = bootbox_form_html + "<option value=168>提前一周</option>";
-				bootbox_form_html = bootbox_form_html + "</select></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 地点: </label>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"place\" class=\"col-xs-10 col-sm-5\"></div></div>";
-				bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
-				
-				
-				bootbox_form_html = bootbox_form_html + "</form>";
-				$(".bootbox-body").html(bootbox_form_html);
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
 				calendar.fullCalendar('unselect');
 			},
 			eventClick: function(calEvent, jsEvent, view) {
-				var form = $("<form class='form-inline'><label>编辑事件名称： &nbsp;</label></form>");
-				form.append("<input class='middle' autocomplete=off type=text value='" + calEvent.title + "' /> ");
-				form.append("<button type='submit' class='btn btn-sm btn-success'><i class='icon-ok'></i> 保存</button>");
+				var form = $(getFormHtml(calEvent));
 				var div = bootbox.dialog({
 					title:"编辑事件",
 					message: form,
 					buttons: {
+						"ok" : {
+							"label" : "<i class='icon-ok'></i> 保存",
+							"className" : "btn btn-sm btn-success",
+							"callback": function() {
+								calEvent.title = form.find("input[name=name]").val();
+								calEvent.start = form.find("input[name=startDate]").val();
+								calEvent.end = form.find("input[name=endDate]").val();
+								calEvent.repeats = $("select[name=repeats]").val();
+								calEvent.repeatsEndDate = $("input[name=repeatsEndDate]").val();
+								calEvent.remind = $("select[name=remind]").val();
+								calEvent.place = $("input[name=place]").val();
+								calendar.fullCalendar('updateEvent', calEvent);
+								modifyEvent(calEvent);
+								div.modal("hide");
+								calendar.fullCalendar('refetchEvents');
+							}
+						} ,
 						"delete" : {
 							"label" : "<i class='icon-trash'></i> 删除事件",
 							"className" : "btn-sm btn-danger",
@@ -182,14 +183,28 @@ $().ready(function(){
 						} 
 					}
 				});
-				form.on('submit', function(){
-					
-					calEvent.title = form.find("input[type=text]").val();
-					calendar.fullCalendar('updateEvent', calEvent);
-					modifyEvent(calEvent);
-					div.modal("hide");
-					return false;
+				form.find("input[name=name]").val(calEvent.title);
+				if(calEvent.start!=null){
+					form.find("input[name=startDate]").val(calEvent.start.Format("yyyy-MM-dd hh:mm:ss"));
+				}
+				
+				if(calEvent.end==null){
+					calEvent.end = calEvent.start;
+				}
+				if(calEvent.end!=null){
+					form.find("input[name=endDate]").val(calEvent.end.Format("yyyy-MM-dd hh:mm:ss"));
+				}
+				
+				$("select[name=repeats]").val(calEvent.repeats);
+				if(calEvent.repeatsEndDate!=null){
+					$("input[name=repeatsEndDate]").val(calEvent.repeatsEndDate);
+				}
+				$("select[name=remind]").val(calEvent.remind);
+				$("input[name=place]").val(calEvent.place);
+				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+					$(this).prev().focus();
 				});
+				
 				//console.log(calEvent.id);
 				//console.log(jsEvent);
 				//console.log(view);
@@ -216,28 +231,25 @@ $().ready(function(){
 				
 			}
 		});
-		function addEvent(title,start,end){
-			title = $("input[name=name]").val();
-			start = $("input[name=startDate]").val();
-			end = $("input[name=endDate]").val();
-			var repeats = $("select[name=repeats]").val();
-			var repeatsEndDate = $("input[name=repeatsEndDate]").val();
-			var remind = $("select[name=remind]").val();
-			var place = $("input[name=place]").val();
+		function addEvent(calEvent){
+			
 			var id = "";
-			if(end==""||end==null){
+			if(calEvent.end==""||calEvent.end==null){
 				var date = new Date();
-				end = date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59";
+				calEvent.end = date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59";
 			}
 			var params = {
-					"startDate":new   Date(start.replace(/-/g,   "/")),
-					"endDate":new   Date(end.replace(/-/g,   "/")),
-					"name":title,
-					"repeats":repeats,
-					"repeatsEndDate":new   Date(repeatsEndDate.replace(/-/g,   "/")),
-					"remind":remind,
-					"place":place,
+					"startDate":new   Date(calEvent.start.replace(/-/g,   "/")),
+					"endDate":new   Date(calEvent.end.replace(/-/g,   "/")),
+					"name":calEvent.title,
+					"repeats":calEvent.repeats,
+					"remind":calEvent.remind,
+					"place":calEvent.place,
+					"className":calEvent.className,
 			};
+			if(params.repeatsEndDate!=null){
+				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
+			}
 			$.ajax({
 		            type: "POST",
 		            url: ctx + "/system/event/add.json",
@@ -263,14 +275,20 @@ $().ready(function(){
 				calEvent.end = new Date(date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59");
 			}
 			var params = {
-					"id":calEvent._id,
+					"id":calEvent.id,
 					"startDate":calEvent.start,
 					"endDate":calEvent.end,
-					"name":calEvent.title
+					"name":calEvent.title,
+					"repeats":calEvent.repeats,
+					"repeatsEndDate":new   Date(calEvent.repeatsEndDate.replace(/-/g,   "/")),
+					"remind":calEvent.remind,
+					"place":calEvent.place,
+					"className":calEvent.className,
 			};
 			$.ajax({
 		            type: "POST",
 		            url: ctx + "/system/event/modify.json",
+		            async: false,
 		            data: params,
 		            beforeSend:function(XMLHttpRequest){
 //		            	bootbox.alert("加载中...", function (result) {
@@ -305,5 +323,42 @@ $().ready(function(){
 		                    alert("error");
 		                }
 		        });
+		}
+		function getFormHtml(calEvent){
+			var bootbox_form_html = "<form class=\"form-horizontal\" role=\"form\">";
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 名称: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"name\" placeholder=\"\" class=\"col-xs-11 col-sm-8\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"repeats\">";
+			bootbox_form_html = bootbox_form_html + "<option value=>不重复</option><option value=day>每日重复</option><option value=week>每周重复</option>";
+			bootbox_form_html = bootbox_form_html + "<option value=month>每月重复</option><option value=year>每年重复</option>";
+			bootbox_form_html = bootbox_form_html + "</select></div>"
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><lable class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"remind\">";
+			bootbox_form_html = bootbox_form_html + "<option value=>不提醒</option><option value=1>提醒一小时</option><option value=24>提前一天</option>";
+			bootbox_form_html = bootbox_form_html + "<option value=168>提前一周</option>";
+			bootbox_form_html = bootbox_form_html + "</select></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 地点: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"place\" class=\"col-xs-10 col-sm-5\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			
+			bootbox_form_html = bootbox_form_html + "</form>";
+			return bootbox_form_html;
 		}
 });

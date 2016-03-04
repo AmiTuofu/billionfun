@@ -11,21 +11,51 @@ import com.billionfun.bms.product.mall.model.SysEvent;
 import com.billionfun.bms.product.mall.vo.SysEventVO;
 
 @Repository
-public class SysEventDaoImpl extends BaseDaoImpl<SysEvent,String> implements SysEventDao{
+public class SysEventDaoImpl extends BaseDaoImpl<SysEvent, String> implements
+		SysEventDao {
 
 	public List<SysEvent> getListByPage(SysEventVO vo) {
 		StringBuilder hql = new StringBuilder();
 		List<String> paramList = new ArrayList<String>();
-		hql.append(" from SysEvent l");
+		hql.append(" from SysEvent e");
 		hql.append(" where 1=1");
-		if(vo.getSearch()){
+		if (vo.getSearch()) {
 			vo.getSearchHql(hql, vo.getFilters(), paramList);
 		}
-		if(!StringUtil.empty(vo.getSort())&&!StringUtil.empty(vo.getOrder())){
-			hql.append(" order by l.").append(vo.getSort()).append(" ").append(vo.getOrder());
+		if (!StringUtil.empty(vo.getSort()) && !StringUtil.empty(vo.getOrder())) {
+			hql.append(" order by e.").append(vo.getSort()).append(" ")
+					.append(vo.getOrder());
 		}
 
-		List<SysEvent> list = super.getListByPage(vo, hql.toString(), paramList);
+		List<SysEvent> list = super
+				.getListByPage(vo, hql.toString(), paramList);
+		return list;
+	}
+
+	public List<SysEvent> getList(SysEventVO vo) {
+		StringBuilder hql = new StringBuilder();
+		List paramList = new ArrayList();
+		hql.append(" from SysEvent e");
+		hql.append(" where 1=1");
+
+		if (vo.getStartDate() != null && vo.getEndDate() != null) {
+			hql.append(" and e.startDate >= ? and e.endDate<= ?");
+			paramList.add(vo.getStartDate());
+			paramList.add(vo.getEndDate());
+		}
+		if (!StringUtil.empty(vo.getUserId())) {
+			hql.append(" and e.userId = ?");
+			paramList.add(vo.getUserId());
+		}
+		if (vo.getSearch()) {
+			vo.getSearchHql(hql, vo.getFilters(), paramList);
+		}
+		if (!StringUtil.empty(vo.getSort()) && !StringUtil.empty(vo.getOrder())) {
+			hql.append(" order by e.").append(vo.getSort()).append(" ")
+					.append(vo.getOrder());
+		}
+
+		List<SysEvent> list = super.getList(hql.toString(), paramList);
 		return list;
 	}
 

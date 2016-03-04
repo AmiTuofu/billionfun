@@ -24,7 +24,7 @@ public class SysEventServiceImpl extends
 	private SysEventDao eventDao;
 
 	public List<SysEventVO> search(SysEventVO vo) {
-		List<SysEvent> list = eventDao.getListByPage(vo);
+		List<SysEvent> list = eventDao.getList(vo);
 		List<SysEventVO> listVo = new ArrayList<SysEventVO>();
 		if (!StringUtil.empty(list)) {
 			for (SysEvent ref : list) {
@@ -39,17 +39,24 @@ public class SysEventServiceImpl extends
 	public boolean save(SysEventVO vo) throws ParseException {
 		if (!StringUtil.empty(vo.getRepeats()) && !vo.getRepeats().equals("0")
 				&& vo.getRepeatsEndDate() != null) {
-			int dateCount = DateUtil.getDateSpace(vo.getStartDate(), vo.getEndDate());
-			List<Date> listStartDate = DateUtil.getDates(vo.getStartDate(), vo.getRepeatsEndDate(), vo.getRepeats(), 1);
+			int dateCount = DateUtil.getDateSpace(vo.getStartDate(),
+					vo.getEndDate());
+			List<Date> listStartDate = DateUtil.getDates(vo.getStartDate(),
+					vo.getRepeatsEndDate(), vo.getRepeats(), 1);
 			for (int i = 0; i < listStartDate.size(); i++) {
 				Date startDate = listStartDate.get(i);
-				Date endDate = DateUtil.addDate(startDate, dateCount*1000*3600*24);
+				Date endDate = DateUtil.addDate(startDate,
+						dateCount * 1000 * 3600 * 24);
 				SysEvent event = new SysEvent();
 				BeanUtils.copyProperties(vo, event);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
 				super.save(event);
 			}
+		} else {
+			SysEvent event = new SysEvent();
+			BeanUtils.copyProperties(vo, event);
+			super.save(event);
 		}
 		return false;
 	}
