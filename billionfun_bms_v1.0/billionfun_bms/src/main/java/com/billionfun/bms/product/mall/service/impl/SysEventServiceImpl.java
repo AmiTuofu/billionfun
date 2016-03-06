@@ -43,6 +43,7 @@ public class SysEventServiceImpl extends
 					vo.getEndDate());
 			List<Date> listStartDate = DateUtil.getDates(vo.getStartDate(),
 					vo.getRepeatsEndDate(), vo.getRepeats(), 1);
+			String repeatsId = vo.getUserId()+"-"+(int)(Math.random()*100000000);
 			for (int i = 0; i < listStartDate.size(); i++) {
 				Date startDate = listStartDate.get(i);
 				Date endDate = DateUtil.addDate(startDate,
@@ -51,6 +52,7 @@ public class SysEventServiceImpl extends
 				BeanUtils.copyProperties(vo, event);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
+				event.setRepeatsId(repeatsId);
 				super.save(event);
 			}
 		} else {
@@ -58,6 +60,29 @@ public class SysEventServiceImpl extends
 			BeanUtils.copyProperties(vo, event);
 			super.save(event);
 		}
-		return false;
+		return true;
+	}
+	
+	public boolean update(SysEventVO vo) throws ParseException{
+		if(!StringUtil.empty(vo.getRepeatsId())){
+			SysEvent event = eventDao.get(vo.getId());
+			eventDao.delete(vo.getRepeatsId(),event.getStartDate());
+			vo.setId(null);
+			save(vo);
+		}else{
+			SysEvent event = new SysEvent();
+			BeanUtils.copyProperties(vo, event);
+			super.update(event);
+		}
+		return true;
+	}
+
+	public boolean delete(SysEventVO vo) {
+		if(!StringUtil.empty(vo.getRepeatsId())){
+			eventDao.delete(vo.getRepeatsId(),vo.getStartDate());
+		}else{
+			super.delete(vo.getId());
+		}
+		return true;
 	}
 }

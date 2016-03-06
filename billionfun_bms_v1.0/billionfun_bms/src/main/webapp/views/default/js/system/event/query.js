@@ -64,7 +64,10 @@ $().ready(function(){
 		                        remind:$(this).attr('remind'),
 		                        repeatsEndDate:$(this).attr('repeatsEndDate'),
 		                        place:$(this).attr('place'),
-		                        className:$(this).attr('className'),
+		                        className:$(this).attr('styleClass'),
+		                        styleClass:$(this).attr('styleClass'),
+		                        repeatsId:$(this).attr('repeatsId'),
+		                        allDay:$(this).attr('allDay'),
 		                    });
 				        });
 						callback(events);
@@ -87,18 +90,18 @@ $().ready(function(){
 				// assign it the date that was reported
 				copiedEventObject.start = date.Format("yyyy-MM-dd hh:mm:ss");
 				copiedEventObject.end = date.Format("yyyy-MM-dd hh:mm:ss");
-				copiedEventObject.repeatsEndDate = null;
+				copiedEventObject.repeatsEndDate = "";
 				copiedEventObject.remind = "";
 				copiedEventObject.place = "";
 				copiedEventObject.allDay = allDay;
-				copiedEventObject.className = $extraEventClass;
+				copiedEventObject.styleClass = $extraEventClass;
 				var id = addEvent(copiedEventObject);
 				
 				calendar.fullCalendar('refetchEvents');
 				copiedEventObject.id = id;
-				if($extraEventClass){
-					copiedEventObject['className'] = [$extraEventClass];
-				}
+//				if($extraEventClass){
+//					copiedEventObject['className'] = $extraEventClass;
+//				}
 //				// render the event on the calendar
 //				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 //				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
@@ -129,6 +132,7 @@ $().ready(function(){
 								calEvent.repeatsEndDate = $("input[name=repeatsEndDate]").val();
 								calEvent.remind = $("select[name=remind]").val();
 								calEvent.place = $("input[name=place]").val();
+								calEvent.allDay = allDay;
 								addEvent(calEvent);
 								calendar.fullCalendar('refetchEvents');
 							}
@@ -139,8 +143,22 @@ $().ready(function(){
 						} 
 					}
 				});
+				form.find("input[name=startDate]").val(start.Format("yyyy-MM-dd hh:mm:ss"));
+				form.find("input[name=endDate]").val(end.Format("yyyy-MM-dd hh:mm:ss"));
+				form.find("label[name=until-time]").hide();
+				form.find("input[name=repeatsEndDate]").hide();
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
+				});
+				$("select[name=repeats]").change(function(){
+					 if(!empty($(this).val())){
+						 form.find("label[name=until-time]").show();
+						 form.find("input[name=repeatsEndDate]").show();
+						 form.find("input[name=repeatsEndDate]").val(end.Format("yyyy-MM-dd hh:mm:ss"));
+					 }else{
+						 form.find("label[name=until-time]").hide();
+						 form.find("input[name=repeatsEndDate]").hide();
+					 }
 				});
 				calendar.fullCalendar('unselect');
 			},
@@ -161,20 +179,87 @@ $().ready(function(){
 								calEvent.repeatsEndDate = $("input[name=repeatsEndDate]").val();
 								calEvent.remind = $("select[name=remind]").val();
 								calEvent.place = $("input[name=place]").val();
-								calendar.fullCalendar('updateEvent', calEvent);
-								modifyEvent(calEvent);
+								
+								if(!empty(calEvent.repeatsId)){
+									var confirm_div = bootbox.dialog({
+		//								title:"编辑事件",
+										message: "这是一个重复事件，你想?",
+										buttons: {
+											"okAll" : {
+												"label" : "<i class='icon-ok'></i> 修改当前和后续所有重复事件",
+												"className" : "btn btn-sm btn-success",
+												"callback": function() {
+													modifyEvent(calEvent);
+													confirm_div.modal("hide");
+													calendar.fullCalendar('refetchEvents');
+												}
+											} ,
+											"ok" : {
+												"label" : "<i class='icon-ok'></i> 只修改当前事件",
+												"className" : "btn btn-sm btn-success",
+												"callback": function() {
+													calEvent.repeatsId = "";
+													modifyEvent(calEvent);
+													confirm_div.modal("hide");
+													calendar.fullCalendar('refetchEvents');
+												}
+											}
+										}
+									});
+								}else{
+									calEvent.repeatsId = "";
+									modifyEvent(calEvent);
+									calendar.fullCalendar('refetchEvents');
+								}
+								
+								
+								
+//								modifyEvent(calEvent);
+							//	calendar.fullCalendar('updateEvent', calEvent);
 								div.modal("hide");
-								calendar.fullCalendar('refetchEvents');
+								
 							}
 						} ,
 						"delete" : {
 							"label" : "<i class='icon-trash'></i> 删除事件",
 							"className" : "btn-sm btn-danger",
 							"callback": function() {
-								delEvent(calEvent);
-								calendar.fullCalendar('removeEvents' , function(ev){
-									return (ev._id == calEvent._id);
-								})
+								if(!empty(calEvent.repeatsId)){
+									var confirm_div = bootbox.dialog({
+		//								title:"编辑事件",
+										message: "这是一个重复事件，你想?",
+										buttons: {
+											"okAll" : {
+												"label" : "<i class='icon-trash'></i> 删除当前和后续所有重复事件",
+												"className" : "btn-sm btn-danger",
+												"callback": function() {
+													delEvent(calEvent);
+													calendar.fullCalendar('refetchEvents');
+//													calendar.fullCalendar('removeEvents' , function(ev){
+//														return (ev._id == calEvent._id);
+//													})
+												}
+											} ,
+											"ok" : {
+												"label" : "<i class='icon-trash'></i> 只删除当前事件",
+												"className" : "btn-sm btn-danger",
+												"callback": function() {
+													calEvent.repeatsId = "";
+													delEvent(calEvent);
+													calendar.fullCalendar('refetchEvents');
+//													calendar.fullCalendar('removeEvents' , function(ev){
+//														return (ev._id == calEvent._id);
+//													})
+												}
+											}
+										}
+									});
+								}else{
+									calEvent.repeatsId = "";
+									delEvent(calEvent);
+									calendar.fullCalendar('refetchEvents');
+								}
+								
 							}
 						} ,
 						"close" : {
@@ -184,21 +269,23 @@ $().ready(function(){
 					}
 				});
 				form.find("input[name=name]").val(calEvent.title);
-				if(calEvent.start!=null){
+				if(!empty(calEvent.start)){
 					form.find("input[name=startDate]").val(calEvent.start.Format("yyyy-MM-dd hh:mm:ss"));
 				}
 				
-				if(calEvent.end==null){
+				if(empty(calEvent.end)){
 					calEvent.end = calEvent.start;
 				}
-				if(calEvent.end!=null){
+				if(!empty(calEvent.end)){
 					form.find("input[name=endDate]").val(calEvent.end.Format("yyyy-MM-dd hh:mm:ss"));
 				}
 				
 				$("select[name=repeats]").val(calEvent.repeats);
-				if(calEvent.repeatsEndDate!=null){
+				$("select[name=repeats]").attr("disabled","disabled");
+				if(!empty(calEvent.repeatsEndDate)){
 					$("input[name=repeatsEndDate]").val(calEvent.repeatsEndDate);
 				}
+				$("input[name=repeatsEndDate]").attr("disabled","disabled");
 				$("select[name=remind]").val(calEvent.remind);
 				$("input[name=place]").val(calEvent.place);
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
@@ -218,7 +305,53 @@ $().ready(function(){
 				
 			},
 			eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-				modifyEvent(calEvent);
+				if(empty(calEvent.end)){
+					calEvent.end = calEvent.start;
+				}
+				if(!empty(calEvent.repeatsEndDate)){
+					var repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
+					repeatsEndDate.setDate(repeatsEndDate.getDate() + dayDelta);
+					repeatsEndDate.setMinutes(repeatsEndDate.getMinutes() + minuteDelta);
+					calEvent.repeatsEndDate = repeatsEndDate.Format("yyyy-MM-dd hh:mm:ss");
+				}
+				calEvent.allDay = allDay;
+				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
+				
+				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
+				
+				if(!empty(calEvent.repeatsId)){
+					var confirm_div = bootbox.dialog({
+//								title:"编辑事件",
+						message: "这是一个重复事件，你想?",
+						buttons: {
+							"okAll" : {
+								"label" : "<i class='icon-ok'></i> 修改当前和后续所有重复事件",
+								"className" : "btn btn-sm btn-success",
+								"callback": function() {
+									modifyEvent(calEvent);
+									confirm_div.modal("hide");
+									calendar.fullCalendar('refetchEvents');
+								}
+							} ,
+							"ok" : {
+								"label" : "<i class='icon-ok'></i> 只修改当前事件",
+								"className" : "btn btn-sm btn-success",
+								"callback": function() {
+									calEvent.repeatsId = "";
+									modifyEvent(calEvent);
+									confirm_div.modal("hide");
+									calendar.fullCalendar('refetchEvents');
+								}
+							}
+						}
+					});
+				}else{
+					calEvent.repeatsId = "";
+					modifyEvent(calEvent);
+					calendar.fullCalendar('refetchEvents');
+				}
+
+				
 			},
 			eventResizeStart:function(calEvent, jsEvent, ui, view){
 				
@@ -227,8 +360,50 @@ $().ready(function(){
 				
 			},
 			eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view){
-				modifyEvent(calEvent);
+				if(empty(calEvent.end)){
+					calEvent.end = calEvent.start;
+				}
+				if(!empty(calEvent.repeatsEndDate)){
+					var repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
+					repeatsEndDate.setDate(repeatsEndDate.getDate() + dayDelta);
+					repeatsEndDate.setMinutes(repeatsEndDate.getMinutes() + minuteDelta);
+					calEvent.repeatsEndDate = repeatsEndDate.Format("yyyy-MM-dd hh:mm:ss");
+				}
+				calEvent.allDay = allDay;
+				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
 				
+				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
+				if(!empty(calEvent.repeatsId)){
+					var confirm_div = bootbox.dialog({
+//								title:"编辑事件",
+						message: "这是一个重复事件，你想?",
+						buttons: {
+							"okAll" : {
+								"label" : "<i class='icon-ok'></i> 修改当前和后续所有重复事件",
+								"className" : "btn btn-sm btn-success",
+								"callback": function() {
+									modifyEvent(calEvent);
+									confirm_div.modal("hide");
+									calendar.fullCalendar('refetchEvents');
+								}
+							} ,
+							"ok" : {
+								"label" : "<i class='icon-ok'></i> 只修改当前事件",
+								"className" : "btn btn-sm btn-success",
+								"callback": function() {
+									calEvent.repeatsId = "";
+									modifyEvent(calEvent);
+									confirm_div.modal("hide");
+									calendar.fullCalendar('refetchEvents');
+								}
+							}
+						}
+					});
+				}else{
+					calEvent.repeatsId = "";
+					modifyEvent(calEvent);
+					calendar.fullCalendar('refetchEvents');
+				}
 			}
 		});
 		function addEvent(calEvent){
@@ -245,9 +420,10 @@ $().ready(function(){
 					"repeats":calEvent.repeats,
 					"remind":calEvent.remind,
 					"place":calEvent.place,
-					"className":calEvent.className,
+					"styleClass":calEvent.styleClass,
+					"allDay" : calEvent.allDay,
 			};
-			if(params.repeatsEndDate!=null){
+			if(!empty(calEvent.repeatsEndDate)){
 				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
 			}
 			$.ajax({
@@ -276,15 +452,19 @@ $().ready(function(){
 			}
 			var params = {
 					"id":calEvent.id,
-					"startDate":calEvent.start,
-					"endDate":calEvent.end,
+					"startDate":new Date(calEvent.start.replace(/-/g,   "/")),
+					"endDate":new Date(calEvent.end.replace(/-/g,   "/")),
 					"name":calEvent.title,
 					"repeats":calEvent.repeats,
-					"repeatsEndDate":new   Date(calEvent.repeatsEndDate.replace(/-/g,   "/")),
 					"remind":calEvent.remind,
 					"place":calEvent.place,
-					"className":calEvent.className,
+					"styleClass":calEvent.styleClass,
+					"repeatsId":calEvent.repeatsId,
+					"allDay" : calEvent.allDay,
 			};
+			if(!empty(calEvent.repeatsEndDate)){
+				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
+			}
 			$.ajax({
 		            type: "POST",
 		            url: ctx + "/system/event/modify.json",
@@ -305,12 +485,15 @@ $().ready(function(){
 		}
 		function delEvent(calEvent){
 			var params = {
-					"id":calEvent._id,
+					"id":calEvent.id,
+					"startDate":calEvent.start,
+					"repeatsId":calEvent.repeatsId,
 			};
 			$.ajax({
 		            type: "POST",
 		            url: ctx + "/system/event/delete.json",
 		            data: params,
+		            async: false,
 		            beforeSend:function(XMLHttpRequest){
 //		            	bootbox.alert("加载中...", function (result) {
 		//
@@ -343,7 +526,7 @@ $().ready(function(){
 			bootbox_form_html = bootbox_form_html + "<option value=>不重复</option><option value=day>每日重复</option><option value=week>每周重复</option>";
 			bootbox_form_html = bootbox_form_html + "<option value=month>每月重复</option><option value=year>每年重复</option>";
 			bootbox_form_html = bootbox_form_html + "</select></div>"
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><lable class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\">直到:</lable><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><label class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\" name=\"until-time\">直到:</label><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";

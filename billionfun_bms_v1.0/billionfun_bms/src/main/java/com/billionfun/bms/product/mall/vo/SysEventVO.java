@@ -23,7 +23,9 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	private String remindWay;
 	private String userId;
 	private String place;
-	private String className;
+	private String styleClass;
+	private String repeatsId;
+	private boolean allDay;
 	private Integer status;
 
 	public String getId() {
@@ -122,12 +124,29 @@ public class SysEventVO extends PageUtil<SysEvent> {
 		this.repeats = repeats;
 	}
 
-	public String getClassName() {
-		return className;
+
+	public String getStyleClass() {
+		return styleClass;
 	}
 
-	public void setClassName(String className) {
-		this.className = className;
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
+	}
+
+	public String getRepeatsId() {
+		return repeatsId;
+	}
+
+	public void setRepeatsId(String repeatsId) {
+		this.repeatsId = repeatsId;
+	}
+
+	public boolean getAllDay() {
+		return allDay;
+	}
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
 	}
 
 }

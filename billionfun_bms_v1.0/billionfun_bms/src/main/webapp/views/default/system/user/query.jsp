@@ -36,7 +36,6 @@
 								<script type="text/javascript">
 									var $path_base = "/";//this will be used in gritter alerts containing images
 								</script>
-
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->

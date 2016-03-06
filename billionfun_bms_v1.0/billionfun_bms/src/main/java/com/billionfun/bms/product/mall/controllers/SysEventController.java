@@ -3,13 +3,11 @@ package com.billionfun.bms.product.mall.controllers;
 import java.text.ParseException;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.billionfun.bms.product.mall.model.SysEvent;
 import com.billionfun.bms.product.mall.service.SysEventService;
 import com.billionfun.bms.product.mall.vo.SysEventVO;
 
@@ -46,9 +44,12 @@ public class SysEventController extends BaseController {
 	public String modify(ModelMap modelMap, SysEventVO vo) {
 		vo.setStatus(1);
 		vo.setUserId(getCurrentUser().getId());
-		SysEvent event = new SysEvent();
-		BeanUtils.copyProperties(vo, event);
-		eventService.update(event);
+		try {
+			eventService.update(vo);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "system/event/modify";
 	}
 
@@ -68,7 +69,7 @@ public class SysEventController extends BaseController {
 
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap, SysEventVO vo) {
-		eventService.delete(vo.getId());
+		eventService.delete(vo);
 		return "system/event/delete";
 	}
 }

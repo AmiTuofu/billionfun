@@ -185,6 +185,13 @@ Date.prototype.Format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+function empty(obj){
+	if(obj!=null&&obj!=""){
+		return false;
+	}else{
+		return true;
+	}
+}
 /*jQuery.extend(jQuery.validator.messages, {
   required: "必填字段",
   remote: "请修正该字段",

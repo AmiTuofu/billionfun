@@ -11,4 +11,8 @@ public interface SysEventService extends
 	List<SysEventVO> search(SysEventVO vo);
 
 	boolean save(SysEventVO vo)throws ParseException;
+	
+	boolean update(SysEventVO vo)throws ParseException;
+	
+	boolean delete(SysEventVO vo);
 }

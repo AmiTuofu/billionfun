@@ -32,12 +32,15 @@ public class SysEvent {
 	@Column(name = "user_id")
 	private String userId;
 	private String place;
-	@Column(name = "class_name")
-	private String className;
+	@Column(name = "style_class")
+	private String styleClass;
 	@Column(name = "repeats_end_date")
 	private Date repeatsEndDate;
+	@Column(name = "repeats_id")
+	private String repeatsId;
 	private Integer status;
-
+	private boolean allDay;
+	
 	public String getId() {
 		return id;
 	}
@@ -134,11 +137,28 @@ public class SysEvent {
 		this.repeatsEndDate = repeatsEndDate;
 	}
 
-	public String getClassName() {
-		return className;
+	public String getRepeatsId() {
+		return repeatsId;
 	}
 
-	public void setClassName(String className) {
-		this.className = className;
+	public void setRepeatsId(String repeatsId) {
+		this.repeatsId = repeatsId;
 	}
+
+	public String getStyleClass() {
+		return styleClass;
+	}
+
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
+	}
+
+	public boolean isAllDay() {
+		return allDay;
+	}
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
+	}
+	
 }
