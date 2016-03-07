@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.billionfun.bms.product.mall.common.utils.DateUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.dao.SysEventDao;
+import com.billionfun.bms.product.mall.dao.SysUserDao;
 import com.billionfun.bms.product.mall.model.SysEvent;
+import com.billionfun.bms.product.mall.model.SysUser;
 import com.billionfun.bms.product.mall.service.SysEventService;
 import com.billionfun.bms.product.mall.vo.SysEventVO;
 
@@ -22,6 +24,9 @@ public class SysEventServiceImpl extends
 		SysEventService {
 	@Autowired
 	private SysEventDao eventDao;
+	
+	@Autowired
+	private SysUserDao userDao;
 
 	public List<SysEventVO> search(SysEventVO vo) {
 		List<SysEvent> list = eventDao.getList(vo);
@@ -84,5 +89,20 @@ public class SysEventServiceImpl extends
 			super.delete(vo.getId());
 		}
 		return true;
+	}
+	
+	public List<SysEventVO> getRemindList(){
+		List<SysEvent> list = eventDao.getRemindList();
+		List<SysEventVO> listRef = new ArrayList<SysEventVO>();
+		for (int i = 0; i < list.size(); i++) {
+			SysEvent event = list.get(i);
+			SysEventVO vo = new SysEventVO();
+			BeanUtils.copyProperties(event, vo);
+			SysUser user = userDao.get(event.getUserId());
+			vo.setFullName(user.getFullName());
+			vo.setEmail(user.getEmail());
+			listRef.add(vo);
+		}
+		return listRef;
 	}
 }

@@ -13,4 +13,6 @@ public interface SysEventDao extends BaseDao<SysEvent, String> {
 	
 	boolean delete(String repeatsId,Date startDate);
 	
+	List getRemindList();
+	
 }

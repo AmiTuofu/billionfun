@@ -44,6 +44,10 @@ public interface BaseDao<T, P extends Serializable> {
 	T get(P id, Class<T> cls);
 
 	List<T> getList(final String hql);
+	
+	List<T> getListBySql(final String sql, final List paramList);
+	
+	List<T> getListBySql(final String sql);
 
 	List<T> getList(final String hql, final List paramList);
 

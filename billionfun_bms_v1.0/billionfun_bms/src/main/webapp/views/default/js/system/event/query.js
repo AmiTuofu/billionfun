@@ -531,7 +531,7 @@ $().ready(function(){
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"remind\">";
-			bootbox_form_html = bootbox_form_html + "<option value=>不提醒</option><option value=1>提醒一小时</option><option value=24>提前一天</option>";
+			bootbox_form_html = bootbox_form_html + "<option value=0>不提醒</option><option value=1>提醒一小时</option><option value=24>提前一天</option>";
 			bootbox_form_html = bootbox_form_html + "<option value=168>提前一周</option>";
 			bootbox_form_html = bootbox_form_html + "</select></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";

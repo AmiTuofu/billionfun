@@ -11,6 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.billionfun.bms.product.mall.common.ConfigInfo;
 import com.billionfun.bms.product.mall.common.utils.EmailUtil;
 import com.billionfun.bms.product.mall.common.utils.MD5Util;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
@@ -32,6 +33,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 	
 	@Autowired
 	private SysFuncDao funcDao;
+	
+	@Autowired
+	private ConfigInfo configInfo;
 
 	public List<SysUserVO> query(SysUserVO vo){
 		List<SysUser> list = baseDao.getListByPage(vo);
@@ -201,7 +205,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser,SysUserVO, Strin
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("email", vo.getEmail());
 		map.put("password", newPWD);
-		EmailUtil.sendEmail(map, "重置密码", "resetPWD.vm", new String[]{vo.getEmail()}, new String[]{});
+		EmailUtil.sendEmail(map, "重置密码", configInfo.getVelocityUserResetpwd(), new String[]{vo.getEmail()}, new String[]{});
 		return sign;
 	}
 }

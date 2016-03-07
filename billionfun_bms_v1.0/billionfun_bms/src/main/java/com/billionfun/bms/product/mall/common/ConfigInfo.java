@@ -5,6 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component("configInfo")
 public class ConfigInfo {
+	@Value("${velocity.event.remind}")
+	private String velocityEventRemind;
+	
+	@Value("${velocity.user.resetpwd}")
+	private String velocityUserResetpwd;
+	
+	@Value("${velocity.welcome}")
+	private String velocityWelcome;
 //	@Value("${webdav.host}")
 //	private String webdavHost;
 //	@Value("${webdav.port}")
@@ -54,5 +62,29 @@ public class ConfigInfo {
 //		this.ablecloudUrl = ablecloudUrl;
 //	}
 //	
+
+	public String getVelocityEventRemind() {
+		return velocityEventRemind;
+	}
+
+	public void setVelocityEventRemind(String velocityEventRemind) {
+		this.velocityEventRemind = velocityEventRemind;
+	}
+
+	public String getVelocityUserResetpwd() {
+		return velocityUserResetpwd;
+	}
+
+	public void setVelocityUserResetpwd(String velocityUserResetpwd) {
+		this.velocityUserResetpwd = velocityUserResetpwd;
+	}
+
+	public String getVelocityWelcome() {
+		return velocityWelcome;
+	}
+
+	public void setVelocityWelcome(String velocityWelcome) {
+		this.velocityWelcome = velocityWelcome;
+	}
 	
 }

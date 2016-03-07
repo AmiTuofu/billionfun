@@ -15,4 +15,6 @@ public interface SysEventService extends
 	boolean update(SysEventVO vo)throws ParseException;
 	
 	boolean delete(SysEventVO vo);
+	
+	List<SysEventVO> getRemindList();
 }

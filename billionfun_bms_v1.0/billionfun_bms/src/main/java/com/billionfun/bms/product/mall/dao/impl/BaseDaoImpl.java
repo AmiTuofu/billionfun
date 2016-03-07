@@ -179,6 +179,18 @@ public abstract class BaseDaoImpl<T, P extends Serializable> {
 		List list = query.list();
 		return list;
 	}
+	
+	public List<T> getListBySql(final String sql, final List paramList) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createSQLQuery(sql);
+		if (paramList != null && paramList.size() > 0) {
+			for (int i = 0; i < paramList.size(); i++) {
+				query.setParameter(i, paramList.get(i));
+			}
+		}
+		List list = query.list();
+		return list;
+	}
 
 	public List<T> getListByPage(final int begin, final int pageSize,
 			final String hql) {
@@ -208,6 +220,13 @@ public abstract class BaseDaoImpl<T, P extends Serializable> {
 	public List<T> getList(final String hql) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
+		List list = query.list();
+		return list;
+	}
+	
+	public List<T> getListBySql(final String sql) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createSQLQuery(sql);
 		List list = query.list();
 		return list;
 	}
