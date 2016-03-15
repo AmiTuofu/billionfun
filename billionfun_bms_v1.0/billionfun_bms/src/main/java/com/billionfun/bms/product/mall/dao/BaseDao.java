@@ -43,6 +43,10 @@ public interface BaseDao<T, P extends Serializable> {
 
 	T get(P id, Class<T> cls);
 
+	List<T> findByProperty(final String propertyName, final Object value);
+
+	List<T> findByProperties(final Map<String, Object> map);
+
 	List<T> getList(final String hql);
 	
 	List<T> getListBySql(final String sql, final List paramList);
@@ -67,4 +71,5 @@ public interface BaseDao<T, P extends Serializable> {
 	void exec(String hql, Map<String, String> proMap);
 
 	void exec(String hql, final List paramList);
+
 }

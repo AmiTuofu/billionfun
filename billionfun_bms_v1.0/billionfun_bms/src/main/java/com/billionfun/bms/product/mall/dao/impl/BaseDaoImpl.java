@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -14,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import com.billionfun.bms.product.mall.common.Criterion;
 import com.billionfun.bms.product.mall.common.Criterion.EqualCriterion;
@@ -304,4 +306,24 @@ public abstract class BaseDaoImpl<T, P extends Serializable> {
 		return countStr;
 	}
 
+	public List<T> findByProperty(final String propertyName, final Object value) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Assert.hasText(propertyName, "propertyName must specified.");
+
+		Criteria criteria = session.createCriteria(entityClass).add(
+				Restrictions.eq(propertyName, value));
+		return criteria.list();
+	}
+
+	public List<T> findByProperties(final Map<String, Object> map) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Criteria criteria = session.createCriteria(entityClass);
+		Set<String> keySet = map.keySet();
+		for (String key : keySet) {
+			criteria.add(Restrictions.eq(key, map.get(key)));
+		}
+		return criteria.list();
+	}
 }
