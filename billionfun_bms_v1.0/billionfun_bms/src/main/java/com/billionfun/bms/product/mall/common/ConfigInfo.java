@@ -3,6 +3,14 @@ package com.billionfun.bms.product.mall.common;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @ClassName: 公共配置类 
+ * @Description: TODO 
+ * @author  AmiTuofu
+ * @date  2016年3月15日 下午10:27:43 
+ *
+ */
 @Component("configInfo")
 public class ConfigInfo {
 	@Value("${velocity.event.remind}")

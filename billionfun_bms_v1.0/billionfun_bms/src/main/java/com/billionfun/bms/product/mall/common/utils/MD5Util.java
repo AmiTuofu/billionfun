@@ -3,7 +3,16 @@ package com.billionfun.bms.product.mall.common.utils;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 public class MD5Util {
-	
+	/**
+	 * 
+	 * @Title: encode 
+	 * @Description: TODO 将密码进行加密
+	 * @param @param rawPass 密码
+	 * @param @param salt 密钥
+	 * @param @return 
+	 * @return String
+	 * @throws
+	 */
 	public final static String encode(String rawPass, String salt) {   
 		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 		md5.setEncodeHashAsBase64(false);

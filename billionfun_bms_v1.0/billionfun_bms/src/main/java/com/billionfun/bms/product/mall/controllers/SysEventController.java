@@ -42,7 +42,7 @@ public class SysEventController extends BaseController {
 
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap, SysEventVO vo) {
-		vo.setStatus(1);
+//		vo.setStatus(1);
 		vo.setUserId(getCurrentUser().getId());
 		try {
 			eventService.update(vo);

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
@@ -93,7 +95,8 @@ public class EmailUtil {
 				// MimeMessageHelper(mimeMessage);
 				message.setTo(mailTo);// 设置接收方的email地址
 				message.setSubject(subject);// 设置邮件主题
-				message.setFrom(userName);// 设置发送方地址
+//				message.setFrom(userName);// 设置发送方地址
+				message.setFrom(new InternetAddress(MimeUtility.encodeText("亿趣视界")+" <"+userName+">"));// 设置发送方地址
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						EmailUtil.getVelocityEngineInstance(), vmfile, "UTF-8",
 						model);

@@ -2,7 +2,7 @@
 <body>  
 <ul>
 #foreach($event in $list)
-       <li>$event.name - $event.fullName </li>
+       <li>$event.name&nbsp;&nbsp;$event.startDate&nbsp;&nbsp;$event.endDate</li>
      #end
 </ul
 </body>  

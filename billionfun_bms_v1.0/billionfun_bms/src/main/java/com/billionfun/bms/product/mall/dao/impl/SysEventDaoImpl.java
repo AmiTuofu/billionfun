@@ -90,8 +90,13 @@ public class SysEventDaoImpl extends BaseDaoImpl<SysEvent, String> implements
 			event.setPlace(objs[6]==null?null:objs[6].toString());
 			event.setStatus((Integer)objs[7]);
 			event.setUserId(objs[8].toString());
+			event.setId(objs[9].toString());
 			listRef.add(event);
 		}
 		return listRef;
+	}
+	
+	public void updateNoticeCount(String id){
+		super.exec("update SysEvent set noticeCount = noticeCount+1 where id = '"+id+"'");
 	}
 }

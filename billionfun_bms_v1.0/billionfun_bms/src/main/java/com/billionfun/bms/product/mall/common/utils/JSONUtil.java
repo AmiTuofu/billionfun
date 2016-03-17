@@ -8,7 +8,7 @@ public class JSONUtil {
 	/**
 	 * 
 	 * @Title: list2Json 
-	 * @Description: TODO
+	 * @Description: TODO List转换成JSON字符串
 	 * @param @param list
 	 * @param @return 
 	 * @return String

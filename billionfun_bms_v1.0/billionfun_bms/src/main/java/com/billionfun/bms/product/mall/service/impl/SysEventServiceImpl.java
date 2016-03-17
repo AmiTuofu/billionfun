@@ -105,4 +105,8 @@ public class SysEventServiceImpl extends
 		}
 		return listRef;
 	}
+	
+	public void updateNoticeCount(String id){
+		eventDao.updateNoticeCount(id);
+	}
 }

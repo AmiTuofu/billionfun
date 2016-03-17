@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.billionfun.bms.product.mall.common.ConfigInfo;
 import com.billionfun.bms.product.mall.common.utils.EmailUtil;
+import com.billionfun.bms.product.mall.common.utils.StringUtil;
 import com.billionfun.bms.product.mall.service.SysEventService;
 import com.billionfun.bms.product.mall.vo.SysEventVO;
 
@@ -21,7 +22,15 @@ public class EventNoticeTask {
 	@Autowired
 	private ConfigInfo configInfo;
 	
-	@Scheduled(cron = "0 0/30 * * * ?")  
+	/**
+	 * 
+	 * @Title: notice 
+	 * @Description: TODO 每30分钟，查询出已经到提醒时间的事件，并发邮件提醒
+	 * @param  
+	 * @return void
+	 * @throws
+	 */
+	@Scheduled(cron = "0 0/1 * * * ?")  
     public void notice() {  
         List<SysEventVO> listVos = eventService.getRemindList();
         Map<String, List<SysEventVO>> map = new HashMap<String, List<SysEventVO>>();
@@ -29,7 +38,7 @@ public class EventNoticeTask {
         List<SysEventVO> listRef = null;
         for (int i = 0; i < listVos.size(); i++) {
         	SysEventVO vo = listVos.get(i);
-        	if(vo.getUserId()!=userId){
+        	if(!vo.getUserId().equals(userId)){
         		if(i!=0){
         			map.put(userId, listRef);
         		}
@@ -37,8 +46,11 @@ public class EventNoticeTask {
         		userId = vo.getUserId();
         	}
         	listRef.add(vo);
+        	eventService.updateNoticeCount(vo.getId());
 		}
-        map.put(userId, listRef);
+        if(!StringUtil.empty(listRef)){
+        	map.put(userId, listRef);
+        }
         
         for(Map.Entry<String, List<SysEventVO>> entry :map.entrySet()){
         	List<SysEventVO> list = entry.getValue();

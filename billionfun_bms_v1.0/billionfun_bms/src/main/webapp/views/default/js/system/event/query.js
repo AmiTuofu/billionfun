@@ -68,9 +68,16 @@ $().ready(function(){
 		                        styleClass:$(this).attr('styleClass'),
 		                        repeatsId:$(this).attr('repeatsId'),
 		                        allDay:$(this).attr('allDay'),
+		                        status:$(this).attr('status'),
+		                        backgroundColor:$(this).attr('backgroundColor'),
 		                    });
 				        });
 						callback(events);
+						$(".fc-sat").css('backgroundColor','#b9dced');//这个是周六的TD
+						$(".fc-sun").css('backgroundColor','#ddf0ed');//这个是周日的TD
+						
+	//					$(".fc-event").css('backgroundColor',backgroundColor);//这个是周日的TD
+						
 	                },
 	                error: function (e) {
 	                    alert("error");
@@ -93,6 +100,7 @@ $().ready(function(){
 				copiedEventObject.repeatsEndDate = "";
 				copiedEventObject.remind = "";
 				copiedEventObject.place = "";
+				copiedEventObject.backgroundColor = "";
 				copiedEventObject.allDay = allDay;
 				copiedEventObject.styleClass = $extraEventClass;
 				var id = addEvent(copiedEventObject);
@@ -133,6 +141,9 @@ $().ready(function(){
 								calEvent.remind = $("select[name=remind]").val();
 								calEvent.place = $("input[name=place]").val();
 								calEvent.allDay = allDay;
+								calEvent.status = $("select[name=status]").val();
+								calEvent.backgroundColor = $("select[name=backgroundColor]").val();
+								
 								addEvent(calEvent);
 								calendar.fullCalendar('refetchEvents');
 							}
@@ -150,6 +161,7 @@ $().ready(function(){
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
+				$('select[name=backgroundColor]').ace_colorpicker();
 				$("select[name=repeats]").change(function(){
 					 if(!empty($(this).val())){
 						 form.find("label[name=until-time]").show();
@@ -179,7 +191,8 @@ $().ready(function(){
 								calEvent.repeatsEndDate = $("input[name=repeatsEndDate]").val();
 								calEvent.remind = $("select[name=remind]").val();
 								calEvent.place = $("input[name=place]").val();
-								
+								calEvent.status = $("select[name=status]").val();
+								calEvent.backgroundColor = $("select[name=backgroundColor]").val();
 								if(!empty(calEvent.repeatsId)){
 									var confirm_div = bootbox.dialog({
 		//								title:"编辑事件",
@@ -288,10 +301,12 @@ $().ready(function(){
 				$("input[name=repeatsEndDate]").attr("disabled","disabled");
 				$("select[name=remind]").val(calEvent.remind);
 				$("input[name=place]").val(calEvent.place);
+				$("select[name=status]").val(calEvent.status);
+				$("select[name=backgroundColor]").val(calEvent.backgroundColor);
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
-				
+				$('select[name=backgroundColor]').ace_colorpicker();
 				//console.log(calEvent.id);
 				//console.log(jsEvent);
 				//console.log(view);
@@ -422,6 +437,7 @@ $().ready(function(){
 					"place":calEvent.place,
 					"styleClass":calEvent.styleClass,
 					"allDay" : calEvent.allDay,
+					"backgroundColor" : calEvent.backgroundColor,
 			};
 			if(!empty(calEvent.repeatsEndDate)){
 				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
@@ -450,6 +466,9 @@ $().ready(function(){
 				var date = calEvent.start;
 				calEvent.end = new Date(date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59");
 			}
+			if(calEvent.status=="2"){
+				calEvent.styleClass="label-grey";
+			}
 			var params = {
 					"id":calEvent.id,
 					"startDate":new Date(calEvent.start.replace(/-/g,   "/")),
@@ -461,6 +480,8 @@ $().ready(function(){
 					"styleClass":calEvent.styleClass,
 					"repeatsId":calEvent.repeatsId,
 					"allDay" : calEvent.allDay,
+					"status" : calEvent.status,
+					"backgroundColor" : calEvent.backgroundColor,
 			};
 			if(!empty(calEvent.repeatsEndDate)){
 				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
@@ -536,10 +557,21 @@ $().ready(function(){
 			bootbox_form_html = bootbox_form_html + "</select></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 背景颜色: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\">";
+			bootbox_form_html = bootbox_form_html + getColorPicker("backgroundColor","backgroundColor");
+			bootbox_form_html = bootbox_form_html + "</div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 地点: </label>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" placeholder=\"\" name=\"place\" class=\"col-xs-10 col-sm-5\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 状态: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"status\">";
+			bootbox_form_html = bootbox_form_html + "<option value=1>待完成</option><option value=2>已完成</option>";
+			bootbox_form_html = bootbox_form_html + "</select></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "</form>";
 			return bootbox_form_html;

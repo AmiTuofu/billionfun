@@ -15,4 +15,6 @@ public interface SysEventDao extends BaseDao<SysEvent, String> {
 	
 	List getRemindList();
 	
+	void updateNoticeCount(String id);
+	
 }

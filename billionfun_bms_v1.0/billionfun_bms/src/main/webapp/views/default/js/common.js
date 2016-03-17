@@ -192,6 +192,37 @@ function empty(obj){
 		return true;
 	}
 }
+function getColorPicker(id,name){
+	var ele_html = "";
+	ele_html = ele_html +'<select id="'+id+'" name="'+name+'" class="hide">';
+	ele_html = ele_html +'<option value="#ac725e">#ac725e</option>';
+	ele_html = ele_html +'<option value="#d06b64">#d06b64</option>';
+	ele_html = ele_html +'<option value="#f83a22">#f83a22</option>';
+	ele_html = ele_html +'<option value="#fa573c">#fa573c</option>';
+	ele_html = ele_html +'<option value="#ff7537">#ff7537</option>';
+	ele_html = ele_html +'<option value="#ffad46" selected="">#ffad46</option>';
+	ele_html = ele_html +'<option value="#42d692">#42d692</option>';
+	ele_html = ele_html +'<option value="#16a765">#16a765</option>';
+	ele_html = ele_html +'<option value="#7bd148">#7bd148</option>';
+	ele_html = ele_html +'<option value="#b3dc6c">#b3dc6c</option>';
+	ele_html = ele_html +'<option value="#fbe983">#fbe983</option>';
+	ele_html = ele_html +'<option value="#fad165">#fad165</option>';
+	ele_html = ele_html +'<option value="#92e1c0">#92e1c0</option>';
+	ele_html = ele_html +'<option value="#9fe1e7">#9fe1e7</option>';
+	ele_html = ele_html +'<option value="#9fc6e7">#9fc6e7</option>';
+	ele_html = ele_html +'<option value="#4986e7">#4986e7</option>';
+	ele_html = ele_html +'<option value="#9a9cff">#9a9cff</option>';
+	ele_html = ele_html +'<option value="#b99aff">#b99aff</option>';
+	ele_html = ele_html +'<option value="#c2c2c2">#c2c2c2</option>';
+	ele_html = ele_html +'<option value="#cabdbf">#cabdbf</option>';
+	ele_html = ele_html +'<option value="#cca6ac">#cca6ac</option>';
+	ele_html = ele_html +'<option value="#f691b2">#f691b2</option>';
+	ele_html = ele_html +'<option value="#cd74e6">#cd74e6</option>';
+	ele_html = ele_html +'<option value="#a47ae2">#a47ae2</option>';
+	ele_html = ele_html +'<option value="#555">#555</option>';
+	ele_html = ele_html +'</select>';
+	return ele_html;
+}
 /*jQuery.extend(jQuery.validator.messages, {
   required: "必填字段",
   remote: "请修正该字段",

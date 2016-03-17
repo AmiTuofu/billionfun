@@ -29,6 +29,7 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	private Integer status;
 	private String fullName;
 	private String email;
+	private String backgroundColor;
 	public String getId() {
 		return id;
 	}
@@ -165,5 +166,14 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
 
 }

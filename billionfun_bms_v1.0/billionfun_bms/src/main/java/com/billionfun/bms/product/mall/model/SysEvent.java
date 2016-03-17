@@ -40,6 +40,10 @@ public class SysEvent {
 	private String repeatsId;
 	private Integer status;
 	private boolean allDay;
+	@Column(name = "bg_color")
+	private String backgroundColor;
+	@Column(name = "notice_count",columnDefinition="INT default 0")
+	private Integer noticeCount;
 	
 	public String getId() {
 		return id;
@@ -159,6 +163,22 @@ public class SysEvent {
 
 	public void setAllDay(boolean allDay) {
 		this.allDay = allDay;
+	}
+
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public Integer getNoticeCount() {
+		return noticeCount;
+	}
+
+	public void setNoticeCount(Integer noticeCount) {
+		this.noticeCount = noticeCount;
 	}
 	
 }

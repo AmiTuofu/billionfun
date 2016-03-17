@@ -100,6 +100,7 @@
 	<script src="${ctx}/views/default/assets/js/fullcalendar.min.js"></script>
 	<script src="${ctx}/views/default/assets/js/bootbox.min.js"></script>
 	<script src="${ctx}/views/default/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="${ctx}/views/default/assets/js/bootstrap-colorpicker.min.js"></script>
 	<!-- inline scripts related to this page -->
 	<script src="${ctx}/views/default/js/system/event/query.js"></script>-->
 </body>

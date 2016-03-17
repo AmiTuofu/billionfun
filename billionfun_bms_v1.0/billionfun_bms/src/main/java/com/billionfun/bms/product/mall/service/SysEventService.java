@@ -17,4 +17,6 @@ public interface SysEventService extends
 	boolean delete(SysEventVO vo);
 	
 	List<SysEventVO> getRemindList();
+	
+	void updateNoticeCount(String id);
 }

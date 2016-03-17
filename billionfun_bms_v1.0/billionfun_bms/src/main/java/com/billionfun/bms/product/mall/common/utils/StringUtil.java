@@ -171,6 +171,14 @@ public class StringUtil {
 		return objects == null || objects.length == 0;
 	}
 	
+	public static boolean empty(Long l) {
+		return l == null ;
+	}
+	
+	public static boolean empty(Integer i) {
+		return i == null ;
+	}
+	
 	public static boolean empty(File[] uploadFile,String[] uploadFileName) {
 		return uploadFile == null || uploadFile.length == 0 || uploadFileName==null || uploadFileName.length==0 ||uploadFileName[0].equals("");
 	}
