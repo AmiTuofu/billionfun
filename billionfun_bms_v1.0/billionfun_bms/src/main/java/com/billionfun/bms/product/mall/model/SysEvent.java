@@ -42,9 +42,9 @@ public class SysEvent {
 	private boolean allDay;
 	@Column(name = "bg_color")
 	private String backgroundColor;
-	@Column(name = "notice_count",columnDefinition="INT default 0")
-	private Integer noticeCount;
-	
+	@Column(name = "notice_count", columnDefinition = "INT default 0")
+	private Integer noticeCount = 0;
+
 	public String getId() {
 		return id;
 	}
@@ -180,5 +180,5 @@ public class SysEvent {
 	public void setNoticeCount(Integer noticeCount) {
 		this.noticeCount = noticeCount;
 	}
-	
+
 }
