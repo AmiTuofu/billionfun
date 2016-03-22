@@ -43,35 +43,35 @@
 							<div class="widget-body">
 								<div class="widget-main no-padding">
 									<div id="external-events">
-										<div class="external-event label-grey" data-class="label-grey">
-											<i class="icon-move"></i> My Event 1
+										<div class="external-event " data-class="label-grey" style="background-color:#c2c2c2;">
+											<i class="icon-move"></i> 已完成
 										</div>
 
-										<div class="external-event label-success"
-											data-class="label-success">
+										<div class="external-event "
+											data-class="label-success" style="background-color:#42d692;">
 											<i class="icon-move"></i> My Event 2
 										</div>
 
-										<div class="external-event label-danger"
-											data-class="label-danger">
-											<i class="icon-move"></i> My Event 3
+										<div class="external-event "
+											data-class="label-danger" style="background-color:#ff7537;">
+											<i class="icon-move"></i> 工作
 										</div>
 
-										<div class="external-event label-purple"
-											data-class="label-purple">
-											<i class="icon-move"></i> My Event 4
+										<div class="external-event "
+											data-class="label-purple" style="background-color:#9a9cff;">
+											<i class="icon-move"></i> 家庭
 										</div>
 
-										<div class="external-event label-yellow"
-											data-class="label-yellow">
-											<i class="icon-move"></i> My Event 5
+										<div class="external-event "
+											data-class="label-yellow" style="background-color:#fad165;">
+											<i class="icon-move"></i> 个人
 										</div>
 
-										<div class="external-event label-pink" data-class="label-pink">
-											<i class="icon-move"></i> My Event 6
+										<div class="external-event " style="background-color:#f83a22;" data-class="label-pink">
+											<i class="icon-move"></i> 非常紧急
 										</div>
 
-										<div class="external-event label-info" data-class="label-info">
+										<div class="external-event " style="background-color:#4986e7;" data-class="label-info">
 											<i class="icon-move"></i> My Event 7
 										</div>
 
