@@ -89,7 +89,6 @@ $().ready(function(){
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
 				// retrieve the dropped element's stored Event Object
-				alert($(this).getHexBackgroundColor());
 				var originalEventObject = $(this).data('eventObject');
 				var $extraEventClass = $(this).attr('data-class');
 				// we need to copy it, so that multiple events don't have a reference to the same object
