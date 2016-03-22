@@ -158,9 +158,18 @@ $().ready(function(){
 				form.find("input[name=endDate]").val(end.Format("yyyy-MM-dd hh:mm:ss"));
 				form.find("label[name=until-time]").hide();
 				form.find("input[name=repeatsEndDate]").hide();
-				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+				$('.date-picker').datepicker({autoclose:true,altFormat: 'yy-mm-dd 10:30:00' }).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
+//				$('input[name=startDate]').datepicker({autoclose:true,altFormat: 'yy-mm-dd 10:30:00' }).next().on(ace.click_event, function(){
+//					$(this).prev().focus();
+//				});
+//				$('input[name=endDate]').datepicker({autoclose:true,altFormat: 'yy-mm-dd 19:30:00' }).next().on(ace.click_event, function(){
+//					$(this).prev().focus();
+//				});
+//				$('input[name=repeatsEndDate]').datepicker({autoclose:true,altFormat: 'yy-mm-dd 00:00:00' }).next().on(ace.click_event, function(){
+//					$(this).prev().focus();
+//				});
 				$('select[name=backgroundColor]').ace_colorpicker();
 				$("select[name=repeats]").change(function(){
 					 if(!empty($(this).val())){
@@ -384,7 +393,7 @@ $().ready(function(){
 					repeatsEndDate.setMinutes(repeatsEndDate.getMinutes() + minuteDelta);
 					calEvent.repeatsEndDate = repeatsEndDate.Format("yyyy-MM-dd hh:mm:ss");
 				}
-				calEvent.allDay = allDay;
+//				calEvent.allDay = allDay;
 				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
 				
 				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
@@ -535,11 +544,11 @@ $().ready(function(){
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd 10:30:00\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd 19:00:00\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
