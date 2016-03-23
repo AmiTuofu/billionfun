@@ -47,15 +47,6 @@
 	<script src="${ctx}/views/default/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 	<script src="${ctx}/views/default/assets/js/bootstrap-colorpicker.min.js"></script>
 	<!-- inline scripts related to this page -->
-<script type="text/javascript" language="javascript">   
-function iFrameHeight() {   
-var ifm= document.getElementById("iframepage");   
-var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
-if(ifm != null && subWeb != null) {
-   ifm.height = subWeb.body.scrollHeight;
-   ifm.width = subWeb.body.scrollWidth;
-}   
-}   
-</script>
+
 </body>
 </html>
