@@ -476,7 +476,7 @@ $().ready(function(){
 				calEvent.end = new Date(date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" 23:59:59");
 			}
 			if(calEvent.status=="2"){
-				calEvent.styleClass="label-grey";
+				calEvent.backgroundColor="#c2c2c2";
 			}
 			var params = {
 					"id":calEvent.id,

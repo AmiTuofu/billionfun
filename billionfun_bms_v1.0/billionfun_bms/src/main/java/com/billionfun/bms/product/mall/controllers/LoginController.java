@@ -15,80 +15,79 @@ import com.billionfun.bms.product.mall.vo.SysUserVO;
 
 /**
  * 
- * @ClassName: DefaultController 
+ * @ClassName: DefaultController
  * @Description: TODO
- * @author  AmiTuofu
- * @date  2015年12月21日 上午12:04:50 
- *
+ * @author AmiTuofu
+ * @date 2015年12月21日 上午12:04:50
+ * 
  */
 @Controller
 @RequestMapping("/")
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(LoginController.class);
-	
-	
+
 	/**
 	 * 
-	 * @Title: 登录 
+	 * @Title: 登录
 	 * @Description: TODO
 	 * @param @param modelMap
-	 * @param @return 
+	 * @param @return
 	 * @return String
 	 * @throws
 	 */
-	@RequestMapping({"/login"})
-	public Object login(){
-		
+	@RequestMapping({ "/login" })
+	public Object login() {
+
 		return "login";
 	}
-	
+
 	/**
 	 * 
-	 * @Title: 首页 
+	 * @Title: 首页
 	 * @Description: TODO
 	 * @param @param modelMap
-	 * @param @return 
+	 * @param @return
 	 * @return String
 	 * @throws
 	 */
 	@RequestMapping("/index")
-	public String index(ModelMap modelMap){
+	public String index(ModelMap modelMap) {
 		modelMap.put("user", getCurrentUser());
 		return "index";
 	}
-	
+
 	/**
 	 * 
-	 * @Title: 登出 
+	 * @Title: 登出
 	 * @Description: TODO
 	 * @param @param modelMap
-	 * @param @return 
+	 * @param @return
 	 * @return String
 	 * @throws
 	 */
 	@RequestMapping("/logout")
-	public String logout(ModelMap modelMap){
+	public String logout(ModelMap modelMap) {
 		session.removeAttribute(Contants.SESSION_USER);
 		return "login";
 	}
-	
+
 	/**
 	 * 
-	 * @Title: 注册 
+	 * @Title: 注册
 	 * @Description: TODO
 	 * @param @param modelMap
-	 * @param @return 
+	 * @param @return
 	 * @return String
 	 * @throws
 	 */
 	@RequestMapping("/register")
-	public String register(@RequestParam(value="email")String email
-			,@RequestParam(value="username",required=true)String username
-			,@RequestParam(value="password",required=true)String password
-			,@RequestParam(value="mobile",required=false)String mobile
-			,ModelMap modelMap){
-		if(userService.isExsit(username, email, mobile)){
+	public String register(@RequestParam(value = "email") String email,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,
+			@RequestParam(value = "mobile", required = false) String mobile,
+			ModelMap modelMap) {
+		if (userService.isExsit(username, email, mobile)) {
 			modelMap.put("retCode", ErrorCode.USER_EXIST_ERROR.getErrCode());
 			modelMap.put("retMsg", ErrorCode.USER_EXIST_ERROR.getErrMsg());
 			return "";
@@ -102,18 +101,19 @@ public class LoginController extends BaseController{
 		modelMap.put("retMsg", "注册成功");
 		return "";
 	}
-	
+
 	/**
 	 * 
-	 * @Title: 忘记密码 
+	 * @Title: 忘记密码
 	 * @Description: TODO
 	 * @param @param modelMap
-	 * @param @return 
+	 * @param @return
 	 * @return String
 	 * @throws
 	 */
 	@RequestMapping("/forpwd")
-	public String forPwd(ModelMap modelMap,@RequestParam(value="email")String email){
+	public String forPwd(ModelMap modelMap,
+			@RequestParam(value = "email") String email) {
 		SysUserVO vo = new SysUserVO();
 		vo.setEmail(email);
 		userService.resetPWD(vo);
