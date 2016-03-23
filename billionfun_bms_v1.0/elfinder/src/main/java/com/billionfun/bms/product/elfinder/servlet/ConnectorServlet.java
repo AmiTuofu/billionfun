@@ -13,15 +13,16 @@ import com.billionfun.bms.product.elfinder.controller.ConnectorController;
 import com.billionfun.bms.product.elfinder.controller.executor.CommandExecutorFactory;
 import com.billionfun.bms.product.elfinder.controller.executor.DefaultCommandExecutorFactory;
 import com.billionfun.bms.product.elfinder.controller.executors.MissingCommandExecutor;
-import com.billionfun.bms.product.elfinder.impl.DefaultFsService;
-import com.billionfun.bms.product.elfinder.impl.DefaultFsServiceConfig;
-import com.billionfun.bms.product.elfinder.impl.FsSecurityCheckForAll;
-import com.billionfun.bms.product.elfinder.impl.StaticFsServiceFactory;
 import com.billionfun.bms.product.elfinder.localfs.LocalFsVolume;
+import com.billionfun.bms.product.elfinder.service.impl.DefaultFsService;
+import com.billionfun.bms.product.elfinder.service.impl.DefaultFsServiceConfig;
+import com.billionfun.bms.product.elfinder.service.impl.FsSecurityCheckForAll;
+import com.billionfun.bms.product.elfinder.service.impl.StaticFsServiceFactory;
 
 public class ConnectorServlet extends HttpServlet {
 	// core member of this Servlet
 	ConnectorController _connectorController;
+	
 
 	/**
 	 * create a command executor factory
@@ -61,15 +62,15 @@ public class ConnectorServlet extends HttpServlet {
 
 		DefaultFsServiceConfig serviceConfig = new DefaultFsServiceConfig();
 		serviceConfig.setTmbWidth(80);
-
+//		System.out.println(_connectorController.getConfigInfo().getVolumeLocalMyfilesA());
 		fsService.setServiceConfig(serviceConfig);
-
+		
 		fsService.addVolume("A",
-				createLocalFsVolume("My Files", new File("/alidata/baks")));
+				createLocalFsVolume("My Files", new File("/alidata/baks/elfinder/myfiles")));
 		fsService.addVolume(
 				"B",
 				createLocalFsVolume("Shared", new File(
-						"/alidata/servers/resources/webdav/files")));
+						"/alidata/baks/elfinder/shared")));
 
 		return fsService;
 	}

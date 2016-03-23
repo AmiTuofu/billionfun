@@ -25,6 +25,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.billionfun.bms.product.elfinder.common.ConfigInfo;
 import com.billionfun.bms.product.elfinder.controller.executor.CommandExecutionContext;
 import com.billionfun.bms.product.elfinder.controller.executor.CommandExecutor;
 import com.billionfun.bms.product.elfinder.controller.executor.CommandExecutorFactory;
@@ -38,6 +39,9 @@ public class ConnectorController {
 
 	@Resource(name = "fsServiceFactory")
 	private FsServiceFactory _fsServiceFactory;
+	
+	@Resource(name = "configInfo")
+	private ConfigInfo configInfo;
 
 	@RequestMapping
 	public void connector(HttpServletRequest request,
@@ -199,4 +203,13 @@ public class ConnectorController {
 	public void setFsServiceFactory(FsServiceFactory _fsServiceFactory) {
 		this._fsServiceFactory = _fsServiceFactory;
 	}
+
+	public ConfigInfo getConfigInfo() {
+		return configInfo;
+	}
+
+	public void setConfigInfo(ConfigInfo configInfo) {
+		this.configInfo = configInfo;
+	}
+	
 }
