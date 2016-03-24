@@ -16,9 +16,9 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "sys_data_dictionary")
-@NamedQuery(name = "SysDataDictionary.findAll", query = "SELECT s FROM SysDataDictionary s")
-public class SysDataDictionary implements Serializable {
+@Table(name = "bus_data_dictionary")
+@NamedQuery(name = "BusDataDictionary.findAll", query = "SELECT s FROM BusDataDictionary s")
+public class BusDataDictionary implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,6 +33,9 @@ public class SysDataDictionary implements Serializable {
 	@Column
 	private String description;
 
+	@Column(name = "user_id")
+	private String userId;
+
 	@Column(name = "parent_id")
 	private Long parentId;
 	
@@ -45,7 +48,7 @@ public class SysDataDictionary implements Serializable {
 	@Column
 	private Integer status;
 
-	public SysDataDictionary() {
+	public BusDataDictionary() {
 	}
 
 	public String getId() {
@@ -94,6 +97,14 @@ public class SysDataDictionary implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public Date getCreateDate() {

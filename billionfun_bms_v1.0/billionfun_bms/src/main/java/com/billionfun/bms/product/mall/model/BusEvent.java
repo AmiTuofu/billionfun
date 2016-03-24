@@ -11,9 +11,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sys_event")
-@NamedQuery(name = "SysEvent.findAll", query = "SELECT s FROM SysEvent s")
-public class SysEvent {
+@Table(name = "bus_event")
+@NamedQuery(name = "BusEvent.findAll", query = "SELECT s FROM BusEvent s")
+public class BusEvent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;

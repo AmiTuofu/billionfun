@@ -11,29 +11,29 @@ import org.springframework.stereotype.Service;
 
 import com.billionfun.bms.product.mall.common.utils.DateUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
-import com.billionfun.bms.product.mall.dao.SysEventDao;
+import com.billionfun.bms.product.mall.dao.BusEventDao;
 import com.billionfun.bms.product.mall.dao.SysUserDao;
-import com.billionfun.bms.product.mall.model.SysEvent;
+import com.billionfun.bms.product.mall.model.BusEvent;
 import com.billionfun.bms.product.mall.model.SysUser;
-import com.billionfun.bms.product.mall.service.SysEventService;
-import com.billionfun.bms.product.mall.vo.SysEventVO;
+import com.billionfun.bms.product.mall.service.BusEventService;
+import com.billionfun.bms.product.mall.vo.BusEventVO;
 
 @Service("eventService")
-public class SysEventServiceImpl extends
-		BaseServiceImpl<SysEvent, SysEventVO, String> implements
-		SysEventService {
+public class BusEventServiceImpl extends
+		BaseServiceImpl<BusEvent, BusEventVO, String> implements
+		BusEventService {
 	@Autowired
-	private SysEventDao eventDao;
+	private BusEventDao eventDao;
 	
 	@Autowired
 	private SysUserDao userDao;
 
-	public List<SysEventVO> search(SysEventVO vo) {
-		List<SysEvent> list = eventDao.getList(vo);
-		List<SysEventVO> listVo = new ArrayList<SysEventVO>();
+	public List<BusEventVO> search(BusEventVO vo) {
+		List<BusEvent> list = eventDao.getList(vo);
+		List<BusEventVO> listVo = new ArrayList<BusEventVO>();
 		if (!StringUtil.empty(list)) {
-			for (SysEvent ref : list) {
-				SysEventVO voRef = new SysEventVO();
+			for (BusEvent ref : list) {
+				BusEventVO voRef = new BusEventVO();
 				BeanUtils.copyProperties(ref, voRef);
 				listVo.add(voRef);
 			}
@@ -41,7 +41,7 @@ public class SysEventServiceImpl extends
 		return listVo;
 	}
 
-	public boolean save(SysEventVO vo) throws ParseException {
+	public boolean save(BusEventVO vo) throws ParseException {
 		if (!StringUtil.empty(vo.getRepeats()) && !vo.getRepeats().equals("0")
 				&& vo.getRepeatsEndDate() != null) {
 			int dateCount = DateUtil.getDateSpace(vo.getStartDate(),
@@ -53,7 +53,7 @@ public class SysEventServiceImpl extends
 				Date startDate = listStartDate.get(i);
 				Date endDate = DateUtil.addDate(startDate,
 						dateCount * 1000 * 3600 * 24);
-				SysEvent event = new SysEvent();
+				BusEvent event = new BusEvent();
 				BeanUtils.copyProperties(vo, event);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
@@ -61,28 +61,28 @@ public class SysEventServiceImpl extends
 				super.save(event);
 			}
 		} else {
-			SysEvent event = new SysEvent();
+			BusEvent event = new BusEvent();
 			BeanUtils.copyProperties(vo, event);
 			super.save(event);
 		}
 		return true;
 	}
 	
-	public boolean update(SysEventVO vo) throws ParseException{
+	public boolean update(BusEventVO vo) throws ParseException{
 		if(!StringUtil.empty(vo.getRepeatsId())){
-			SysEvent event = eventDao.get(vo.getId());
+			BusEvent event = eventDao.get(vo.getId());
 			eventDao.delete(vo.getRepeatsId(),event.getStartDate());
 			vo.setId(null);
 			save(vo);
 		}else{
-			SysEvent event = new SysEvent();
+			BusEvent event = new BusEvent();
 			BeanUtils.copyProperties(vo, event);
 			super.update(event);
 		}
 		return true;
 	}
 
-	public boolean delete(SysEventVO vo) {
+	public boolean delete(BusEventVO vo) {
 		if(!StringUtil.empty(vo.getRepeatsId())){
 			eventDao.delete(vo.getRepeatsId(),vo.getStartDate());
 		}else{
@@ -91,12 +91,12 @@ public class SysEventServiceImpl extends
 		return true;
 	}
 	
-	public List<SysEventVO> getRemindList(){
-		List<SysEvent> list = eventDao.getRemindList();
-		List<SysEventVO> listRef = new ArrayList<SysEventVO>();
+	public List<BusEventVO> getRemindList(){
+		List<BusEvent> list = eventDao.getRemindList();
+		List<BusEventVO> listRef = new ArrayList<BusEventVO>();
 		for (int i = 0; i < list.size(); i++) {
-			SysEvent event = list.get(i);
-			SysEventVO vo = new SysEventVO();
+			BusEvent event = list.get(i);
+			BusEventVO vo = new BusEventVO();
 			BeanUtils.copyProperties(event, vo);
 			SysUser user = userDao.get(event.getUserId());
 			vo.setFullName(user.getFullName());

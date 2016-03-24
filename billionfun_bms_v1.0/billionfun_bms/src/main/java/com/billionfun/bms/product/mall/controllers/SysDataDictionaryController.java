@@ -1,5 +1,6 @@
 package com.billionfun.bms.product.mall.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -17,13 +18,13 @@ import com.billionfun.bms.product.mall.vo.SysDataDictionaryVO;
 public class SysDataDictionaryController extends BaseController {
 	
 	@Autowired
-	private SysDataDictionaryService dictionaryService;
+	private SysDataDictionaryService sysDictionaryService;
 	
 	
 	
 	@RequestMapping("/query")
 	public String query(ModelMap modelMap,SysDataDictionaryVO vo){
-		List<SysDataDictionaryVO> dictionaryVOs = dictionaryService.query(vo);
+		List<SysDataDictionaryVO> dictionaryVOs = sysDictionaryService.query(vo);
 		modelMap.put("list", dictionaryVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
@@ -33,9 +34,9 @@ public class SysDataDictionaryController extends BaseController {
 	
 	@RequestMapping("/search")
 	public String search(ModelMap modelMap,SysDataDictionaryVO vo){
-		List<SysDataDictionaryVO> dictionaryVOs = dictionaryService.search(vo);
+		List<SysDataDictionaryVO> dictionaryVOs = sysDictionaryService.search(vo);
 		modelMap.put("userdata", dictionaryVOs);
-		modelMap.put("list", dictionaryService.search(vo));
+		modelMap.put("list", sysDictionaryService.search(vo));
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
@@ -46,7 +47,7 @@ public class SysDataDictionaryController extends BaseController {
 	public String modify(ModelMap modelMap,SysDataDictionaryVO vo){
 		SysDataDictionary dictionary = new SysDataDictionary();
 		BeanUtils.copyProperties(vo, dictionary);
-		dictionaryService.update(dictionary);
+		sysDictionaryService.update(dictionary);
 		return "system/dictionary/modify";
 	}
 	
@@ -54,13 +55,14 @@ public class SysDataDictionaryController extends BaseController {
 	public String add(ModelMap modelMap,SysDataDictionaryVO vo){
 		SysDataDictionary dictionary = new SysDataDictionary();
 		BeanUtils.copyProperties(vo, dictionary);
-		dictionaryService.save(dictionary);
+		dictionary.setCreateDate(new Date());
+		sysDictionaryService.save(dictionary);
 		return "system/dictionary/add";
 	}
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,SysDataDictionaryVO vo){
-		dictionaryService.delete(vo.getId());
+		sysDictionaryService.delete(vo.getId());
 		return "system/dictionary/delete";
 	}
 }

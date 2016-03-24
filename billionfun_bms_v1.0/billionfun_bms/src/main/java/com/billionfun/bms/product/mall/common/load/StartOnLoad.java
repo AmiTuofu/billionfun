@@ -17,7 +17,7 @@ public class StartOnLoad implements BeanPostProcessor {
 
 	public Object postProcessAfterInitialization(Object obj, String arg1)
 			throws BeansException {
-		System.out.println(obj.toString());
+//		System.out.println(obj.toString());
 		if (obj instanceof SysFuncService) {
 			List<SysFuncVO> funcList = ((SysFuncService) obj).getAll();
 			dataMap.put("funcList", funcList);

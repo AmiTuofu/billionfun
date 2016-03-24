@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 import com.billionfun.bms.product.mall.common.ConfigInfo;
 import com.billionfun.bms.product.mall.common.utils.EmailUtil;
 import com.billionfun.bms.product.mall.common.utils.StringUtil;
-import com.billionfun.bms.product.mall.service.SysEventService;
-import com.billionfun.bms.product.mall.vo.SysEventVO;
+import com.billionfun.bms.product.mall.service.BusEventService;
+import com.billionfun.bms.product.mall.vo.BusEventVO;
 
 @Component
 public class EventNoticeTask {
 	@Autowired
-	private SysEventService eventService;
+	private BusEventService eventService;
 	@Autowired
 	private ConfigInfo configInfo;
 	
@@ -32,17 +32,17 @@ public class EventNoticeTask {
 	 */
 	@Scheduled(cron = "0 0/1 * * * ?")  
     public void notice() {  
-        List<SysEventVO> listVos = eventService.getRemindList();
-        Map<String, List<SysEventVO>> map = new HashMap<String, List<SysEventVO>>();
+        List<BusEventVO> listVos = eventService.getRemindList();
+        Map<String, List<BusEventVO>> map = new HashMap<String, List<BusEventVO>>();
         String userId = "";
-        List<SysEventVO> listRef = null;
+        List<BusEventVO> listRef = null;
         for (int i = 0; i < listVos.size(); i++) {
-        	SysEventVO vo = listVos.get(i);
+        	BusEventVO vo = listVos.get(i);
         	if(!vo.getUserId().equals(userId)){
         		if(i!=0){
         			map.put(userId, listRef);
         		}
-        		listRef = new ArrayList<SysEventVO>();
+        		listRef = new ArrayList<BusEventVO>();
         		userId = vo.getUserId();
         	}
         	listRef.add(vo);
@@ -52,8 +52,8 @@ public class EventNoticeTask {
         	map.put(userId, listRef);
         }
         
-        for(Map.Entry<String, List<SysEventVO>> entry :map.entrySet()){
-        	List<SysEventVO> list = entry.getValue();
+        for(Map.Entry<String, List<BusEventVO>> entry :map.entrySet()){
+        	List<BusEventVO> list = entry.getValue();
         	Map model = new HashMap();
         	model.put("list", list);
         	EmailUtil.sendEmail(model, "事件提醒", configInfo.getVelocityEventRemind(),

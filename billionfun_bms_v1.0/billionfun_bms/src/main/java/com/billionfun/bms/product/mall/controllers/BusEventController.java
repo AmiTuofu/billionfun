@@ -8,40 +8,40 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.billionfun.bms.product.mall.service.SysEventService;
-import com.billionfun.bms.product.mall.vo.SysEventVO;
+import com.billionfun.bms.product.mall.service.BusEventService;
+import com.billionfun.bms.product.mall.vo.BusEventVO;
 
-@RequestMapping("/system/event")
+@RequestMapping("/business/event")
 @Controller
-public class SysEventController extends BaseController {
+public class BusEventController extends BaseController {
 
 	@Autowired
-	private SysEventService eventService;
+	private BusEventService eventService;
 
 	@RequestMapping("/query")
-	public String query(ModelMap modelMap, SysEventVO vo) {
-		List<SysEventVO> eventVOs = eventService.query(vo);
+	public String query(ModelMap modelMap, BusEventVO vo) {
+		List<BusEventVO> eventVOs = eventService.query(vo);
 		modelMap.put("list", eventVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
-		return "system/event/query";
+		return "business/event/query";
 	}
 
 	@RequestMapping("/search")
-	public String search(ModelMap modelMap, SysEventVO vo) {
+	public String search(ModelMap modelMap, BusEventVO vo) {
 		vo.setUserId(getCurrentUser().getId());
-		List<SysEventVO> eventVOs = eventService.search(vo);
+		List<BusEventVO> eventVOs = eventService.search(vo);
 		// modelMap.put("userdata", eventVOs);
 		modelMap.put("list", eventVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
-		return "system/event/search";
+		return "business/event/search";
 	}
 
 	@RequestMapping("/modify")
-	public String modify(ModelMap modelMap, SysEventVO vo) {
+	public String modify(ModelMap modelMap, BusEventVO vo) {
 //		vo.setStatus(1);
 		vo.setUserId(getCurrentUser().getId());
 		try {
@@ -50,11 +50,11 @@ public class SysEventController extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "system/event/modify";
+		return "business/event/modify";
 	}
 
 	@RequestMapping("/add")
-	public String add(ModelMap modelMap, SysEventVO vo) {
+	public String add(ModelMap modelMap, BusEventVO vo) {
 		vo.setStatus(1);
 		vo.setUserId(getCurrentUser().getId());
 		try {
@@ -64,12 +64,12 @@ public class SysEventController extends BaseController {
 			e.printStackTrace();
 		}
 		modelMap.put("id", vo.getId());
-		return "system/event/add";
+		return "business/event/add";
 	}
 
 	@RequestMapping("/delete")
-	public String delete(ModelMap modelMap, SysEventVO vo) {
+	public String delete(ModelMap modelMap, BusEventVO vo) {
 		eventService.delete(vo);
-		return "system/event/delete";
+		return "business/event/delete";
 	}
 }

@@ -13,7 +13,7 @@ import com.billionfun.bms.product.mall.model.SysDataDictionary;
 import com.billionfun.bms.product.mall.service.SysDataDictionaryService;
 import com.billionfun.bms.product.mall.vo.SysDataDictionaryVO;
 
-@Service("dictionaryService")
+@Service("sysDictionaryService")
 public class SysDataDictionaryServiceImpl extends BaseServiceImpl<SysDataDictionary,SysDataDictionaryVO, String> implements SysDataDictionaryService{
 	@Autowired
 	private SysDataDictionaryDao dictionaryDao;

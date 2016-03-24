@@ -6,11 +6,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
-import com.billionfun.bms.product.mall.model.SysDataDictionary;
+import com.billionfun.bms.product.mall.model.BusDataDictionary;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SysDataDictionaryVO extends PageUtil<SysDataDictionary> {
+public class BusDataDictionaryVO extends PageUtil<BusDataDictionary> {
 	private String id;
 
 	private String code;
@@ -19,6 +19,8 @@ public class SysDataDictionaryVO extends PageUtil<SysDataDictionary> {
 
 	private String description;
 
+	private String userId;
+	
 	private Integer typeId;
 	
 	private Long parentId;
@@ -90,6 +92,14 @@ public class SysDataDictionaryVO extends PageUtil<SysDataDictionary> {
 
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

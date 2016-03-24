@@ -4,11 +4,11 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
-import com.billionfun.bms.product.mall.model.SysEvent;
+import com.billionfun.bms.product.mall.model.BusEvent;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SysEventVO extends PageUtil<SysEvent> {
+public class BusEventVO extends PageUtil<BusEvent> {
 	private String id;
 	private String name;
 	private String description;
