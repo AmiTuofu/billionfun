@@ -5,7 +5,9 @@ import java.util.Date;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.model.SysEvent;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SysEventVO extends PageUtil<SysEvent> {
 	private String id;
 	private String name;
@@ -30,6 +32,7 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	private String fullName;
 	private String email;
 	private String backgroundColor;
+
 	public String getId() {
 		return id;
 	}
@@ -126,7 +129,6 @@ public class SysEventVO extends PageUtil<SysEvent> {
 		this.repeats = repeats;
 	}
 
-
 	public String getStyleClass() {
 		return styleClass;
 	}
@@ -174,6 +176,5 @@ public class SysEventVO extends PageUtil<SysEvent> {
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-
 
 }

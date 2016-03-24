@@ -1,32 +1,49 @@
 package com.billionfun.bms.product.mall.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigInteger;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the sys_data_dictionary database table.
  * 
  */
 @Entity
-@Table(name="sys_data_dictionary")
-@NamedQuery(name="SysDataDictionary.findAll", query="SELECT s FROM SysDataDictionary s")
+@Table(name = "sys_data_dictionary")
+@NamedQuery(name = "SysDataDictionary.findAll", query = "SELECT s FROM SysDataDictionary s")
 public class SysDataDictionary implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
-
+	@Column
 	private String code;
 
+	@Column
 	private String name;
 
-	@Column(name="parent_id")
-	private BigInteger parentId;
+	@Column
+	private String description;
 
-	private int status;
+	@Column(name = "user_id")
+	private String userId;
+
+	@Column(name = "parent_id")
+	private Long parentId;
+
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@Column
+	private Integer status;
 
 	public SysDataDictionary() {
 	}
@@ -55,20 +72,44 @@ public class SysDataDictionary implements Serializable {
 		this.name = name;
 	}
 
-	public BigInteger getParentId() {
+	public Long getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(BigInteger parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }

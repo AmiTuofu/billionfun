@@ -2,8 +2,10 @@ package com.billionfun.bms.product.mall.vo;
 
 import com.billionfun.bms.product.mall.common.utils.PageUtil;
 import com.billionfun.bms.product.mall.model.SysRole;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class SysRoleVO extends PageUtil<SysRole>{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SysRoleVO extends PageUtil<SysRole> {
 	private String id;
 
 	private String code;
@@ -11,9 +13,9 @@ public class SysRoleVO extends PageUtil<SysRole>{
 	private String name;
 
 	private int status;
-	
+
 	private String userId;
-	
+
 	private String funcIds;
 
 	public String getId() {
@@ -63,5 +65,5 @@ public class SysRoleVO extends PageUtil<SysRole>{
 	public void setFuncIds(String funcIds) {
 		this.funcIds = funcIds;
 	}
-	
+
 }
