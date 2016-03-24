@@ -1,8 +1,8 @@
 $().ready(function () {
-	$("#grid-table").jqGrid({
+	$("#dictionary-grid-table").jqGrid({
 		url: ctx+"/system/dictionary/query.json",
 //		postData:{"name":"1212312"},
-		colNames:['','id','名称','IP','时间','级别','类','描述', '信息',],
+		colNames:['','id','编码','名称','描述','父Id','类型Id','创建时间','状态',],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
@@ -18,21 +18,22 @@ $().ready(function () {
 				}
 			},
 			{name:'id',index:'id', width:10,search:true, editable: false},
-			{name:'code',index:'code',width:30,search:true, editable:true},
-			{name:'name',index:'name', width:30,editable: true},
+			{name:'code',index:'code',width:50,search:true, editable:true},
+			{name:'name',index:'name', width:50,editable: true},
 			{name:'description',index:'description',width:40,search:true, editable:true},
-			{name:'parentId',index:'parentId',width:50,search:true, editable:true},
-			{name:'createDate',index:'createDate',width:50,search:true, editable:true},
-			{name:'status',index:'status', width:70, editable: true},
+			{name:'parentId',index:'parentId',width:10,search:true, editable:true},
+			{name:'typeId',index:'typeId',width:10,search:true, editable:true},
+			{name:'createDate',index:'createDate', width:70,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
+			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
-		pager : "#grid-pager",//定义翻页用的导航栏，必须是有效的html元素。翻页工具栏可以放置在html页面任意位置
+		pager : "#dictionary-grid-pager",//定义翻页用的导航栏，必须是有效的html元素。翻页工具栏可以放置在html页面任意位置
 		
 		editurl: ctx+"/system/dictionary/modify.json",//nothing is saved定义对form编辑时的url
 		caption: "数据字典查询",//表格名称
 	});
 
 	//navButtons
-	$("#grid-table").jqGrid('navGrid',"#grid-pager",
+	$("#dictionary-grid-table").jqGrid('navGrid',"#dictionary-grid-pager",
 		{
 			
 		},
