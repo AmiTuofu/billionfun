@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.billionfun.bms.product.elfinder.common.ConfigInfo;
 import com.billionfun.bms.product.elfinder.controller.ConnectorController;
 import com.billionfun.bms.product.elfinder.controller.executor.CommandExecutorFactory;
 import com.billionfun.bms.product.elfinder.controller.executor.DefaultCommandExecutorFactory;
@@ -22,8 +23,6 @@ import com.billionfun.bms.product.elfinder.service.impl.StaticFsServiceFactory;
 public class ConnectorServlet extends HttpServlet {
 	// core member of this Servlet
 	ConnectorController _connectorController;
-	
-
 	/**
 	 * create a command executor factory
 	 * 
@@ -57,20 +56,19 @@ public class ConnectorServlet extends HttpServlet {
 	}
 
 	protected DefaultFsService createFsService() {
+		
 		DefaultFsService fsService = new DefaultFsService();
 		fsService.setSecurityChecker(new FsSecurityCheckForAll());
-
+		
 		DefaultFsServiceConfig serviceConfig = new DefaultFsServiceConfig();
 		serviceConfig.setTmbWidth(80);
-//		System.out.println(_connectorController.getConfigInfo().getVolumeLocalMyfilesA());
 		fsService.setServiceConfig(serviceConfig);
 		
 		fsService.addVolume("A",
-				createLocalFsVolume("My Files", new File("/alidata/baks/elfinder/myfiles")));
+				createLocalFsVolume("My Files", new File(ConfigInfo.config.getProperty("volume.local.myfiles.a"))));
 		fsService.addVolume(
 				"B",
-				createLocalFsVolume("Shared", new File(
-						"/alidata/baks/elfinder/shared")));
+				createLocalFsVolume("Shared", new File(ConfigInfo.config.getProperty("volume.local.shared.b"))));
 
 		return fsService;
 	}
