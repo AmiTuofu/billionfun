@@ -16,7 +16,7 @@
 	<div class="page-content">
 		<div class="page-header">
 			<h1>
-				文件管理 <small> <i class="icon-double-angle-right"></i>
+				文件管理<small> <i class="icon-double-angle-right"></i>
 					with draggable and editable events
 				</small>
 			</h1>
@@ -26,9 +26,8 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<!-- PAGE CONTENT BEGINS -->
-
 				<div class="row">
-					<iframe src="http://localhost:8080/elfinder" id="iframe1" style="width:100%;min-height:600px;_height:600px; "  frameborder="0" scrolling="auto"></iframe>
+					<iframe src="<fmt:message key="elfinder.url"></fmt:message>" id="iframe1" style="width:100%;min-height:600px;_height:600px; "  frameborder="0" scrolling="auto"></iframe>
 				</div>
 
 				<!-- PAGE CONTENT ENDS -->
