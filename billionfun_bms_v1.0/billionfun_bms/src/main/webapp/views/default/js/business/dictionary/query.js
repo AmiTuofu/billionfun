@@ -1,8 +1,9 @@
 $().ready(function () {
+	var userDicTypes = getUserDicTypes();
 	$("#dictionary-grid-table").jqGrid({
-		url: ctx+"/business/dictionary/query.json",
+		url: ctx+"/business/dictionary/search.json",
 //		postData:{"name":"1212312"},
-		colNames:['','id','名称','IP','时间','级别','类','描述', '信息',],
+		colNames:['','id','编码','名称','描述','父Id','类型','创建时间','状态',],
 		colModel:[
 		    {name:'myac',index:'', width:80, fixed:true,search:false, sortable:false, resize:false,
 			//name 列显示的名称；index 传到服务器端用来排序用的列名称；width 列宽度；align 对齐方式；sortable 是否可以排序
@@ -10,21 +11,21 @@ $().ready(function () {
 				formatoptions:{ 
 					keys:true,
 					delOptions:{recreateForm: true, beforeShowForm:function(e){
-						beforeDel(e,"dictionary-grid-table",ctx+"/business/dictionary/delete.json");
+						beforeDel(e,"dictionary-grid-table",ctx+"/system/dictionary/delete.json");
 					}},
 					editformbutton:true, editOptions:{recreateForm: true,closeAfterEdit:true, beforeShowForm:function(e){
-						beforeEdit(e,"dictionary-grid-table",ctx+"/business/dictionary/modify.json");
+						beforeEdit(e,"dictionary-grid-table",ctx+"/system/dictionary/modify.json");
 					}}
 				}
 			},
-			{name:'id',index:'id', width:10,search:true, sorttype:"int", editable: false},
-			{name:'dictionaryName',index:'dictionaryName',width:30,search:true, editable:true},
-			{name:'dictionaryIp',index:'dictionaryIp', width:30,editable: true},
-			{name:'dictionaryDate',index:'dictionaryDate',width:40,search:true, editable:true},
-			{name:'dictionaryLevel',index:'dictionaryLevel',width:50,search:true, editable:true},
-			{name:'dictionaryClass',index:'dictionaryClass',width:50,search:true, editable:true},
-			{name:'dictionaryDesc',index:'dictionaryDesc', width:70, editable: true,edittype:"textarea"},
-			{name:'dictionaryMessage',index:'dictionaryMessage', width:150, editable: true,edittype:"textarea"}
+			{name:'id',index:'id', width:10,search:true, editable: false},
+			{name:'code',index:'code',width:50,search:true, editable:true},
+			{name:'name',index:'name', width:50,editable: true},
+			{name:'description',index:'description',width:40,search:true, editable:true},
+			{name:'parentId',index:'parentId',width:10,search:true, editable:true},
+			{name:'typeId',index:'typeId',width:30,search:true, editable:true,edittype:"select",editoptions: {value:userDicTypes.join(";")},formatter:function(cellvalue, options, row){return getDicValue(cellvalue,userDicTypes)}},
+			{name:'createDate',index:'createDate', width:70,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
+			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 
 		pager : "#dictionary-grid-pager",//定义翻页用的导航栏，必须是有效的html元素。翻页工具栏可以放置在html页面任意位置
 		

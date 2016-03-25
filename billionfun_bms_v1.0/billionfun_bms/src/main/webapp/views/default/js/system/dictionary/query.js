@@ -22,7 +22,7 @@ $().ready(function () {
 			{name:'name',index:'name', width:50,editable: true},
 			{name:'description',index:'description',width:40,search:true, editable:true},
 			{name:'parentId',index:'parentId',width:10,search:true, editable:true},
-			{name:'typeId',index:'typeId',width:10,search:true, editable:true},
+			{name:'typeId',index:'typeId',width:20,search:true, editable:true},
 			{name:'createDate',index:'createDate', width:70,search:true,editable: false,sorttype:"date",editrules:{required:true,date:true}},
 			{name:'status',index:'status', width:30,search:true, editable: true,edittype:"select",editoptions: {value:"1:有效;0:无效"},formatter:function(cellvalue, options, row){return cellvalue==1?"有效":"无效"}},
 		], 

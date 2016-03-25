@@ -232,6 +232,47 @@ $.fn.getHexBackgroundColor = function() {
 	rgb= "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 	return rgb; 
 }
+var dictionarys = [];
+function getDictionary(){
+	if(dictionarys.length==0){
+		$.ajax({
+	        type: "POST",
+	        url: ctx + "/system/dictionary/getall.json",
+	        data: {},
+	        async: false,
+	        beforeSend:function(XMLHttpRequest){
+	
+	        },
+	        success: function (data) {
+	        	dictionarys = data.list;
+	        },
+	        error: function (e) {
+	                alert("error");
+	        }
+	    });
+	}
+	return dictionarys;
+}
+function getUserDicTypes(){
+	dictionarys = getDictionary();
+	var userdtype_arr = [];
+	$.each(dictionarys, function(i, item) {
+		if(item.typeId=="1"){
+			userdtype_arr.push(item.id+":"+item.name);
+		}
+    });
+	return userdtype_arr;
+}
+function getDicValue(code,dic_arr){
+	var temp = "";
+	$.each(dic_arr, function(i, item) {
+		var item_arr = item.split(":");
+		if(item_arr[0]==code){
+			temp = item_arr[1];
+		}
+    });
+	return temp ;
+}
 /*jQuery.extend(jQuery.validator.messages, {
   required: "必填字段",
   remote: "请修正该字段",
