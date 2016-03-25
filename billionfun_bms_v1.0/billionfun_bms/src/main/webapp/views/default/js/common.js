@@ -273,6 +273,7 @@ function getDicValue(code,dic_arr){
     });
 	return temp ;
 }
+
 /*jQuery.extend(jQuery.validator.messages, {
   required: "必填字段",
   remote: "请修正该字段",

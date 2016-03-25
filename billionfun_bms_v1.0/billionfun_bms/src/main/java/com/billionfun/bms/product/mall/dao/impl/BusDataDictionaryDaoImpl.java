@@ -11,25 +11,53 @@ import com.billionfun.bms.product.mall.model.BusDataDictionary;
 import com.billionfun.bms.product.mall.vo.BusDataDictionaryVO;
 
 @Repository
-public class BusDataDictionaryDaoImpl extends BaseDaoImpl<BusDataDictionary,String> implements BusDataDictionaryDao{
+public class BusDataDictionaryDaoImpl extends
+		BaseDaoImpl<BusDataDictionary, String> implements BusDataDictionaryDao {
 
 	public List<BusDataDictionary> getListByPage(BusDataDictionaryVO vo) {
 		StringBuilder hql = new StringBuilder();
 		List<String> paramList = new ArrayList<String>();
 		hql.append(" from BusDataDictionary d");
 		hql.append(" where 1=1");
-		if(!StringUtil.empty(vo.getUserId())){
+		if (!StringUtil.empty(vo.getUserId())) {
 			hql.append(" and d.userId = ?");
 			paramList.add(vo.getUserId());
 		}
-		if(vo.getSearch()){
+		if (vo.getSearch()) {
 			vo.getSearchHql(hql, vo.getFilters(), paramList);
 		}
-		if(!StringUtil.empty(vo.getSort())&&!StringUtil.empty(vo.getOrder())){
-			hql.append(" order by d.").append(vo.getSort()).append(" ").append(vo.getOrder());
+		if (!StringUtil.empty(vo.getSort()) && !StringUtil.empty(vo.getOrder())) {
+			hql.append(" order by d.").append(vo.getSort()).append(" ")
+					.append(vo.getOrder());
 		}
 
-		List<BusDataDictionary> list = super.getListByPage(vo, hql.toString(), paramList);
+		List<BusDataDictionary> list = super.getListByPage(vo, hql.toString(),
+				paramList);
+		return list;
+	}
+
+	public List<BusDataDictionary> getList(BusDataDictionaryVO vo) {
+		StringBuilder hql = new StringBuilder();
+		List paramList = new ArrayList();
+		hql.append(" from BusDataDictionary d");
+		hql.append(" where 1=1");
+		if (!StringUtil.empty(vo.getUserId())) {
+			hql.append(" and d.userId = ?");
+			paramList.add(vo.getUserId());
+		}
+		if (!StringUtil.empty(vo.getTypeId())) {
+			hql.append(" and d.typeId = ?");
+			paramList.add(vo.getTypeId());
+		}
+		if (vo.getSearch()) {
+			vo.getSearchHql(hql, vo.getFilters(), paramList);
+		}
+		if (!StringUtil.empty(vo.getSort()) && !StringUtil.empty(vo.getOrder())) {
+			hql.append(" order by d.").append(vo.getSort()).append(" ")
+					.append(vo.getOrder());
+		}
+
+		List<BusDataDictionary> list = super.getList(hql.toString(), paramList);
 		return list;
 	}
 

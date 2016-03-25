@@ -32,6 +32,8 @@ public class BusEventVO extends PageUtil<BusEvent> {
 	private String fullName;
 	private String email;
 	private String backgroundColor;
+	private Integer noticeCount = 0;
+	private Integer categoryId;
 
 	public String getId() {
 		return id;
@@ -175,6 +177,22 @@ public class BusEventVO extends PageUtil<BusEvent> {
 
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+
+	public Integer getNoticeCount() {
+		return noticeCount;
+	}
+
+	public void setNoticeCount(Integer noticeCount) {
+		this.noticeCount = noticeCount;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

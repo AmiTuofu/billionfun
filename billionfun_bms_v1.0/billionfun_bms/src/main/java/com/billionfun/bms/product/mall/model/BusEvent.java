@@ -44,6 +44,8 @@ public class BusEvent {
 	private String backgroundColor;
 	@Column(name = "notice_count", columnDefinition = "INT default 0")
 	private Integer noticeCount = 0;
+	@Column(name = "type_id")
+	private Integer categoryId;
 
 	public String getId() {
 		return id;
@@ -179,6 +181,14 @@ public class BusEvent {
 
 	public void setNoticeCount(Integer noticeCount) {
 		this.noticeCount = noticeCount;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

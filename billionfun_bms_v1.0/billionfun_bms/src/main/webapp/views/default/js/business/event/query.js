@@ -70,6 +70,7 @@ $().ready(function(){
 		                        allDay:$(this).attr('allDay'),
 		                        status:$(this).attr('status'),
 		                        backgroundColor:$(this).attr('backgroundColor'),
+		                        categoryId:$(this).attr('categoryId'),
 		                    });
 				        });
 						callback(events);
@@ -143,7 +144,7 @@ $().ready(function(){
 								calEvent.allDay = allDay;
 								calEvent.status = $("select[name=status]").val();
 								calEvent.backgroundColor = $("select[name=backgroundColor]").val();
-								
+								calEvent.categoryId = $("select[name=categoryId]").val();
 								addEvent(calEvent);
 								calendar.fullCalendar('refetchEvents');
 							}
@@ -202,6 +203,8 @@ $().ready(function(){
 								calEvent.place = $("input[name=place]").val();
 								calEvent.status = $("select[name=status]").val();
 								calEvent.backgroundColor = $("select[name=backgroundColor]").val();
+								calEvent.categoryId = $("select[name=categoryId]").val();
+								
 								if(!empty(calEvent.repeatsId)){
 									var confirm_div = bootbox.dialog({
 		//								title:"编辑事件",
@@ -312,6 +315,7 @@ $().ready(function(){
 				$("input[name=place]").val(calEvent.place);
 				$("select[name=status]").val(calEvent.status);
 				$("select[name=backgroundColor]").val(calEvent.backgroundColor);
+				$("select[name=categoryId]").val(calEvent.categoryId);
 				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
@@ -447,6 +451,7 @@ $().ready(function(){
 					"styleClass":calEvent.styleClass,
 					"allDay" : calEvent.allDay,
 					"backgroundColor" : calEvent.backgroundColor,
+					"categoryId" : calEvent.categoryId,
 			};
 			if(!empty(calEvent.repeatsEndDate)){
 				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
@@ -491,6 +496,7 @@ $().ready(function(){
 					"allDay" : calEvent.allDay,
 					"status" : calEvent.status,
 					"backgroundColor" : calEvent.backgroundColor,
+					"categoryId" : calEvent.categoryId,
 			};
 			if(!empty(calEvent.repeatsEndDate)){
 				params.repeatsEndDate = new Date(calEvent.repeatsEndDate.replace(/-/g,   "/"));
@@ -538,9 +544,18 @@ $().ready(function(){
 		        });
 		}
 		function getFormHtml(calEvent){
+			var eventCate = getEventCate();
 			var bootbox_form_html = "<form class=\"form-horizontal\" role=\"form\">";
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 名称: </label>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"name\" placeholder=\"\" class=\"col-xs-11 col-sm-8\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
+			
+			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 类别: </label>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-4\"><select class=\"form-control\" name=\"categoryId\">";
+			for(var i = 0;i<eventCate.length;i++){
+				bootbox_form_html = bootbox_form_html + "<option value='"+eventCate[i].id+"'>"+eventCate[i].name+"</option>";
+			}
+			bootbox_form_html = bootbox_form_html + "</select></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
@@ -584,5 +599,24 @@ $().ready(function(){
 			
 			bootbox_form_html = bootbox_form_html + "</form>";
 			return bootbox_form_html;
+		}
+		function getEventCate(){
+			var eventCate = [];
+			$.ajax({
+		        type: "POST",
+		        url: ctx + "/business/dictionary/getall.json",
+		        data: {"typeId":1},
+		        async: false,
+		        beforeSend:function(XMLHttpRequest){
+		
+		        },
+		        success: function (data) {
+		        	eventCate = data.list;
+		        },
+		        error: function (e) {
+		        	
+		        }
+		    });
+			return eventCate;
 		}
 });
