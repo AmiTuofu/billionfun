@@ -31,4 +31,17 @@ public class SysDataDictionaryServiceImpl extends BaseServiceImpl<SysDataDiction
 		return listVo;
 	}
 	
+	public List<SysDataDictionaryVO> getAll(){
+		List<SysDataDictionary> list = dictionaryDao.findAll("from SysDataDictionary");
+		List<SysDataDictionaryVO> listVo = new ArrayList<SysDataDictionaryVO>();
+		if(!StringUtil.empty(list)){
+			for (SysDataDictionary ref : list) {
+				SysDataDictionaryVO voRef = new SysDataDictionaryVO();
+				BeanUtils.copyProperties(ref, voRef);
+				listVo.add(voRef);
+				
+			}
+		}
+		return listVo;
+	}
 }
