@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.billionfun.bms.product.mall.common.load.StartOnLoad;
 import com.billionfun.bms.product.mall.model.SysDataDictionary;
 import com.billionfun.bms.product.mall.service.SysDataDictionaryService;
 import com.billionfun.bms.product.mall.vo.SysDataDictionaryVO;
@@ -36,11 +37,18 @@ public class SysDataDictionaryController extends BaseController {
 	public String search(ModelMap modelMap,SysDataDictionaryVO vo){
 		List<SysDataDictionaryVO> dictionaryVOs = sysDictionaryService.search(vo);
 		modelMap.put("userdata", dictionaryVOs);
-		modelMap.put("list", sysDictionaryService.search(vo));
+		modelMap.put("list", dictionaryVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
 		return "system/dictionary/search";
+	}
+	
+	@RequestMapping("/getall")
+	public String getAll(ModelMap modelMap,SysDataDictionaryVO vo){
+		List<SysDataDictionaryVO> dictionaryVOs = (List<SysDataDictionaryVO>)StartOnLoad.dataMap.get("dictionaryList");
+		modelMap.put("list", dictionaryVOs);
+		return "system/dictionary/getall";
 	}
 	
 	@RequestMapping("/modify")

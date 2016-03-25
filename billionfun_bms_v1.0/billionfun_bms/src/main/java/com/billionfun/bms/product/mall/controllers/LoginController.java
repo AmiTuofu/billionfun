@@ -54,6 +54,7 @@ public class LoginController extends BaseController {
 	@RequestMapping("/index")
 	public String index(ModelMap modelMap) {
 		modelMap.put("user", getCurrentUser());
+		
 		return "index";
 	}
 

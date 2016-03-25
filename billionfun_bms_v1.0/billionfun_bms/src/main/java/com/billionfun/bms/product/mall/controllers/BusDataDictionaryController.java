@@ -1,5 +1,6 @@
 package com.billionfun.bms.product.mall.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -23,44 +24,50 @@ public class BusDataDictionaryController extends BaseController {
 	
 	@RequestMapping("/query")
 	public String query(ModelMap modelMap,BusDataDictionaryVO vo){
+		vo.setUserId(getCurrentUser().getId());
 		List<BusDataDictionaryVO> dictionaryVOs = busDictionaryService.query(vo);
 		modelMap.put("list", dictionaryVOs);
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
-		return "system/dictionary/query";
+		return "business/dictionary/query";
 	}
 	
 	@RequestMapping("/search")
 	public String search(ModelMap modelMap,BusDataDictionaryVO vo){
+		vo.setUserId(getCurrentUser().getId());
 		List<BusDataDictionaryVO> dictionaryVOs = busDictionaryService.search(vo);
 		modelMap.put("userdata", dictionaryVOs);
 		modelMap.put("list", busDictionaryService.search(vo));
 		modelMap.put("page", vo.getPage());
 		modelMap.put("total", vo.getTotal());
 		modelMap.put("records", vo.getRecords());
-		return "system/dictionary/search";
+		return "business/dictionary/search";
 	}
+	
+
 	
 	@RequestMapping("/modify")
 	public String modify(ModelMap modelMap,BusDataDictionaryVO vo){
 		BusDataDictionary dictionary = new BusDataDictionary();
 		BeanUtils.copyProperties(vo, dictionary);
 		busDictionaryService.update(dictionary);
-		return "system/dictionary/modify";
+		return "business/dictionary/modify";
 	}
 	
 	@RequestMapping("/add")
 	public String add(ModelMap modelMap,BusDataDictionaryVO vo){
 		BusDataDictionary dictionary = new BusDataDictionary();
 		BeanUtils.copyProperties(vo, dictionary);
+		dictionary.setUserId(getCurrentUser().getId());
+		dictionary.setCreateDate(new Date());
 		busDictionaryService.save(dictionary);
-		return "system/dictionary/add";
+		return "business/dictionary/add";
 	}
 	
 	@RequestMapping("/delete")
 	public String delete(ModelMap modelMap,BusDataDictionaryVO vo){
 		busDictionaryService.delete(vo.getId());
-		return "system/dictionary/delete";
+		return "business/dictionary/delete";
 	}
 }
