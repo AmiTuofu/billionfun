@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/fullcalendar.min.css" />
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/datepicker.css" />
+<link rel="stylesheet" href="${ctx}/views/default/assets/css/bootstrap-datetimepicker.min.css" />
 <%-- <link rel="stylesheet" href="${ctx}/views/default/assets/css/fullcalendar.print.css" /> --%>
 </head>
 <body>
@@ -100,6 +101,7 @@
 	<script src="${ctx}/views/default/assets/js/fullcalendar.min.js"></script>
 	<script src="${ctx}/views/default/assets/js/bootbox.min.js"></script>
 	<script src="${ctx}/views/default/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="${ctx}/views/default/assets/js/date-time/bootstrap-datetimepicker.js"></script>
 	<script src="${ctx}/views/default/assets/js/bootstrap-colorpicker.min.js"></script>
 	<!-- inline scripts related to this page -->
 	<script src="${ctx}/views/default/js/business/event/query.js"></script>-->

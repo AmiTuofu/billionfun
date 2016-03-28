@@ -159,7 +159,7 @@ $().ready(function(){
 				form.find("input[name=endDate]").val(end.Format("yyyy-MM-dd hh:mm:ss"));
 				form.find("label[name=until-time]").hide();
 				form.find("input[name=repeatsEndDate]").hide();
-				$('.date-picker').datepicker({autoclose:true,altFormat: 'yy-mm-dd 10:30:00' }).next().on(ace.click_event, function(){
+				$('.date-time-picker').datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
 //				$('input[name=startDate]').datepicker({autoclose:true,altFormat: 'yy-mm-dd 10:30:00' }).next().on(ace.click_event, function(){
@@ -316,7 +316,7 @@ $().ready(function(){
 				$("select[name=status]").val(calEvent.status);
 				$("select[name=backgroundColor]").val(calEvent.backgroundColor);
 				$("select[name=categoryId]").val(calEvent.categoryId);
-				$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+				$('.date-time-picker').datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
 				$('select[name=backgroundColor]').ace_colorpicker();
@@ -559,11 +559,11 @@ $().ready(function(){
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 开始: </label>";
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd 10:30:00\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"startDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-time-picker\" data-date-format=\"yyyy-mm-dd hh:ii:ss\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 结束: </label>";
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-picker\" data-date-format=\"yyyy-mm-dd 19:00:00\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-9\"><input type=\"text\" id=\"form-field-1\" name=\"endDate\" placeholder=\"\" class=\"col-xs-10 col-sm-5 date-time-picker\" data-date-format=\"yyyy-mm-dd hh:ii:ss\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 重复: </label>";
@@ -571,7 +571,7 @@ $().ready(function(){
 			bootbox_form_html = bootbox_form_html + "<option value=>不重复</option><option value=day>每日重复</option><option value=week>每周重复</option>";
 			bootbox_form_html = bootbox_form_html + "<option value=month>每月重复</option><option value=year>每年重复</option>";
 			bootbox_form_html = bootbox_form_html + "</select></div>"
-			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><label class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\" name=\"until-time\">直到:</label><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-picker\" data-date-format=\"yyyy-mm-dd\"></div></div>";
+			bootbox_form_html = bootbox_form_html + "<div class=\"col-sm-5\"><label class=\"col-xs-4 col-sm-4\" style=\"padding-top:4px;margin-bottom:4px\" name=\"until-time\">直到:</label><input type=\"text\" id=\"form-field-1\" name=\"repeatsEndDate\" placeholder=\"\" class=\"col-xs-8 col-sm-8 date-time-picker\" data-date-format=\"yyyy-mm-dd hh:ii:ss\"></div></div>";
 			bootbox_form_html = bootbox_form_html + "<div class=\"space-4\"></div>";
 			
 			bootbox_form_html = bootbox_form_html + "<div class=\"form-group\"><label class=\"col-sm-2 control-label no-padding-right\" for=\"form-field-1\"> 提醒: </label>";
