@@ -1,7 +1,9 @@
 package com.billionfun.bms.product.mall.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +46,14 @@ public class BusDataDictionaryServiceImpl extends
 			}
 		}
 		return listVo;
+	}
+
+	public Map<String, BusDataDictionaryVO> getAllMap(BusDataDictionaryVO vo) {
+		List<BusDataDictionaryVO> listVo = getAll(vo);
+		Map<String, BusDataDictionaryVO> mapVo = new HashMap<String, BusDataDictionaryVO>();
+		for (BusDataDictionaryVO dicVo : listVo) {
+			mapVo.put(dicVo.getId(), dicVo);
+		}
+		return mapVo;
 	}
 }

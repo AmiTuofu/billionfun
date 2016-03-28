@@ -44,7 +44,7 @@ public class BusEvent {
 	private String backgroundColor;
 	@Column(name = "notice_count", columnDefinition = "INT default 0")
 	private Integer noticeCount = 0;
-	@Column(name = "type_id")
+	@Column(name = "category_id")
 	private Integer categoryId;
 
 	public String getId() {

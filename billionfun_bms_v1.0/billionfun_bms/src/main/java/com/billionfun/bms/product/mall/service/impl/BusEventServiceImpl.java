@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import com.billionfun.bms.product.mall.dao.BusEventDao;
 import com.billionfun.bms.product.mall.dao.SysUserDao;
 import com.billionfun.bms.product.mall.model.BusEvent;
 import com.billionfun.bms.product.mall.model.SysUser;
+import com.billionfun.bms.product.mall.service.BusDataDictionaryService;
 import com.billionfun.bms.product.mall.service.BusEventService;
+import com.billionfun.bms.product.mall.vo.BusDataDictionaryVO;
 import com.billionfun.bms.product.mall.vo.BusEventVO;
 
 @Service("eventService")
@@ -24,17 +27,44 @@ public class BusEventServiceImpl extends
 		BusEventService {
 	@Autowired
 	private BusEventDao eventDao;
-	
+
 	@Autowired
 	private SysUserDao userDao;
 
+	@Autowired
+	private BusDataDictionaryService busDictionaryService;
+
+	/**
+	 * 
+	 * <p>
+	 * Title: search
+	 * </p>
+	 * <p>
+	 * Description: 需要初始化配置数据1:用户事件分类
+	 * </p>
+	 * 
+	 * @param vo
+	 * @return
+	 * @see com.billionfun.bms.product.mall.service.BusEventService#search(com.billionfun.bms.product.mall.vo.BusEventVO)
+	 */
 	public List<BusEventVO> search(BusEventVO vo) {
+		BusDataDictionaryVO dicVo = new BusDataDictionaryVO();
+		dicVo.setUserId(vo.getUserId());
+		dicVo.setTypeId(1);
+		Map<String, BusDataDictionaryVO> dicMap = busDictionaryService
+				.getAllMap(dicVo);
 		List<BusEvent> list = eventDao.getList(vo);
 		List<BusEventVO> listVo = new ArrayList<BusEventVO>();
 		if (!StringUtil.empty(list)) {
 			for (BusEvent ref : list) {
 				BusEventVO voRef = new BusEventVO();
 				BeanUtils.copyProperties(ref, voRef);
+				if (voRef.getCategoryId() != null
+						&& dicMap.get(voRef.getCategoryId() + "") != null) {
+					voRef.setName(dicMap.get(voRef.getCategoryId() + "")
+							.getName() + voRef.getName());
+				}
+
 				listVo.add(voRef);
 			}
 		}
@@ -48,7 +78,8 @@ public class BusEventServiceImpl extends
 					vo.getEndDate());
 			List<Date> listStartDate = DateUtil.getDates(vo.getStartDate(),
 					vo.getRepeatsEndDate(), vo.getRepeats(), 1);
-			String repeatsId = vo.getUserId()+"-"+(int)(Math.random()*100000000);
+			String repeatsId = vo.getUserId() + "-"
+					+ (int) (Math.random() * 100000000);
 			for (int i = 0; i < listStartDate.size(); i++) {
 				Date startDate = listStartDate.get(i);
 				Date endDate = DateUtil.addDate(startDate,
@@ -67,14 +98,14 @@ public class BusEventServiceImpl extends
 		}
 		return true;
 	}
-	
-	public boolean update(BusEventVO vo) throws ParseException{
-		if(!StringUtil.empty(vo.getRepeatsId())){
+
+	public boolean update(BusEventVO vo) throws ParseException {
+		if (!StringUtil.empty(vo.getRepeatsId())) {
 			BusEvent event = eventDao.get(vo.getId());
-			eventDao.delete(vo.getRepeatsId(),event.getStartDate());
+			eventDao.delete(vo.getRepeatsId(), event.getStartDate());
 			vo.setId(null);
 			save(vo);
-		}else{
+		} else {
 			BusEvent event = new BusEvent();
 			BeanUtils.copyProperties(vo, event);
 			super.update(event);
@@ -83,15 +114,15 @@ public class BusEventServiceImpl extends
 	}
 
 	public boolean delete(BusEventVO vo) {
-		if(!StringUtil.empty(vo.getRepeatsId())){
-			eventDao.delete(vo.getRepeatsId(),vo.getStartDate());
-		}else{
+		if (!StringUtil.empty(vo.getRepeatsId())) {
+			eventDao.delete(vo.getRepeatsId(), vo.getStartDate());
+		} else {
 			super.delete(vo.getId());
 		}
 		return true;
 	}
-	
-	public List<BusEventVO> getRemindList(){
+
+	public List<BusEventVO> getRemindList() {
 		List<BusEvent> list = eventDao.getRemindList();
 		List<BusEventVO> listRef = new ArrayList<BusEventVO>();
 		for (int i = 0; i < list.size(); i++) {
@@ -105,8 +136,8 @@ public class BusEventServiceImpl extends
 		}
 		return listRef;
 	}
-	
-	public void updateNoticeCount(String id){
+
+	public void updateNoticeCount(String id) {
 		eventDao.updateNoticeCount(id);
 	}
 }
