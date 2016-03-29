@@ -346,7 +346,7 @@ $().ready(function(){
 				}
 				calEvent.allDay = allDay;
 				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
-				calEvent.name = calEvent.title;
+		//		calEvent.name = calEvent.title;
 				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
 				
 				if(!empty(calEvent.repeatsId)){
@@ -401,7 +401,7 @@ $().ready(function(){
 				}
 //				calEvent.allDay = allDay;
 				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
-				calEvent.name = calEvent.title;
+	//			calEvent.name = calEvent.title;
 				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
 				if(!empty(calEvent.repeatsId)){
 					var confirm_div = bootbox.dialog({
