@@ -23,7 +23,7 @@ public class BusDataDictionary implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Long id;
 	@Column
 	private String code;
 
@@ -38,7 +38,7 @@ public class BusDataDictionary implements Serializable {
 
 	@Column(name = "parent_id")
 	private Long parentId;
-	
+
 	@Column(name = "type_id")
 	private Integer typeId;
 
@@ -51,11 +51,11 @@ public class BusDataDictionary implements Serializable {
 	public BusDataDictionary() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

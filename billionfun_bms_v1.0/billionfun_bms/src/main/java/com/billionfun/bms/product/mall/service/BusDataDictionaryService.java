@@ -7,10 +7,10 @@ import com.billionfun.bms.product.mall.model.BusDataDictionary;
 import com.billionfun.bms.product.mall.vo.BusDataDictionaryVO;
 
 public interface BusDataDictionaryService extends
-		BaseService<BusDataDictionary, BusDataDictionaryVO, String> {
+		BaseService<BusDataDictionary, BusDataDictionaryVO, Long> {
 	List<BusDataDictionaryVO> search(BusDataDictionaryVO vo);
 
 	List<BusDataDictionaryVO> getAll(BusDataDictionaryVO vo);
 
-	Map<String, BusDataDictionaryVO> getAllMap(BusDataDictionaryVO vo);
+	Map<Long, BusDataDictionaryVO> getAllMap(BusDataDictionaryVO vo);
 }

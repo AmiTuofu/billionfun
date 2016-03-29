@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BusDataDictionaryVO extends PageUtil<BusDataDictionary> {
-	private String id;
+	private Long id;
 
 	private String code;
 
@@ -20,9 +20,9 @@ public class BusDataDictionaryVO extends PageUtil<BusDataDictionary> {
 	private String description;
 
 	private String userId;
-	
+
 	private Integer typeId;
-	
+
 	private Long parentId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -30,11 +30,11 @@ public class BusDataDictionaryVO extends PageUtil<BusDataDictionary> {
 
 	private Integer status;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

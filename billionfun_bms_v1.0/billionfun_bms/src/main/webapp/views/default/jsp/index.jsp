@@ -1354,8 +1354,6 @@
 					if(this.checked) $(this).closest('li').addClass('selected');
 					else $(this).closest('li').removeClass('selected');
 				});
-				
-			
 			})
 		</script>
 		

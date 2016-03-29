@@ -12,7 +12,7 @@ import com.billionfun.bms.product.mall.vo.BusDataDictionaryVO;
 
 @Repository
 public class BusDataDictionaryDaoImpl extends
-		BaseDaoImpl<BusDataDictionary, String> implements BusDataDictionaryDao {
+		BaseDaoImpl<BusDataDictionary, Long> implements BusDataDictionaryDao {
 
 	public List<BusDataDictionary> getListByPage(BusDataDictionaryVO vo) {
 		StringBuilder hql = new StringBuilder();

@@ -51,7 +51,7 @@ public class BusEventServiceImpl extends
 		BusDataDictionaryVO dicVo = new BusDataDictionaryVO();
 		dicVo.setUserId(vo.getUserId());
 		dicVo.setTypeId(1);
-		Map<String, BusDataDictionaryVO> dicMap = busDictionaryService
+		Map<Long, BusDataDictionaryVO> dicMap = busDictionaryService
 				.getAllMap(dicVo);
 		List<BusEvent> list = eventDao.getList(vo);
 		List<BusEventVO> listVo = new ArrayList<BusEventVO>();
@@ -60,9 +60,9 @@ public class BusEventServiceImpl extends
 				BusEventVO voRef = new BusEventVO();
 				BeanUtils.copyProperties(ref, voRef);
 				if (voRef.getCategoryId() != null
-						&& dicMap.get(voRef.getCategoryId() + "") != null) {
-					voRef.setName(dicMap.get(voRef.getCategoryId() + "")
-							.getName() + voRef.getName());
+						&& dicMap.get(voRef.getCategoryId()) != null) {
+					voRef.setCategoryName(dicMap.get(voRef.getCategoryId())
+							.getName());
 				}
 
 				listVo.add(voRef);

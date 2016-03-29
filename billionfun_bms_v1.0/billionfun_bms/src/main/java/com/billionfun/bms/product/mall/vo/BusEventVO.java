@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class BusEventVO extends PageUtil<BusEvent> {
 	private String id;
 	private String name;
+	private String categoryName;
 	private String description;
 	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -33,7 +34,7 @@ public class BusEventVO extends PageUtil<BusEvent> {
 	private String email;
 	private String backgroundColor;
 	private Integer noticeCount = 0;
-	private Integer categoryId;
+	private Long categoryId;
 
 	public String getId() {
 		return id;
@@ -187,12 +188,19 @@ public class BusEventVO extends PageUtil<BusEvent> {
 		this.noticeCount = noticeCount;
 	}
 
-	public Integer getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 }

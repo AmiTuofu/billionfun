@@ -57,7 +57,9 @@ $().ready(function(){
 		            	$.each(data.list, function(i, item) {
 							events.push({
 								id:$(this).attr('id'),
-		                        title:$(this).attr('name'),
+								name:$(this).attr('name'),
+								categoryName:$(this).attr('categoryName'),
+		                        title:"["+$(this).attr('categoryName')+"]"+$(this).attr('name'),
 		                        start:$(this).attr('startDate'), // will be parsed
 		                        end:$(this).attr('endDate'),
 		                        repeats:$(this).attr('repeats'),
@@ -134,7 +136,7 @@ $().ready(function(){
 							"className" : "btn btn-sm btn-success",
 							"callback": function() {
 								var calEvent = {};
-								calEvent.title = form.find("input[name=name]").val();
+								calEvent.name = form.find("input[name=name]").val();
 								calEvent.start = form.find("input[name=startDate]").val();
 								calEvent.end = form.find("input[name=endDate]").val();
 								calEvent.repeats = $("select[name=repeats]").val();
@@ -194,7 +196,7 @@ $().ready(function(){
 							"label" : "<i class='icon-ok'></i> 保存",
 							"className" : "btn btn-sm btn-success",
 							"callback": function() {
-								calEvent.title = form.find("input[name=name]").val();
+								calEvent.name = form.find("input[name=name]").val();
 								calEvent.start = form.find("input[name=startDate]").val();
 								calEvent.end = form.find("input[name=endDate]").val();
 								calEvent.repeats = $("select[name=repeats]").val();
@@ -293,7 +295,7 @@ $().ready(function(){
 						} 
 					}
 				});
-				form.find("input[name=name]").val(calEvent.title);
+				form.find("input[name=name]").val(calEvent.name);
 				if(!empty(calEvent.start)){
 					form.find("input[name=startDate]").val(calEvent.start.Format("yyyy-MM-dd hh:mm:ss"));
 				}
@@ -344,7 +346,7 @@ $().ready(function(){
 				}
 				calEvent.allDay = allDay;
 				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
-				
+				calEvent.name = calEvent.title;
 				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
 				
 				if(!empty(calEvent.repeatsId)){
@@ -399,7 +401,7 @@ $().ready(function(){
 				}
 //				calEvent.allDay = allDay;
 				calEvent.start = calEvent.start.Format("yyyy-MM-dd hh:mm:ss");
-				
+				calEvent.name = calEvent.title;
 				calEvent.end = calEvent.end.Format("yyyy-MM-dd hh:mm:ss");
 				if(!empty(calEvent.repeatsId)){
 					var confirm_div = bootbox.dialog({
@@ -444,7 +446,7 @@ $().ready(function(){
 			var params = {
 					"startDate":new   Date(calEvent.start.replace(/-/g,   "/")),
 					"endDate":new   Date(calEvent.end.replace(/-/g,   "/")),
-					"name":calEvent.title,
+					"name":calEvent.name,
 					"repeats":calEvent.repeats,
 					"remind":calEvent.remind,
 					"place":calEvent.place,
@@ -487,7 +489,7 @@ $().ready(function(){
 					"id":calEvent.id,
 					"startDate":new Date(calEvent.start.replace(/-/g,   "/")),
 					"endDate":new Date(calEvent.end.replace(/-/g,   "/")),
-					"name":calEvent.title,
+					"name":calEvent.name,
 					"repeats":calEvent.repeats,
 					"remind":calEvent.remind,
 					"place":calEvent.place,

@@ -17,8 +17,8 @@ import com.billionfun.bms.product.mall.vo.BusDataDictionaryVO;
 
 @Service("busDictionaryService")
 public class BusDataDictionaryServiceImpl extends
-		BaseServiceImpl<BusDataDictionary, BusDataDictionaryVO, String>
-		implements BusDataDictionaryService {
+		BaseServiceImpl<BusDataDictionary, BusDataDictionaryVO, Long> implements
+		BusDataDictionaryService {
 	@Autowired
 	private BusDataDictionaryDao dictionaryDao;
 
@@ -48,9 +48,9 @@ public class BusDataDictionaryServiceImpl extends
 		return listVo;
 	}
 
-	public Map<String, BusDataDictionaryVO> getAllMap(BusDataDictionaryVO vo) {
+	public Map<Long, BusDataDictionaryVO> getAllMap(BusDataDictionaryVO vo) {
 		List<BusDataDictionaryVO> listVo = getAll(vo);
-		Map<String, BusDataDictionaryVO> mapVo = new HashMap<String, BusDataDictionaryVO>();
+		Map<Long, BusDataDictionaryVO> mapVo = new HashMap<Long, BusDataDictionaryVO>();
 		for (BusDataDictionaryVO dicVo : listVo) {
 			mapVo.put(dicVo.getId(), dicVo);
 		}

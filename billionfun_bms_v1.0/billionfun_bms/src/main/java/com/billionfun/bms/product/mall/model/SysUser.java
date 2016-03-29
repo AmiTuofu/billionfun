@@ -25,57 +25,56 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 /**
  * The persistent class for the sys_user database table.
  * 
  */
 @Entity
-@Table(name="sys_user")
-@NamedQuery(name="SysUser.findAll", query="SELECT s FROM SysUser s")
+@Table(name = "sys_user")
+@NamedQuery(name = "SysUser.findAll", query = "SELECT s FROM SysUser s")
 public class SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 
 	private String address;
 
-	@Column(name="city_code")
+	@Column(name = "city_code")
 	private Integer cityCode;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="create_date")
+	@Column(name = "create_date")
 	private Date createDate;
 
-	@Column(name="create_optr")
+	@Column(name = "create_optr")
 	private String createOptr;
 
-	@Column(name="dist_code")
+	@Column(name = "dist_code")
 	private Integer distCode;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="effect_end_date")
+	@Column(name = "effect_end_date")
 	private Date effectEndDate;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="effect_start_date")
+	@Column(name = "effect_start_date")
 	private Date effectStartDate;
 
 	private String email;
 
-	@Column(name="full_name")
+	@Column(name = "full_name")
 	private String fullName;
 
 	private String mobile;
 
-	@Column(name="modify_optr")
+	@Column(name = "modify_optr")
 	private String modifyOptr;
 
 	private String password;
 
-	@Column(name="prov_code")
+	@Column(name = "prov_code")
 	private Integer provCode;
 
 	private String remark;
@@ -84,23 +83,29 @@ public class SysUser implements Serializable {
 
 	private String telephone;
 
-	@Column(name="user_type")
+	@Column(name = "user_type")
 	private Integer userType;
 
 	private String username;
-	
+
 	@JsonIgnoreProperties
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ManyToMany(cascade = CascadeType.REMOVE,fetch=FetchType.LAZY)
-	@JoinTable(name = "sys_user_role",
-	joinColumns = @JoinColumn(name = "user_id"),
-	inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@JoinTable(name = "sys_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<SysRole> listRoles;
 
 	@JsonIgnoreProperties
 	@Transient
 	private List<SysFunc> listFuncs;
-	
+
+	@JsonIgnoreProperties
+	@Transient
+	private List finishedEvents;
+
+	@JsonIgnoreProperties
+	@Transient
+	private Integer unfinichedCount;
+
 	public SysUser() {
 	}
 
@@ -256,7 +261,6 @@ public class SysUser implements Serializable {
 		this.username = username;
 	}
 
-	
 	public List<SysRole> getListRoles() {
 		return listRoles;
 	}
@@ -272,5 +276,21 @@ public class SysUser implements Serializable {
 	public void setListFuncs(List<SysFunc> listFuncs) {
 		this.listFuncs = listFuncs;
 	}
-	
+
+	public List getFinishedEvents() {
+		return finishedEvents;
+	}
+
+	public void setFinishedEvents(List finishedEvents) {
+		this.finishedEvents = finishedEvents;
+	}
+
+	public Integer getUnfinichedCount() {
+		return unfinichedCount;
+	}
+
+	public void setUnfinichedCount(Integer unfinichedCount) {
+		this.unfinichedCount = unfinichedCount;
+	}
+
 }

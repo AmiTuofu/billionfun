@@ -20,58 +20,26 @@
 			<ul class="nav ace-nav">
 				<li class="grey"><a data-toggle="dropdown"
 					class="dropdown-toggle" href="#"> <i class="icon-tasks"></i> <span
-						class="badge badge-grey">4</span>
+						class="badge badge-grey">${SESSION_USER.unfinichedCount}</span>
 				</a>
 
 					<ul
 						class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-						<li class="dropdown-header"><i class="icon-ok"></i> 还有4个任务完成
+						<li class="dropdown-header"><i class="icon-ok"></i> 还有${SESSION_USER.unfinichedCount}个任务完成
 						</li>
-
+				<c:forEach var="eventReport" items="${SESSION_USER.finishedEvents}">
 						<li><a href="#">
 								<div class="clearfix">
-									<span class="pull-left">软件更新</span> <span class="pull-right">65%</span>
+									<span class="pull-left">${eventReport.name}</span> <span class="pull-right">${eventReport.finishedPer }%</span>
 								</div>
 
 								<div class="progress progress-mini ">
-									<div style="width: 65%" class="progress-bar "></div>
+									<div style="width: ${eventReport.finishedPer }%" class="progress-bar "></div>
 								</div>
 						</a></li>
+				</c:forEach>
 
-						<li><a href="#">
-								<div class="clearfix">
-									<span class="pull-left">硬件更新</span> <span class="pull-right">35%</span>
-								</div>
-
-								<div class="progress progress-mini ">
-									<div style="width: 35%"
-										class="progress-bar progress-bar-danger"></div>
-								</div>
-						</a></li>
-
-						<li><a href="#">
-								<div class="clearfix">
-									<span class="pull-left">单元测试</span> <span class="pull-right">15%</span>
-								</div>
-
-								<div class="progress progress-mini ">
-									<div style="width: 15%"
-										class="progress-bar progress-bar-warning"></div>
-								</div>
-						</a></li>
-
-						<li><a href="#">
-								<div class="clearfix">
-									<span class="pull-left">错误修复</span> <span class="pull-right">90%</span>
-								</div>
-
-								<div class="progress progress-mini progress-striped active">
-									<div style="width: 90%"
-										class="progress-bar progress-bar-success"></div>
-								</div>
-						</a></li>
-
-						<li><a href="#"> 查看任务详情 <i class="icon-arrow-right"></i>
+						<li><a href="${ctx}/business/event/query.html"> 查看任务详情 <i class="icon-arrow-right"></i>
 						</a></li>
 					</ul></li>
 

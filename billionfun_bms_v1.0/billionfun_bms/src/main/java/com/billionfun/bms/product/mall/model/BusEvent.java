@@ -45,7 +45,7 @@ public class BusEvent {
 	@Column(name = "notice_count", columnDefinition = "INT default 0")
 	private Integer noticeCount = 0;
 	@Column(name = "category_id")
-	private Integer categoryId;
+	private Long categoryId;
 
 	public String getId() {
 		return id;
@@ -183,11 +183,11 @@ public class BusEvent {
 		this.noticeCount = noticeCount;
 	}
 
-	public Integer getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
