@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/font-awesome.min.css" />
 <!--[if IE 7]-->
 <!-- fonts -->
-<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
 <!-- ace styles -->
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/ace.min.css" />
 <link rel="stylesheet" href="${ctx}/views/default/assets/css/ace-rtl.min.css" />
