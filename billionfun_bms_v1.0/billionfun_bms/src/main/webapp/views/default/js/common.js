@@ -122,6 +122,30 @@ function beforeView(form,grid_id,view_url){
 	viewFormStyle(form);
 }
 
+function review(grid_id,review_url,id){
+	var ids="";
+	if(!empty(id)){
+		ids = id;
+	}else{
+		ids=$('#'+grid_id).jqGrid('getGridParam','selarrrow');
+	}
+	$.ajax({
+        type: "POST",
+        url: review_url,
+        data: {id:ids},
+        async: false,
+        beforeSend:function(XMLHttpRequest){
+
+        },
+        success: function (data) {
+        	$('#'+grid_id).trigger("reloadGrid");
+        },
+        error: function (e) {
+                alert("error");
+        }
+    });
+}
+
 function editFormStyle(e) {
 	var form = $(e[0]);
 	form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
