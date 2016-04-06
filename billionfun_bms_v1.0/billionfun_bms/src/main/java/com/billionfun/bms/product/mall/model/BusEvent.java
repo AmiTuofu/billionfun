@@ -1,5 +1,6 @@
 package com.billionfun.bms.product.mall.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "bus_event")
 @NamedQuery(name = "BusEvent.findAll", query = "SELECT s FROM BusEvent s")
-public class BusEvent {
+public class BusEvent implements Serializable{
+	/** 
+	 * @Fields serialVersionUID : TODO
+	 */ 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;

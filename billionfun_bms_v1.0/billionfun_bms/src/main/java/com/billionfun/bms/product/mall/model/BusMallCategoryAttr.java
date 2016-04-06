@@ -1,7 +1,6 @@
 package com.billionfun.bms.product.mall.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,103 +23,38 @@ public class BusMallCategoryAttr implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column
-	private String code;
 
 	@Column
 	private String name;
 
-	@Column
-	private String description;
-
-	@Column(name = "user_id")
-	private String userId;
-
-	@Column(name = "parent_id")
-	private Long parentId;
-
-	@Column(name = "type_id")
-	private Integer typeId;
-
-	@Column(name = "create_date")
-	private Date createDate;
-
-	@Column
-	private Integer status;
+	@Column(name = "category_id")
+	private Long categoryId;
 
 	public BusMallCategoryAttr() {
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Long getParentId() {
-		return this.parentId;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
-	}
-
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Integer getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }
