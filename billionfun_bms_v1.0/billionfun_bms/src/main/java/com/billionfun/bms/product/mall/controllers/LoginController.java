@@ -54,8 +54,23 @@ public class LoginController extends BaseController {
 	@RequestMapping("/index")
 	public String index(ModelMap modelMap) {
 		modelMap.put("user", getCurrentUser());
-		
+
 		return "index";
+	}
+
+	/**
+	 * 
+	 * @Title: 内嵌框架
+	 * @Description: TODO
+	 * @param @param modelMap
+	 * @param @return
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/iframe")
+	public String iframe(ModelMap modelMap) {
+
+		return "iframe";
 	}
 
 	/**

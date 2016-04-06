@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "bus_data_dictionary")
-@NamedQuery(name = "BusDataDictionary.findAll", query = "SELECT s FROM BusDataDictionary s")
+@Table(name = "bus_mall_category_attr")
+@NamedQuery(name = "BusMallCategoryAttr.findAll", query = "SELECT s FROM BusMallCategoryAttr s")
 public class BusMallCategoryAttr implements Serializable {
 	private static final long serialVersionUID = 1L;
 
